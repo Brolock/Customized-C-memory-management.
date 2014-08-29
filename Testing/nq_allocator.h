@@ -42,19 +42,16 @@ namespace nq
 		};
 
 		/* constructors */
-		allocator() {};
-		allocator(const allocator& other) {};
+		explicit allocator() {}
+		allocator(const allocator& other) {}
 
-		template <typename U,
-			typename U_Domain,
-			class U_AllocStrat>
-			allocator(const allocator<U, U_Domain, U_AllocStrat>& other) {}
+		template <typename U>
+			allocator(const allocator<U, Domain, AllocStrat>& other) {}
 
-		template<typename U,
-			typename U_Domain,
-			class U_AllocStrat>
-		allocator& operator=(const allocator<U, U_Domain, U_AllocStrat>& other) { return *this; }
-			allocator<T>& operator=(const allocator& other) { return *this; }
+		template<typename U>
+		allocator& operator=(const allocator<U, Domain, AllocStrat>& other) { return *this; }
+
+		allocator& operator=(const allocator& other) { return *this; }
 
 		~allocator() {};
 

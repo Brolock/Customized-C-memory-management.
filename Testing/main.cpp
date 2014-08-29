@@ -50,11 +50,13 @@ int main()
 {
 	std::default_delete<int> qweqf;
 	//nq::shared_ptr<int> j;
-	std::shared_ptr<int> j(new int(3), nq::deleter < int >(), test_allocator < int > {});
+	std::shared_ptr<int> h(new int(3), nq::deleter < int >(), nq::allocator < int > {});
 	
-#pragma message(": warning<put what you like here>: blah blah blah")
+	std::shared_ptr<int> j(new int(3), nq::deleter < int >(), test::test_allocator < int> {});
+	//std::make_shared<int>(2);
+	//nq::make_shared<int>(5);
+	
 	//std::shared_ptr<int> p = std::make_shared<int>(1);
-	//int* i = nq::malloc < DomainEarth, DefaultAlloc > ;
 	
 	nq::vector<Test, DomainSpace> x;
 	x.push_back(Test(4));
