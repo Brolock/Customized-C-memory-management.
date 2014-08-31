@@ -70,13 +70,13 @@ public:
 protected:
 	/* BaseDomain is an interface: it can't be constructed */
 	BaseDomain()
-		: begin_(nullptr),
-		end_(nullptr),
-		count_(0)
+		: count_(0),
+		begin_(nullptr),
+		end_(nullptr)
 	{}
 private:
-	BaseDomain(const BaseDomain&) {};
-	BaseDomain& operator= (const BaseDomain&) {};
+	BaseDomain(const BaseDomain&) {}
+	BaseDomain& operator= (const BaseDomain&) { return *this; };
 
 	/* return a string of the domain name for the printer, may change */
 	virtual const char* domain_name() const { assert(!"How did you get here!?"); return "never_reached"; };

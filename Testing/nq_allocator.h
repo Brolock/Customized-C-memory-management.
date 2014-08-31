@@ -43,13 +43,13 @@ namespace nq
 
 		/* constructors */
 		explicit allocator() {}
-		allocator(const allocator& other) {}
+		allocator(const allocator&) {}
 
 		template <typename U>
-			allocator(const allocator<U, Domain, AllocStrat>& other) {}
+			allocator(const allocator<U, Domain, AllocStrat>&) {}
 
 		template<typename U>
-		allocator& operator=(const allocator<U, Domain, AllocStrat>& other) { return *this; }
+		allocator& operator=(const allocator<U, Domain, AllocStrat>&) { return *this; }
 
 		allocator& operator=(const allocator& other) { return *this; }
 
@@ -67,7 +67,7 @@ namespace nq
 
 		/* Memory allocation */
 		pointer allocate(size_type n, std::allocator<void>::const_pointer hint = 0)
-		{
+		{ // allocate a raw memory with alloc_strat.allocate(n)
 			if (n == 0)
 				return nullptr;
 			char *internal_ptr = static_cast<char *>(allocator_strategy().allocate(n * sizeof(T) + Domain::header_size));
@@ -78,7 +78,7 @@ namespace nq
 			return usr_ptr;
 		}
 
-		void deallocate(pointer usr_ptr, size_type n)
+		void deallocate(pointer usr_ptr, size_type)
 		{
 			if (usr_ptr != nullptr)
 			{

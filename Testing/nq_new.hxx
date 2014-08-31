@@ -3,7 +3,7 @@
 
 
 template <typename Domain, class AllocStrat>
-void *operator new(size_t size, Domain, const char* file, int line, AllocStrat)
+void *operator new(size_t size, Domain)
 {
 	std::cout << "What you gonna do guyz" << std::endl;
 	return nq::allocator < int, Domain, AllocStrat > {}.allocate(size);

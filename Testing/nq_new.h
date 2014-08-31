@@ -3,7 +3,7 @@
 
 # include "domains.h"
 template <typename Domain, typename AllocStrat>
-void *operator new(size_t size, Domain, AllocStrat);
+void *operator new(size_t size, Domain);
 
 
 template <typename Domain, class AllocStrat>

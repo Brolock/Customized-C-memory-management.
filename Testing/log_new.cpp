@@ -5,6 +5,8 @@
 extern nq::Tracer NewTrace;
 bool nq::Tracer::Ready = false;
 
+/* Change the operator new so it calls nq::allocator but it dont have the type ....*/
+
 /* Standard operator new */
 void *operator new(size_t size)
 {

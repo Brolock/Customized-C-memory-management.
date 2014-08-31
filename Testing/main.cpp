@@ -1,5 +1,3 @@
-#include <Windows.h>
-#undef max
 #include "tracer.h"
 #include "nq_allocator.h"
 #include "nq_new.h"
@@ -48,16 +46,16 @@ public:
 };
 int main()
 {
-	std::default_delete<int> qweqf;
-	//nq::shared_ptr<int> j;
-	std::shared_ptr<int> h(new int(3), nq::deleter < int >(), nq::allocator < int > {});
+	nq::shared_ptr<int> j(new int(3));
+	//std::shared_ptr<int> h(new int(3), nq::deleter < int >(), nq::allocator < int > {});
 	
-	std::shared_ptr<int> j(new int(3), nq::deleter < int >(), test::test_allocator < int> {});
+	//std::shared_ptr<int> j(new int(3), nq::deleter < int >(), test::test_allocator < int> {});
 	//std::make_shared<int>(2);
 	//nq::make_shared<int>(5);
 	
 	//std::shared_ptr<int> p = std::make_shared<int>(1);
 	
+    /*
 	nq::vector<Test, DomainSpace> x;
 	x.push_back(Test(4));
 	x.push_back(Test(5));
@@ -75,10 +73,7 @@ int main()
 
 	DomainSpace::getInstance().print();
 	DomainEarth::getInstance().print();
-
-	std::cout << nq::TypeToString<nq::allocator<int>>() << std::endl;
-	std::cout << nq::TypeToString<nq::allocator<int, DomainEarth, DefaultAlloc>>() << std::endl;
-	system("pause");
+    */
 }
 
 /*
