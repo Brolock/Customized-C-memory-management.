@@ -9,74 +9,74 @@
 # include "domains.h"
 # include "alloc_strat.h"
 
-    /* weak allocation ? where how ? weak ref count */
+/* weak allocation ? where how ? weak ref count */
 
-    namespace nq
-    {
-        template<typename T,
-            typename Domain = UnknownDomain,
-            class AllocStrat = DefaultAlloc>
-        class shared_ptr : public std::shared_ptr<T>
-        {
-        public:
-            /* Allocator used to allocate the ref_count of the shared_ptr */
-            typedef nq::allocator<T, SharedPtrRefCountDomain, AllocStrat> count_alloc;
-            typedef nq::deleter<T, Domain, AllocStrat> deleter;
+namespace nq
+{
+	template<typename T,
+		typename Domain = UnknownDomain,
+	class AllocStrat = DefaultAlloc>
+	class shared_ptr : public std::shared_ptr <T>
+	{
+	public:
+		/* Allocator used to allocate the ref_count of the shared_ptr */
+		typedef nq::allocator<T, SharedPtrRefCountDomain, AllocStrat> count_alloc;
+		typedef nq::deleter<T, Domain, AllocStrat> deleter;
 
-            /*** Constructors for a nullptr ***/
+		/*** Constructors for a nullptr ***/
 
-            shared_ptr()
-                : std::shared_ptr<T>(nullptr, deleter{}, count_alloc{})
-            { // construct with nullptr deleter{} and alloc{} 
-            }
+		shared_ptr()
+			: std::shared_ptr<T>(nullptr, deleter{}, count_alloc{})
+		{ // construct with nullptr deleter{} and alloc{} 
+		}
 
-             shared_ptr(std::nullptr_t)
-                 :std::shared_ptr<T>(nullptr, deleter{}, count_alloc{})
-             { // construct with nullptr, deleter{}, count_alloc{}
-             }
+		shared_ptr(std::nullptr_t)
+			:std::shared_ptr<T>(nullptr, deleter{}, count_alloc{})
+		{ // construct with nullptr, deleter{}, count_alloc{}
+		}
 
-            template<class Deleter>
-            shared_ptr(std::nullptr_t, Deleter del)
-                : std::shared_ptr<T>(nullptr, del, count_alloc{})
-            { // construct with nullptr, del and count_alloc{}
-            }
+		template<class Deleter>
+		shared_ptr(std::nullptr_t, Deleter del)
+			: std::shared_ptr<T>(nullptr, del, count_alloc{})
+		{ // construct with nullptr, del and count_alloc{}
+		}
 
-            template<class Deleter,
-                 class Allocator>
-            shared_ptr(std::nullptr_t, Deleter del, Allocator alloc)
-                : std::shared_ptr<T>(nullptr, del, alloc)
-            { // construct with nullptr, del and alloc
-            }
+		template<class Deleter,
+			class Allocator>
+		shared_ptr(std::nullptr_t, Deleter del, Allocator alloc)
+			: std::shared_ptr<T>(nullptr, del, alloc)
+		{ // construct with nullptr, del and alloc
+		}
 
-            /*** Constructors for an already allocated ptr ***/
+		/*** Constructors for an already allocated ptr ***/
 
-            template<typename Y>
-            explicit shared_ptr(Y *ptr)
-                : std::shared_ptr<T>(ptr, deleter{}, count_alloc{})
-            { // construct with ptr deleter{} and count_alloc{}
-            }
+		template<typename Y>
+		explicit shared_ptr(Y *ptr)
+			: std::shared_ptr<T>(ptr, deleter{}, count_alloc{})
+		{ // construct with ptr deleter{} and count_alloc{}
+		}
 
-            template<typename Y,
-                class Deleter>
-            shared_ptr(Y *ptr, Deleter del)
-                : std::shared_ptr<T>(ptr, del, count_alloc{})
-            { // construct with ptr, del and count_alloc{}
-            }
+		template<typename Y,
+			class Deleter>
+		shared_ptr(Y *ptr, Deleter del)
+			: std::shared_ptr<T>(ptr, del, count_alloc{})
+		{ // construct with ptr, del and count_alloc{}
+		}
 
-            template<typename Y,
-                 class Deleter,
-                 class Allocator>
-            shared_ptr(Y *ptr, Deleter del, Allocator alloc)
-                : std::shared_ptr<T>(ptr, del, alloc)
-            { // construct with ptr, del and alloc
-            }
+		template<typename Y,
+			class Deleter,
+			class Allocator>
+		shared_ptr(Y *ptr, Deleter del, Allocator alloc)
+			: std::shared_ptr<T>(ptr, del, alloc)
+		{ // construct with ptr, del and alloc
+		}
 
-            /*** Copy constructors ***/
-                 /*not quite sure I can construct a std::shared from a nq::shared, mb explicit conversion?*/
+		/*** Copy constructors ***/
+		/*not quite sure I can construct a std::shared from a nq::shared, mb explicit conversion?*/
 
-            template<typename Y>
-            shared_ptr(const shared_ptr<Y, Domain, AllocStrat>& other, T *ptr)
-                : std::shared_ptr<T>(other, ptr)
+		template<typename Y>
+		shared_ptr(const shared_ptr<Y, Domain, AllocStrat>& other, T *ptr)
+			: std::shared_ptr<T>(other, ptr)
 		{ // construct shared_ptr object that aliases ptr
 		}
 
@@ -86,24 +86,48 @@
 		}
 
 		template<typename Y,
-			class = typename std::enable_if<std::is_convertible<Y *, T *>::value, void>::type>
+			class = typename std::enable_if<std::is_convertible<Y *, T *>::value,
+				void>::type>
 		shared_ptr(const shared_ptr<Y, Domain, AllocStrat>& other)
 			: std::shared_ptr<T>(other)
 		{ // construct a shared_ptr object that owns same resource as other
 		}
 
 		/*** Move contructors ***/
-		
+
 		shared_ptr(shared_ptr&& other)
 			: std::shared_ptr<T>(std::move(other))
 		{ // construct shared_ptr that takes resource from other
 		}
 
 		template<typename Y,
-			class = typename std::enable_if<std::is_convertible<Y *, T *>::value, void>::type>
+			class = typename std::enable_if<std::is_convertible<Y *, T *>::value,
+				void>::type>
 		shared_ptr(shared_ptr<Y, Domain, AllocStrat>&& other)
 			: std::shared_ptr<T>(std::move(other))
 		{ // construct shared_ptr that takes resource from other
+		}
+
+			/* TODO FIXME change std::weak_ptr with nq::weak_ptr when it'll be handled */
+		template <typename Y>
+		explicit shared_ptr(const std::weak_ptr<Y>& other)
+		{ // construct shared_ptr object that owns resource *other
+			std::shared_ptr(other);
+		}
+
+			/* TODO FIXME change std::auto_ptr with nq::auto_ptr when it'll be handled */
+		template <typename Y>
+		shared_ptr(std::auto_ptr<Y>&& other)
+		{ // construct shared_ptr object that owns *other.get()
+			std::shared_ptr(std::move(other));
+		}
+
+			/* TODO FIXME change std::unique_ptr with nq::unique_ptr when it'll be handled */
+		template <typename Y,
+			class Destructor>
+		shared_ptr(std::unique_ptr<Y, Destructor>&& other)
+		{ // construct from unique_ptr
+			std::shared_ptr(std::move(other));
 		}
 	};
 

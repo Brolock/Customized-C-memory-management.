@@ -1,3 +1,5 @@
+#include <Windows.h>
+
 #include "tracer.h"
 #include "nq_allocator.h"
 #include "nq_new.h"
@@ -23,14 +25,16 @@ struct Test
 {
 private:
 	int num_;
+	int whatever_;
 public:
 	Test()
 		: num_(55)
 	{
 		std::cout << "Test()" << std::endl;
 	}
-	Test(int i)
-		: num_(i)
+	Test(int i, int j)
+		: num_(i),
+		whatever_(j)
 	{
 		std::cout << "Test(" << num_ << ")" << std::endl;
 	}
@@ -46,7 +50,7 @@ public:
 };
 int main()
 {
-	nq::shared_ptr<int> j(new int(3));
+	std::shared_ptr<int> j(new int(3));
 	//std::shared_ptr<int> h(new int(3), nq::deleter < int >(), nq::allocator < int > {});
 	
 	//std::shared_ptr<int> j(new int(3), nq::deleter < int >(), test::test_allocator < int> {});

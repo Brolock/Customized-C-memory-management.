@@ -68,6 +68,7 @@ namespace nq
 		/* Memory allocation */
 		pointer allocate(size_type n, std::allocator<void>::const_pointer hint = 0)
 		{ // allocate a raw memory with alloc_strat.allocate(n)
+			std::cout << "allocate" << std::endl;
 			if (n == 0)
 				return nullptr;
 			char *internal_ptr = static_cast<char *>(allocator_strategy().allocate(n * sizeof(T) + Domain::header_size));
