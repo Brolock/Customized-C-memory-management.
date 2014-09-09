@@ -104,23 +104,23 @@ namespace nq
 			/* TODO FIXME change std::weak_ptr with nq::weak_ptr when it'll be handled */
 		template <class Y>
 		explicit shared_ptr(const std::weak_ptr<Y>& other)
+			: std::shared_ptr<T>(other)
 		{ // construct shared_ptr object that owns resource *other
-			std::shared_ptr(other);
 		}
 
 			/* TODO FIXME change std::auto_ptr with nq::auto_ptr when it'll be handled */
 		template <class Y>
 		shared_ptr(std::auto_ptr<Y>&& other)
+			: std::shared_ptr<T>(std::move(other))
 		{ // construct shared_ptr object that owns *other.get()
-			std::shared_ptr(std::move(other));
 		}
 
 			/* TODO FIXME change std::unique_ptr with nq::unique_ptr when it'll be handled */
 		template <class Y,
 			class Del>
 		shared_ptr(std::unique_ptr<Y, Del>&& other)
+			: std::shared_ptr<T>(std::move(other))
 		{ // construct from unique_ptr
-			std::shared_ptr(std::move(other));
 		}
 
 	private:
@@ -202,42 +202,42 @@ namespace nq
 
 	template<class T,
 		class U>
-	bool operator==(const shared_ptr<T>& left, const shared_ptr<Y>& right)
+	bool operator==(const shared_ptr<T>& left, const shared_ptr<U>& right)
 	{ // test if shared_ptr left == right
 		return left.get() == right.get();
 	}
 
 	template<class T,
 		class U>
-	bool operator!=(const shared_ptr<T>& left, const shared_ptr<Y>& right)
+	bool operator!=(const shared_ptr<T>& left, const shared_ptr<U>& right)
 	{ // test if shared_ptr left != right
 		return !(left.get() == right.get());
 	}
 
 	template<class T,
 		class U>
-	bool operator<(const shared_ptr<T>& left, const shared_ptr<Y>& right)
+	bool operator<(const shared_ptr<T>& left, const shared_ptr<U>& right)
 	{ // test if shared_ptr left < right
-		return std::shared_ptr::operator<(left, right);
+		return std::operator<(left, right);
 	}
 
 	template<class T,
 		class U>
-	bool operator<=(const shared_ptr<T>& left, const shared_ptr<Y>& right)
+	bool operator<=(const shared_ptr<T>& left, const shared_ptr<U>& right)
 	{ // test if shared_ptr left <= right
-		return std::shared_ptr::operator<=(left, right);
+		return std::operator<=(left, right);
 	}
 	template<class T,
 		class U>
-	bool operator>(const shared_ptr<T>& left, const shared_ptr<Y>& right)
+	bool operator>(const shared_ptr<T>& left, const shared_ptr<U>& right)
 	{ // test if shared_ptr left > right
-		return std::shared_ptr::operator>(left, right);
+		return std::operator>(left, right);
 	}
 	template<class T,
 		class U>
-	bool operator>=(const shared_ptr<T>& left, const shared_ptr<Y>& right)
+	bool operator>=(const shared_ptr<T>& left, const shared_ptr<U>& right)
 	{ // test if shared_ptr left >= right
-		return std::shared_ptr::operator>=(left, right);
+		return std::operator>=(left, right);
 	}
 }
 

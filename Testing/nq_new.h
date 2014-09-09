@@ -13,7 +13,7 @@ namespace nq
 	void* New(Args... Parameters)
 	{
 		void *ptr = nq::allocator<T, Domain, DefaultAlloc>{}.allocate(1);
-		nq::allocator<T, Domain, AllocStrat>{}.construct(ptr, std::forward<Args>(Parameters)...);
+		nq::allocator<T, Domain, DefaultAlloc>{}.construct(ptr, std::forward<Args>(Parameters)...);
 		return ptr;
 	}
 

@@ -1,4 +1,3 @@
-#include <Windows.h>
 
 #include "tracer.h"
 #include "nq_allocator.h"
