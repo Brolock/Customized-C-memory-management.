@@ -48,6 +48,7 @@ public:
 		std::cout << "Test(Test&" << o.num_ << ")" << std::endl;
 	}
 };
+
 int main()
 {
 	std::shared_ptr<int> j(new int(3));
