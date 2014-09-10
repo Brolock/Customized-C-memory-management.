@@ -48,6 +48,7 @@ public:
 	}
 };
 
+
 int main()
 {
 	std::shared_ptr<int> j(new int(3));
