@@ -2,6 +2,7 @@
 # define NQ_SHARED_H_
 
 # include <memory>
+# include <atomic>
 # include <type_traits>
 
 # include "nq_allocator.h"
@@ -248,14 +249,14 @@ namespace nq
 		class U>
 	bool operator==(const shared_ptr<T>& left, std::nullptr_t right)
 	{ // test if shared_ptr left == nullptr
-		return std::operator==(left, right)
+		return std::operator==(left, right);
 	}
 
 	template<class T,
 		class U>
 	bool operator==(std::nullptr_t left, const shared_ptr<U>& right)
 	{ // test if nullptr == right
-		return std::operator==(left, right)
+		return std::operator==(left, right);
 	}
 
 	template<class T,
