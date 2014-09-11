@@ -124,6 +124,10 @@ namespace nq
 		{ // construct from unique_ptr
 		}
 
+    public:
+        shared_ptr(std::shared_ptr<T>&& other)
+            : std::shared_ptr<T>(other)
+        {}
 	private:
 		/*
 		** We don't want to take the risk that a misinformed user write somthing like:

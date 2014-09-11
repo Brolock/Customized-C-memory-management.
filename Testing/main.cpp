@@ -52,13 +52,20 @@ public:
 
 int main()
 {
-    nq::shared_ptr<Test> j{nq::New<Test, DomainEarth>(1, 2), nq::deleter<Test, DomainEarth>{}};
+    {
+        nq::shared_ptr<Test> j{nq::New<Test, DomainEarth>(1, 2), nq::deleter<Test, DomainEarth>{}};
 
-    nq::shared_ptr<Test> testse = nq::new_shared<Test, DomainSpace>(3, 4);
-    nq::shared_ptr<Test> anoth_test = nq::make_shared<Test>(5, 6);
-	DomainEarth::getInstance().print();
-	DomainSpace::getInstance().print();
-	UnknownDomain::getInstance().print();
+        nq::shared_ptr<Test> testse = nq::new_shared<Test, DomainSpace>(3, 4);
+        nq::shared_ptr<Test> anoth_test = nq::make_shared<Test>(5, 6);
+
+        DomainEarth::getInstance().print();
+        DomainSpace::getInstance().print();
+        UnknownDomain::getInstance().print();
+        SharedPtrRefCountDomain::getInstance().print();
+    }
+    DomainEarth::getInstance().print();
+    DomainSpace::getInstance().print();
+    UnknownDomain::getInstance().print();
     SharedPtrRefCountDomain::getInstance().print();
     /*
 	nq::vector<Test, DomainSpace> x;
