@@ -72,7 +72,7 @@ void BaseDomain::print() const
 {
 	if (begin_ != nullptr)
 	{
-		std::cout << domain_name() << " memory log:\n-" << count_ << " allocated objets\n";
+		std::cout << domain_name() << " memory log:\n=> " << count_ << " allocated objets\n";
 		begin_->print();
 		std::cout << "--------------------" << std::endl;
 	}

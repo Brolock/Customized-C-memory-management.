@@ -10,9 +10,9 @@ namespace nq
 	template <typename T,
 		 typename Domain,
 		 typename... Args>
-	void* New(Args... Parameters)
+	T* New(Args... Parameters)
 	{
-		void *ptr = nq::allocator<T, Domain, DefaultAlloc>{}.allocate(1);
+		T *ptr = nq::allocator<T, Domain, DefaultAlloc>{}.allocate(1);
 		nq::allocator<T, Domain, DefaultAlloc>{}.construct(ptr, std::forward<Args>(Parameters)...);
 		return ptr;
 	}
@@ -21,9 +21,9 @@ namespace nq
 		 typename Domain,
 		 class AllocStrat,
 		 typename... Args>
-	void* New(Args... Parameters)
+	T* New(Args... Parameters)
 	{
-		void *ptr = nq::allocator<T, Domain, AllocStrat>{}.allocate(1);
+		T *ptr = nq::allocator<T, Domain, AllocStrat>{}.allocate(1);
 		nq::allocator<T, Domain, AllocStrat>{}.construct(ptr, std::forward<Args>(Parameters)...);
 		return ptr;
 	}

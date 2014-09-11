@@ -27,7 +27,8 @@ private:
 	int whatever_;
 public:
 	Test()
-		: num_(55)
+		: num_(55),
+        whatever_(33)
 	{
 		std::cout << "Test()" << std::endl;
 	}
@@ -35,31 +36,30 @@ public:
 		: num_(i),
 		whatever_(j)
 	{
-		std::cout << "Test(" << num_ << ")" << std::endl;
+		std::cout << "Test(" << num_ << ", " << whatever_ << ")" << std::endl;
 	}
 	~Test()
 	{
-		std::cout << "~Test(" << num_ << ")" << std::endl;
+		std::cout << "~Test(" << num_ << ", " << whatever_ << ")" << std::endl;
 	}
 	Test(const Test& o)
 		: num_(o.num_)
 	{
-		std::cout << "Test(Test&" << o.num_ << ")" << std::endl;
+		std::cout << "Test(Test&" << o.num_ << ", " << o.whatever_<< ")" << std::endl;
 	}
 };
 
 
 int main()
 {
-	std::shared_ptr<int> j(new int(3));
-	//std::shared_ptr<int> h(new int(3), nq::deleter < int >(), nq::allocator < int > {});
-	
-	//std::shared_ptr<int> j(new int(3), nq::deleter < int >(), test::test_allocator < int> {});
-	//std::make_shared<int>(2);
-	//nq::make_shared<int>(5);
-	
-	//std::shared_ptr<int> p = std::make_shared<int>(1);
-	
+    nq::shared_ptr<Test> j{nq::New<Test, DomainEarth>(1, 2), nq::deleter<Test, DomainEarth>{}};
+
+    nq::shared_ptr<Test> testse = nq::new_shared<Test, DomainSpace>(3, 4);
+    nq::shared_ptr<Test> anoth_test = nq::make_shared<Test>(5, 6);
+	DomainEarth::getInstance().print();
+	DomainSpace::getInstance().print();
+	UnknownDomain::getInstance().print();
+    SharedPtrRefCountDomain::getInstance().print();
     /*
 	nq::vector<Test, DomainSpace> x;
 	x.push_back(Test(4));
@@ -80,28 +80,3 @@ int main()
 	DomainEarth::getInstance().print();
     */
 }
-
-/*
-new (domain, alloc_strat)Maclass()
-{
-	nq::allocator < Maclass, Domain, defaultstrat >.allocate();
-}
-*/
-
-
-/*
-To work out part 3 of low level C++ XIII
-
-int AddOneTo(int param)
-{
-int local = param + 1;
-return local;
-}
-
-int main(int argc, char **argv)
-{
-int iResult = 0;
-iResult = AddOneTo(iResult);
-return 0;
-}
-*/

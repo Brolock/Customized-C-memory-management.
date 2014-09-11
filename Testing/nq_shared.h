@@ -126,16 +126,13 @@ namespace nq
 
 	private:
 		/*
-		** We don't want to take the risk that an unsuspecting user write somthing like:
+		** We don't want to take the risk that a misinformed user write somthing like:
 		** nq::shared<T>(new (Domain, AllocStrat) T());
 		** The pointer allocated in Domain with AllocStrat will be, by default,
 		** deleted in Unknown Domain with DefaultAlloc
 		*/
 		template<class Y>
-		explicit shared_ptr(Y *ptr)
-			: std::shared_ptr<T>(ptr, deleter{}, count_alloc{})
-		{ // construct with ptr deleter{} and count_alloc{}
-		}
+		explicit shared_ptr(Y *ptr) = delete;
 	};
 
 	/*** Non member functions ***/
@@ -149,7 +146,7 @@ namespace nq
 		typedef nq::allocator<T, SharedPtrRefCountDomain, DefaultAlloc> count_alloc;
 		typedef nq::deleter<T, Domain, AllocStrat> deleter;
 
-		return shared_ptr<T>(nq::New<T, Domain, AllocStrat>, deleter{}, count_alloc{});
+		return shared_ptr<T>(nq::New<T, Domain, AllocStrat>(std::forward<Args>(args)...), deleter{}, count_alloc{});
 	}
 
 	template<class T,

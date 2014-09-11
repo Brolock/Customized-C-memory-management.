@@ -1,7 +1,7 @@
 # include <algorithm>
 # include <iostream>
 
-# if _WIN32 || _WIN64
+# if defined _WIN32 || defined_WIN64
 #  include <sstream>
 #  include <Windows.h>
 # endif // !WIN32 || _WIN64
@@ -45,7 +45,7 @@ namespace nq
 			map_.erase(p);
 	}
 
-# ifdef _WIN32 || _WIN64
+# if defined _WIN32 || defined _WIN64
 	/* Specialized for windows */
 	void Tracer::Dump()
 	{
