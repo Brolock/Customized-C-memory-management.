@@ -126,8 +126,30 @@ namespace nq
 
     public:
         shared_ptr(std::shared_ptr<T>&& other)
-            : std::shared_ptr<T>(other)
+            : std::shared_ptr<T>(std::move(other))
         {}
+
+        shared_ptr& operator=(const shared_ptr& r) = default;
+
+        template<class Y>
+        shared_ptr& operator=(const shared_ptr<Y>& r)
+        {
+            this->std::shared_ptr<T>::operator=(r);
+            return *this;
+        }
+
+        shared_ptr& operator=(shared_ptr&& r)
+        {
+            this->std::shared_ptr<T>::operator=(std::move(r));
+            return *this;
+        }
+
+        template<class Y>
+        shared_ptr& operator=(shared_ptr<Y>&& r)
+        {
+            this->std::shared_ptr<T>::operator=(std::move(r));
+            return *this;
+        }
 	private:
 		/*
 		** We don't want to take the risk that a misinformed user write somthing like:
@@ -346,7 +368,7 @@ namespace nq
 	}
 
 	template<class T> inline
-	bool atomic_is_lock_free(std::shared_ptr<T> *p)
+	bool atomic_is_lock_free(shared_ptr<T> *p)
 	{ // return true if atomic operation on shared_ptr<T> are lock-free
 		return std::atomic_is_lock_free(p);
 	}
