@@ -259,12 +259,14 @@ namespace nq
 		return std::operator>(left, right);
 	}
 
+    /*
 	template<class T,
 		class U>
 	bool operator>=(const shared_ptr<T>& left, const shared_ptr<U>& right)
 	{ // test if shared_ptr left >= right
 		return std::operator>=(left, right);
 	}
+    */
 
 	/* Comparison operators with nullptr */
 
@@ -338,19 +340,23 @@ namespace nq
 		return std::operator>(left, right);
 	}
 
+    /*
 	template<class T,
 		class U>
 	bool operator>=(const shared_ptr<T>& left, std::nullptr_t right)
 	{ // test if shared_ptr left >= nullptr
 		return std::operator>=(left, right);
 	}
+    */
 
+    /*
 	template<class T,
 		class U>
 	bool operator>=(std::nullptr_t left, const shared_ptr<U>& right)
 	{ // test if nullptr >= right
 		return std::operator>=(left, right);
 	}
+    */
 
 	template<class Elem,
 		class Traits,

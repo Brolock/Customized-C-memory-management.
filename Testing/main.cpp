@@ -58,6 +58,17 @@ int main()
 
         swapped1.swap(swapped2);
 
+        if (!(nullptr >= swapped1))
+        {
+            std::cout << "IM A PRINT YEE" << std::endl;
+        }
+
+        if (swapped1 >= swapped2)
+        {
+            std::cout << "whatever" << std::endl;
+        }
+
+
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
         UnknownDomain::getInstance().print();
