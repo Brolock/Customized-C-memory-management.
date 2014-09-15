@@ -367,6 +367,9 @@ namespace nq
 		return std::swap(left, right);
 	}
 
+    /*** atomic operations (not available under gcc and clang 15/09/2014) ***/
+
+    /*
 	template<class T> inline
 	bool atomic_is_lock_free(shared_ptr<T> *p)
 	{ // return true if atomic operation on shared_ptr<T> are lock-free
@@ -438,6 +441,7 @@ namespace nq
 	{ // atomically compare and exchange
 		return std::atomic_compare_exchange_strong(ptr, exp, value, mem_fwd1, mem_fwd2);
 	}
+    */
 }
 
 #endif // !NQ_SHARED_H_

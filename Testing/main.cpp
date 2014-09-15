@@ -52,25 +52,11 @@ public:
 
 int main()
 {
-    nq::shared_ptr<Test> anoth_test = nq::make_shared<Test>(5, 6);
+    nq::shared_ptr<int> swapped1 = nq::new_shared<int, DomainSpace>(33);
     {
-        nq::shared_ptr<Test> j{nq::New<Test, DomainEarth>(1, 2), nq::deleter<Test, DomainEarth>{}};
+        nq::shared_ptr<int> swapped2 = nq::new_shared<int, DomainEarth>(100);
 
-        nq::shared_ptr<Test> testse = nq::new_shared<Test, DomainSpace>(3, 4);
-        nq::shared_ptr<Test> wait_wat(anoth_test);
-
-        if (wait_wat == anoth_test)
-            std::cout << "YOYO NUMERO UNO" << std::endl;
-
-        nq::swap(wait_wat, testse);
-        if (testse == anoth_test)
-            std::cout << "ME AND MY DAWG YEH" << std::endl;
-
-        if (wait_wat != anoth_test)
-            std::cout << "THREESOME BECHZ" << std::endl;
-
-        if(wait_wat)
-            std::cout << "No joke, not joking, jokinorino" << std::endl;
+        swapped1.swap(swapped2);
 
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
