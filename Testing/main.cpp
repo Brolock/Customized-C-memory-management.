@@ -67,6 +67,18 @@ int main()
         {
             std::cout << "whatever" << std::endl;
         }
+        std::swap(swapped1, swapped2);
+        if (!(swapped1 >= swapped2))
+        {
+            std::cout << "whatever 2.0 y" << std::endl;
+        }
+
+        if (swapped1)
+        {
+            std::cout << "bool tested" << std::endl;
+        }
+
+        std::cout << swapped1 << std::endl;
 
 
         DomainEarth::getInstance().print();
