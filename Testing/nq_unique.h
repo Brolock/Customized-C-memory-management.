@@ -11,10 +11,51 @@ namespace nq
 		class Deleter = nq::deleter<T>>
 	class unique_ptr : public std::unique_ptr<T, Deleter>
 	{
+        typedef T element_type;
+        typedef Deleter deleter_type;
+
 		typedef std::unique_ptr<T, Deleter> parent;
-		unique_ptr()
+
+        /*** Constructors ***/
+
+		unique_ptr() noexcept
 			: parent()
-		{}
+		{ // default construct
+        }
+
+        unique_ptr(std::nullptr_t ptr) noexcept
+            : parent(ptr)
+        { // construct unique_ptr with nullptr (equivalent to default)
+        }
+
+        explicit unique_ptr(T *ptr) noexcept
+            : parent(ptr)
+        { // construct unique_ptr with T*
+        }
+        
+        unique_ptr(T *ptr,
+                typename std::conditional<is_reference<deleter_type>::value,
+                  deleter_type, const deleter_type&>::type del) noexcept
+            : parent(ptr, del)
+        {}
+
+        unique_ptr(T *ptr,
+                typename std::remove_reference<deleter_type>::type&& del) noexcept
+            : parent(std::move(ptr), std::move(del))
+        {}
+
+        /*** Move constructors ***/
+        
+        unique_ptr(unique_ptr&& other) noexcept
+            : parent(std::move(other))
+        { // construct unique_ptr object that takes resource from other
+        }
+
+        template<class Y, class Del>
+        unique_ptr(unique_ptr<T, Del>&& other) noexcept
+            : parent(std::move(other))
+        { // construct unique_ptr object that takes resource from other
+        }
 	};
 
 	template<class T,

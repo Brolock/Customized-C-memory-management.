@@ -53,6 +53,8 @@ public:
 int main()
 {
     nq::shared_ptr<int> swapped1 = nq::new_shared<int, DomainSpace>(33);
+    std::owner_less<std::shared_ptr<int>> jk;
+    std::owner_less<nq::shared_ptr<int>> k;
     {
         nq::shared_ptr<int> swapped2 = nq::new_shared<int, DomainEarth>(100);
 
@@ -77,6 +79,8 @@ int main()
         {
             std::cout << "bool tested" << std::endl;
         }
+
+        swapped1 = swapped2;
 
         std::cout << swapped1 << std::endl;
 

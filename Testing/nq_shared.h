@@ -25,25 +25,25 @@ namespace nq
 
 		/*** Constructors for a nullptr ***/
 
-		shared_ptr()
+		shared_ptr() noexcept
 			: std::shared_ptr<T>(nullptr, deleter{}, count_alloc{})
 		{ // construct with nullptr deleter{} and alloc{} 
 		}
 
-		shared_ptr(std::nullptr_t)
+		shared_ptr(std::nullptr_t) noexcept
 			:std::shared_ptr<T>(nullptr, deleter{}, count_alloc{})
 		{ // construct with nullptr, deleter{}, count_alloc{}
 		}
 
 		template<class Deleter>
-		shared_ptr(std::nullptr_t, Deleter del)
+		shared_ptr(std::nullptr_t, Deleter del) noexcept
 			: std::shared_ptr<T>(nullptr, del, count_alloc{})
 		{ // construct with nullptr, del and count_alloc{}
 		}
 
 		template<class Deleter,
 			class Allocator>
-		shared_ptr(std::nullptr_t, Deleter del, Allocator alloc)
+		shared_ptr(std::nullptr_t, Deleter del, Allocator alloc) noexcept
 			: std::shared_ptr<T>(nullptr, del, alloc)
 		{ // construct with nullptr, del and alloc
 		}
@@ -52,7 +52,7 @@ namespace nq
 
 		template<class Y,
 			class Deleter>
-		shared_ptr(Y *ptr, Deleter del)
+		shared_ptr(Y *ptr, Deleter del) noexcept
 			: std::shared_ptr<T>(ptr, del, count_alloc{})
 		{ // construct with ptr, del and count_alloc{}
 		}
@@ -60,7 +60,7 @@ namespace nq
 		template<class Y,
 			class Deleter,
 			class Allocator>
-		shared_ptr(Y *ptr, Deleter del, Allocator alloc)
+		shared_ptr(Y *ptr, Deleter del, Allocator alloc) noexcept
 			: std::shared_ptr<T>(ptr, del, alloc)
 		{ // construct with ptr, del and alloc
 		}
@@ -69,12 +69,12 @@ namespace nq
 		/*not quite sure I can construct a std::shared from a nq::shared, mb explicit conversion?*/
 
 		template<class Y>
-		shared_ptr(const shared_ptr<Y>& other, T *ptr)
+		shared_ptr(const shared_ptr<Y>& other, T *ptr) noexcept
 			: std::shared_ptr<T>(other, ptr)
 		{ // construct shared_ptr object that aliases ptr
 		}
 
-		shared_ptr(const shared_ptr& other)
+		shared_ptr(const shared_ptr& other) noexcept
 			: std::shared_ptr<T>(other)
 		{ // construct a shared_ptr object that owns same resource as other
 		}
@@ -82,14 +82,14 @@ namespace nq
 		template<class Y,
 			class = class std::enable_if<std::is_convertible<Y *, T *>::value,
 				void>::type>
-		shared_ptr(const shared_ptr<Y>& other)
+		shared_ptr(const shared_ptr<Y>& other) noexcept
 			: std::shared_ptr<T>(other)
 		{ // construct a shared_ptr object that owns same resource as other
 		}
 
 		/*** Move contructors ***/
 
-		shared_ptr(shared_ptr&& other)
+		shared_ptr(shared_ptr&& other) noexcept
 			: std::shared_ptr<T>(std::move(other))
 		{ // construct shared_ptr that takes resource from other
 		}
@@ -97,57 +97,64 @@ namespace nq
 		template<class Y,
 			class = class std::enable_if<std::is_convertible<Y *, T *>::value,
 				void>::type>
-		shared_ptr(shared_ptr<Y>&& other)
+		shared_ptr(shared_ptr<Y>&& other) noexcept
 			: std::shared_ptr<T>(std::move(other))
 		{ // construct shared_ptr that takes resource from other
 		}
 
-			/* TODO FIXME change std::weak_ptr with nq::weak_ptr when it'll be handled */
+		/* FIXME change std::weak_ptr with nq::weak_ptr when it'll be handled */
 		template <class Y>
-		explicit shared_ptr(const std::weak_ptr<Y>& other)
+		explicit shared_ptr(const std::weak_ptr<Y>& other) noexcept
 			: std::shared_ptr<T>(other)
 		{ // construct shared_ptr object that owns resource *other
 		}
 
-			/* TODO FIXME change std::auto_ptr with nq::auto_ptr when it'll be handled */
-		template <class Y>
-		shared_ptr(std::auto_ptr<Y>&& other)
-			: std::shared_ptr<T>(std::move(other))
-		{ // construct shared_ptr object that owns *other.get()
-		}
-
-			/* TODO FIXME change std::unique_ptr with nq::unique_ptr when it'll be handled */
+		/* FIXME change std::unique_ptr with nq::unique_ptr when it'll be handled */
 		template <class Y,
 			class Del>
-		shared_ptr(std::unique_ptr<Y, Del>&& other)
+		shared_ptr(std::unique_ptr<Y, Del>&& other) noexcept
 			: std::shared_ptr<T>(std::move(other))
 		{ // construct from unique_ptr
 		}
 
-    public:
-        shared_ptr(std::shared_ptr<T>&& other)
-            : std::shared_ptr<T>(std::move(other))
-        {}
-
-        shared_ptr& operator=(const shared_ptr& r) = default;
+        shared_ptr& operator=(const shared_ptr& r) noexcept = default;
 
         template<class Y>
-        shared_ptr& operator=(const shared_ptr<Y>& r)
-        {
+        shared_ptr& operator=(const shared_ptr<Y>& r) noexcept
+        { // copy assignement from shared_ptr<Y>
             this->std::shared_ptr<T>::operator=(r);
             return *this;
         }
 
-        shared_ptr& operator=(shared_ptr&& r)
-        {
+        shared_ptr& operator=(shared_ptr&& r) noexcept
+        { // move assignement from shared_ptr
             this->std::shared_ptr<T>::operator=(std::move(r));
             return *this;
         }
 
         template<class Y>
-        shared_ptr& operator=(shared_ptr<Y>&& r)
-        {
+        shared_ptr& operator=(shared_ptr<Y>&& r) noexcept
+        { // move assignement from shared_ptr<Y>
             this->std::shared_ptr<T>::operator=(std::move(r));
+            return *this;
+        }
+
+        template<class Y,
+            class Del>
+        shared_ptr& operator=(std::unique_ptr<Y, Del>&& other)
+        { // move assignement from unique_ptr
+            this->std::shared_ptr<T>::operator=(std::move(other));
+            return *this;
+        }
+    public:
+        // convert to std from nq
+        shared_ptr(std::shared_ptr<T>&& other) noexcept
+            : std::shared_ptr<T>(std::move(other))
+        {}
+
+        //convert to nq from str
+        operator std::shared_ptr<T>()
+        {
             return *this;
         }
 	private:
@@ -193,6 +200,16 @@ namespace nq
 	{ // make a shared_ptr with a single allocation
 		return std::allocate_shared<T>(alloc, std::forward<Args>(args)...);
 	}
+}
+
+// Provide partial specialization of std fonctions for nq::shared_ptr
+namespace std
+{
+    /* have to copy paste the stl tp make this works... */
+    template<typename T>
+    struct owner_less<nq::shared_ptr<T>>
+    : public _Sp_owner_less<shared_ptr<T>, weak_ptr<T>>
+    { };
 }
 
 #endif // !NQ_SHARED_H_
