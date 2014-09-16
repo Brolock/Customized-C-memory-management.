@@ -56,6 +56,28 @@ namespace nq
             : parent(std::move(other))
         { // construct unique_ptr object that takes resource from other
         }
+
+        /*** Assigment operator ***/
+        
+        unique_ptr& operator=(unique_ptr&& rhs) noexcept
+        {
+            this->parent::operator=(std::move(rhs();
+            return *this;
+        }
+
+        template<class Y, class Del>
+        unique_ptr& operator=(unique_ptr<Y, Del>&& rhs) noexcept
+        {
+            this->parent::operator=(std::move(rhs));
+            return *this;
+        }
+        
+        unique_ptr& operator=(std::nullptr_t) noexcept
+        {
+            this->parent::operator=(nullptr);
+            return *this;
+        }
+
 	};
 
 	template<class T,
