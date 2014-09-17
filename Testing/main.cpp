@@ -55,7 +55,7 @@ int main()
 {
     nq::shared_ptr<int> swapped1 = nq::new_shared<int, DomainSpace>(33);
     {
-        auto test_un = nq::make_unique<Test, DomainSpace>(2, 3);
+        auto test_un = nq::make_unique<Test>(2, 3);
 
         nq::shared_ptr<int> swapped2 = nq::new_shared<int, DomainEarth>(100);
 

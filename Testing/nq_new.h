@@ -8,27 +8,8 @@
 namespace nq
 {
 	template <typename T,
-		 typename... Args>
-	T* New(Args... Parameters)
-	{
-		T *ptr = nq::allocator<T, UnknownDomain, DefaultAlloc>{}.allocate(1);
-		nq::allocator<T, UnknownDomain, DefaultAlloc>{}.construct(ptr, std::forward<Args>(Parameters)...);
-		return ptr;
-	}
-
-	template <typename T,
-		 typename Domain,
-		 typename... Args>
-	T* New(Args... Parameters)
-	{
-		T *ptr = nq::allocator<T, Domain, DefaultAlloc>{}.allocate(1);
-		nq::allocator<T, Domain, DefaultAlloc>{}.construct(ptr, std::forward<Args>(Parameters)...);
-		return ptr;
-	}
-
-	template <typename T,
-		 typename Domain,
-		 class AllocStrat,
+		 typename Domain = UnknownDomain,
+		 class AllocStrat = DefaultAlloc,
 		 typename... Args>
 	T* New(Args... Parameters)
 	{
@@ -37,24 +18,17 @@ namespace nq
 		return ptr;
 	}
 
-	template <typename T>
-	void Delete(T *ptr)
-	{
-		nq::allocator<T, UnknownDomain, DefaultAlloc>{}.destroy(ptr);
-		nq::allocator<T, UnknownDomain, DefaultAlloc>{}.deallocate(ptr, 0);
-	}
+	template <typename T,
+		 typename Domain = UnknownDomain,
+		 class AllocStrat = DefaultAlloc,
+		 typename... Args>
+	T* New(Args... Parameters)
+    {}
+
 
 	template <typename T,
-		typename Domain>
-	void Delete(T *ptr)
-	{
-		nq::allocator<T, Domain, DefaultAlloc>{}.destroy(ptr);
-		nq::allocator<T, Domain, DefaultAlloc>{}.deallocate(ptr, 0);
-	}
-
-	template <typename T,
-		typename Domain,
-		class AllocStrat>
+		typename Domain = UnknownDomain,
+		class AllocStrat = DefaultAlloc>
 	void Delete(T *ptr)
 	{
 		nq::allocator<T, Domain, AllocStrat>{}.destroy(ptr);
