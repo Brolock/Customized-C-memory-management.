@@ -9,6 +9,7 @@
 #include "alloc_strat.h"
 #include "type_to_string.h"
 #include "nq_shared.h"
+#include "nq_unique.h"
 
 #include <type_traits>
 
@@ -53,42 +54,19 @@ public:
 int main()
 {
     nq::shared_ptr<int> swapped1 = nq::new_shared<int, DomainSpace>(33);
-    std::owner_less<std::shared_ptr<int>> jk;
-    std::owner_less<nq::shared_ptr<int>> k;
     {
+        auto test_un = nq::make_unique<Test, DomainSpace>(2, 3);
+
         nq::shared_ptr<int> swapped2 = nq::new_shared<int, DomainEarth>(100);
 
         swapped1.swap(swapped2);
-
-        if (!(nullptr >= swapped1))
-        {
-            std::cout << "IM A PRINT YEE" << std::endl;
-        }
-
-        if (swapped1 >= swapped2)
-        {
-            std::cout << "whatever" << std::endl;
-        }
-        std::swap(swapped1, swapped2);
-        if (!(swapped1 >= swapped2))
-        {
-            std::cout << "whatever 2.0 y" << std::endl;
-        }
-
-        if (swapped1)
-        {
-            std::cout << "bool tested" << std::endl;
-        }
-
-        swapped1 = swapped2;
-
-        std::cout << swapped1 << std::endl;
-
 
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
         UnknownDomain::getInstance().print();
         SharedPtrRefCountDomain::getInstance().print();
+        
+        std::cout << "=====================" << std::endl;
     }
     DomainEarth::getInstance().print();
     DomainSpace::getInstance().print();
