@@ -59,7 +59,17 @@ int main()
 
         nq::vector<int, DomainEarth> vec_test = {1, 3, 5, 7};
 
+        std::cout << vec_test[3] << std::endl;
+
+        nq::vector<int> vec_swap({3, 3});
+
+        for (auto it : vec_swap)
+        {
+            std::cout << it << std::endl;
+        }
+
         nq::shared_ptr<int> swapped2 = nq::new_shared<int, DomainEarth>(100);
+        nq::shared_ptr<Test> whatever(std::move(test_un));
 
         swapped1.swap(swapped2);
 

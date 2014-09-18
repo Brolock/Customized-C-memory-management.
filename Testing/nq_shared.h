@@ -110,8 +110,9 @@ namespace nq
 		}
 
 		template <class Y,
-			class Del>
-		shared_ptr(nq::unique_ptr<Y, Del>&& other) noexcept
+			class Y_Domain,
+            class Y_AllocStrat>
+		shared_ptr(nq::unique_ptr<Y, Y_Domain, Y_AllocStrat>&& other) noexcept
 			: std::shared_ptr<T>(std::move(other))
 		{ // construct from unique_ptr
 		}

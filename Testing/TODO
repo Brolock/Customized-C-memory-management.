@@ -1,0 +1,5 @@
+Handle the array new (new[]) and more specifically nq::New[] ? See if it has no downfall on the allocator or things like that
+
+Replace the call to the constructor from Myclass{} to Myclass() since it can cause issues with the initializer_lists ...
+
+add something in mode debug  for the allocstrat to say that you really allocated or not (like putting a bit to 1 at the end of the ptr adress if allocation have been done)
