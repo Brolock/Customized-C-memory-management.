@@ -57,6 +57,8 @@ int main()
     {
         auto test_un = nq::make_unique<Test>(2, 3);
 
+        nq::vector<int, DomainEarth> vec_test = {1, 3, 5, 7};
+
         nq::shared_ptr<int> swapped2 = nq::new_shared<int, DomainEarth>(100);
 
         swapped1.swap(swapped2);
@@ -65,8 +67,6 @@ int main()
         DomainSpace::getInstance().print();
         UnknownDomain::getInstance().print();
         SharedPtrRefCountDomain::getInstance().print();
-        
-        std::cout << "=====================" << std::endl;
     }
     DomainEarth::getInstance().print();
     DomainSpace::getInstance().print();

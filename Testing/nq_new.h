@@ -18,13 +18,6 @@ namespace nq
 		return ptr;
 	}
 
-	template <typename T,
-		 typename Domain = UnknownDomain,
-		 class AllocStrat = DefaultAlloc,
-		 typename... Args>
-	T* New(Args... Parameters)
-    {}
-
 
 	template <typename T,
 		typename Domain = UnknownDomain,

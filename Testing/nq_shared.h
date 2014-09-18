@@ -7,6 +7,7 @@
 
 # include "nq_allocator.h"
 # include "nq_new.h"
+# include "nq_unique.h"
 # include "nq_deleter.h"
 # include "domains.h"
 # include "alloc_strat.h"
@@ -66,7 +67,6 @@ namespace nq
 		}
 
 		/*** Copy constructors ***/
-		/*not quite sure I can construct a std::shared from a nq::shared, mb explicit conversion?*/
 
 		template<class Y>
 		shared_ptr(const shared_ptr<Y>& other, T *ptr) noexcept
@@ -109,13 +109,14 @@ namespace nq
 		{ // construct shared_ptr object that owns resource *other
 		}
 
-		/* FIXME change std::unique_ptr with nq::unique_ptr when it'll be handled */
 		template <class Y,
 			class Del>
-		shared_ptr(std::unique_ptr<Y, Del>&& other) noexcept
+		shared_ptr(nq::unique_ptr<Y, Del>&& other) noexcept
 			: std::shared_ptr<T>(std::move(other))
 		{ // construct from unique_ptr
 		}
+
+        /*** Assignement operator ***/
 
         shared_ptr& operator=(const shared_ptr& r) noexcept = default;
 
