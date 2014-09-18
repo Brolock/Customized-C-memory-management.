@@ -122,7 +122,6 @@ namespace nq
 		typename Domain2>
 	bool operator==(const allocator<T1, Domain1>& lhs, const allocator<T2, Domain2>& rhs)
 	{
-		assert(!"Implement the operator== for allocator");
 		return true;
 	}
 

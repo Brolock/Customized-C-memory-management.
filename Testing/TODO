@@ -3,3 +3,9 @@ Handle the array new (new[]) and more specifically nq::New[] ? See if it has no 
 Replace the call to the constructor from Myclass{} to Myclass() since it can cause issues with the initializer_lists ...
 
 add something in mode debug  for the allocstrat to say that you really allocated or not (like putting a bit to 1 at the end of the ptr adress if allocation have been done)
+
+Do something clear with the compile flags
+
+nq::allocator inherite from std::allocator and with a debug flag can just be an empty shell that forward std::allocator
+
+having Domains beeing merged to one single type to avoid too much code size (not urgent)
