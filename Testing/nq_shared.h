@@ -7,10 +7,10 @@
 
 # include "nq_allocator.h"
 # include "nq_new.h"
-# include "nq_unique.h"
 # include "nq_deleter.h"
 # include "domains.h"
 # include "alloc_strat.h"
+# include "nq_unique.h"
 
 /* weak allocation ? where how ? weak ref count */
 
@@ -202,15 +202,106 @@ namespace nq
 	{ // make a shared_ptr with a single allocation
 		return std::allocate_shared<T>(alloc, std::forward<Args>(args)...);
 	}
+
+    template<class T>
+    class weak_ptr : public std::weak_ptr<T>
+    {
+        typedef std::weak_ptr<T> parent;
+
+
+        /*** Constructors ***/
+
+        weak_ptr() noexcept
+            : parent()
+        { // Construct empty weak_ptr
+        }
+
+        /*  Copy constructors */
+
+        weak_ptr(const weak_ptr& other) noexcept
+            : parent(other)
+        { // Construct weak_ptr for the ressource pointed to by other
+        }
+
+        template<class Y>
+        weak_ptr(const weak_ptr& other) noexcept
+            : parent(other)
+        { // Construct weak_ptr for the ressource pointed to by other
+        }
+
+        template<class Y>
+        weak_ptr(const shared_ptr<Y>& shared_other) noexcept
+            : parent(shared_other)
+        { // Construct weak_ptr for the ressource owned by shared_other
+        }
+
+        /*** Assignement operators ***/
+
+        weak_ptr& operator=(const weak_ptr& rhs)
+        { // Assign from rhs
+            this->parent::operator=(rhs);
+            return *this;
+        }
+
+        template<class Y>
+        weak_ptr& operator=(const weak_ptr<Y>& rhs)
+        { // Assign from rhs
+            this->parent::operator=(rhs);
+            return *this;
+        }
+
+        template<class Y>
+        weak_ptr& operator=(const shared_ptr<T>& rhs)
+        { // Assign from rhs
+            this->parent::operator=(rhs);
+            return *this;
+        }
+
+        /* Should be available with the C++14 just uncomment
+
+           Move Contructors
+        
+        weak_ptr(weak_ptr&& r) noexcept
+            : parent(std::move(r))
+        { // Construct weak_ptr by taking the ressource pointer to by other
+        }
+
+        template<class Y>
+        weak_ptr(weak_ptr<Y>&& r) noexcept
+            : parent(std::move(r))
+        { // Construct weak_ptr by taking the ressource pointer to by other
+        }
+
+            Move Assignements
+
+        weak_ptr& operator=(weak_ptr&& rhs)
+        { // Assign from rhs
+            this->parent::operator=(std::move(rhs));
+            return *this;
+        }
+
+        template<class Y>
+        weak_ptr& operator=(weak_ptr<Y>&& rhs)
+        { // Assign from rhs
+            this->parent::operator=(std::move(rhs));
+            return *this;
+        }
+        */
+    }
 }
 
 // Provide partial specialization of std fonctions for nq::shared_ptr
 namespace std
 {
-    /* have to copy paste the stl tp make this works... */
+    /* have to copy paste the stl to make this works... */
     template<typename T>
     struct owner_less<nq::shared_ptr<T>>
     : public _Sp_owner_less<shared_ptr<T>, weak_ptr<T>>
+    { };
+
+    template<typename T>
+    struct owner_less<nq::weak_ptr<T>>
+    : public _Sp_owner_less<weak_ptr<T>, shared_ptr<T>>
     { };
 }
 
