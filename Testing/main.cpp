@@ -3,6 +3,7 @@
 #include "nq_allocator.h"
 #include "nq_new.h"
 #include "nq_vector.h"
+#include "nq_set.h"
 #include <memory>
 
 #include <vector>
@@ -53,6 +54,7 @@ public:
 
 int main()
 {
+    nq::set<int, DomainSpace> slt;
     {
         auto test_un = nq::make_unique<Test>(2, 3);
 
@@ -72,8 +74,6 @@ int main()
         std::cout << "=================" << std::endl;
     }
 
-    if (weak_test.expired())
-        std::cout << "yup dat working" << std::endl;
     DomainEarth::getInstance().print();
     DomainSpace::getInstance().print();
     UnknownDomain::getInstance().print();
