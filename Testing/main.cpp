@@ -53,7 +53,6 @@ public:
 
 int main()
 {
-    nq::shared_ptr<int> swapped1 = nq::new_shared<int, DomainSpace>(33);
     {
         auto test_un = nq::make_unique<Test>(2, 3);
 
@@ -65,16 +64,16 @@ int main()
 
         std::swap(vec_swap, vec_test);
 
-        nq::shared_ptr<int> swapped2 = nq::new_shared<int, DomainEarth>(100);
-        nq::shared_ptr<Test> whatever(std::move(test_un));
-
-        swapped1.swap(swapped2);
-
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
         UnknownDomain::getInstance().print();
         SharedPtrRefCountDomain::getInstance().print();
+
+        std::cout << "=================" << std::endl;
     }
+
+    if (weak_test.expired())
+        std::cout << "yup dat working" << std::endl;
     DomainEarth::getInstance().print();
     DomainSpace::getInstance().print();
     UnknownDomain::getInstance().print();

@@ -12,10 +12,11 @@
 # include "alloc_strat.h"
 # include "nq_unique.h"
 
-/* weak allocation ? where how ? weak ref count */
-
 namespace nq
 {
+    template<class T>
+    class weak_ptr;
+
 	template<class T>
 	class shared_ptr : public std::shared_ptr<T>
 	{
@@ -102,9 +103,8 @@ namespace nq
 		{ // construct shared_ptr that takes resource from other
 		}
 
-		/* FIXME change std::weak_ptr with nq::weak_ptr when it'll be handled */
 		template <class Y>
-		explicit shared_ptr(const std::weak_ptr<Y>& other) noexcept
+		explicit shared_ptr(const nq::weak_ptr<Y>& other) noexcept
 			: std::shared_ptr<T>(other)
 		{ // construct shared_ptr object that owns resource *other
 		}
@@ -208,6 +208,7 @@ namespace nq
     {
         typedef std::weak_ptr<T> parent;
 
+    public:
 
         /*** Constructors ***/
 
@@ -287,7 +288,7 @@ namespace nq
             return *this;
         }
         */
-    }
+    };
 }
 
 // Provide partial specialization of std fonctions for nq::shared_ptr

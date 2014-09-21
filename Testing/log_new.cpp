@@ -20,7 +20,7 @@ void *operator new(size_t size)
 }
 
 /* Standard operator delete */
-void operator delete(void *p)
+void operator delete(void *p) noexcept
 {
 	if (nq::Tracer::Ready)
 		NewTrace.Remove(p);
