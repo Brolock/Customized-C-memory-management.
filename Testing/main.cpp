@@ -4,7 +4,9 @@
 #include "nq_new.h"
 #include "nq_vector.h"
 #include "nq_set.h"
+#include "nq_unordered_set.h"
 #include <memory>
+#include <unordered_set>
 
 #include <vector>
 #include "alloc_strat.h"
@@ -54,7 +56,6 @@ public:
 
 int main()
 {
-    nq::set<int> slt{1, 2, 3, 4};
     {
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();

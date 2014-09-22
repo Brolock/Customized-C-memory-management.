@@ -1,8 +1,9 @@
-#ifndef NQ_SET_H
-# define NQ_SET_H
+#ifndef NQ_SET_H_
+# define NQ_SET_H_
 
 # include <set>
 
+# include "nq_allocator.h"
 # include "domains.h"
 # include "alloc_strat.h"
 
@@ -15,19 +16,19 @@ namespace nq
     class set
         : public std::set<Key, Compare, nq::allocator<Key, Domain, AllocStrat>>
     {
-        typedef std::set<Key, Compare, nq::allocator<Key, Domain, AllocStrat>> parent;
         typedef nq::allocator<Key, Domain, AllocStrat> nq_alloc;
+        typedef std::set<Key, Compare, nq_alloc> parent;
 
     public:
         /*** Constructors ***/
         set()
             : parent()
-        {  // construct set with no value
+        {  // construct empty set
         }
 
         explicit set(const Compare& comp, const nq_alloc& all = nq_alloc())
             : parent(comp, all)
-        { // construct set with no value
+        {  // construct empty set
         }
 
         template<class Iterator>
@@ -83,4 +84,4 @@ namespace nq
     };
 }
 
-#endif // NQ_SET_H
+#endif // NQ_SET_H_
