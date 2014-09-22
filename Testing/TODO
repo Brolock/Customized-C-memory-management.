@@ -1,3 +1,5 @@
+Find a way to make creaton of personal allocator easy for the client via maccros maybe something else, what is an issue is really the allocstrat specification
+
 Handle the array new (new[]) and more specifically nq::New[] ? See if it has no downfall on the allocator or things like that
 
 Replace the call to the constructor from Myclass{} to Myclass() since it can cause issues with the initializer_lists ...

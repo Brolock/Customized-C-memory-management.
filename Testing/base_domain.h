@@ -25,10 +25,11 @@ private:
 		Header* prev_;
 		Header* next_;
 		/* We use a size_t instead of others int (uint**_t, etc..) to get
-		** a 32 and 64 bits adaptability since sizeof(size_t) is dependent of that */
+		** a 32 and 64 bits adaptability since sizeof(size_t) is dependent of it
+        */
 		const size_t size_;
 
-		/* The padding allow to be alligned as malloc is after the header has been added */
+		/* The padding is here for allignement */
 		const size_t padding_;
 	public:
 		Header(size_t size)

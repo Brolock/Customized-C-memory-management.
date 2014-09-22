@@ -54,18 +54,8 @@ public:
 
 int main()
 {
-    nq::set<int, DomainSpace> slt;
+    nq::set<int> slt{1, 2, 3, 4};
     {
-        auto test_un = nq::make_unique<Test>(2, 3);
-
-        nq::vector<int, DomainEarth> vec_test = {1, 3, 5, 7};
-
-        std::cout << vec_test[3] << std::endl;
-
-        nq::vector<int, DomainEarth> vec_swap({3, 3});
-
-        std::swap(vec_swap, vec_test);
-
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
         UnknownDomain::getInstance().print();
