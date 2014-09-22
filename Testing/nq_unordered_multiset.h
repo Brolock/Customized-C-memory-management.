@@ -1,7 +1,7 @@
-#ifndef NQ_UNORDERED_MAP_H_
-# define NQ_UNORDERED_MAP_H_
+#ifndef NQ_UNORDERED_MULTISET_H_
+# define NQ_UNORDERED_MULTISET_H_
 
-# include <unordered_map>
+# include <unordered_set>
 # include <cstdlib>
 
 # include "nq_allocator.h"
@@ -11,17 +11,16 @@
 namespace nq
 {
     template<class Key,
-        class T,
         class Domain = UnknownDomain,
         class AllocStrat = DefaultAlloc,
         class Hash = std::hash<Key>,
         class KeyEqual = std::equal_to<Key>>
-    class unordered_map
-    : public std::unordered_map<Key, T, Hash, KeyEqual,
-            nq::allocator<std::pair<Key, T>, Domain, AllocStrat>>
+    class unordered_multiset
+    : public std::unordered_multiset<Key, Hash, KeyEqual,
+            nq::allocator<Key, Domain, AllocStrat>>
     {
-        typedef nq::allocator<std::pair<Key, T>, Domain, AllocStrat> nq_alloc;
-        typedef std::unordered_map<Key, T, Hash, KeyEqual, nq_alloc> parent;
+        typedef nq::allocator<Key, Domain, AllocStrat> nq_alloc;
+        typedef std::unordered_multiset<Key, Hash, KeyEqual, nq_alloc> parent;
 
         typedef typename parent::value_type value_type;
         typedef typename parent::size_type size_type;
@@ -31,7 +30,7 @@ namespace nq
     public:
         /*** Constructors ***/
 
-        explicit unordered_map(size_type bucket_count = 10,
+        explicit unordered_multiset(size_type bucket_count = 10,
                 const hasher hf = hasher(),
                 const key_equal& keq = key_equal(),
                 const nq_alloc& all = nq_alloc())
@@ -39,13 +38,13 @@ namespace nq
         { // construct empty u_set
         }
 
-        explicit unordered_map(nq_alloc& all)
+        explicit unordered_multiset(nq_alloc& all)
             : parent(all)
         { // construct empty u_set, nq_alloc
         }
 
         template<class Iterator>
-        unordered_map(Iterator first, Iterator last,
+        unordered_multiset(Iterator first, Iterator last,
                 size_type buckets = 0,
                 const hasher hf = hasher(),
                 const key_equal& keq = key_equal(),
@@ -57,21 +56,21 @@ namespace nq
 
         /* Copy contructor */
 
-        unordered_map(const unordered_map& other)
+        unordered_multiset(const unordered_multiset& other)
             : parent(other)
         { // copy contruct u_set from other
         }
 
         /* Move constructor */
 
-        unordered_map(unordered_map&& other)
+        unordered_multiset(unordered_multiset&& other)
             : parent(std::move(other))
         { // move contruct u_set from other
         }
 
         /* Initializer constructor */
 
-        unordered_map(std::initializer_list<value_type> ilist,
+        unordered_multiset(std::initializer_list<value_type> ilist,
                 size_type bucket_count = 0,
                 const hasher& hf = hasher(),
                 const key_equal& keq = key_equal(),
@@ -82,19 +81,19 @@ namespace nq
 
         /*** Assignement operator ***/
 
-        unordered_map& operator=(const unordered_map& rhs)
+        unordered_multiset& operator=(const unordered_multiset& rhs)
         { // copy assignment operator
             this->parent::operator=(rhs);
             return *this;
         }
 
-        unordered_map& operator=(unordered_map&& rhs)
+        unordered_multiset& operator=(unordered_multiset&& rhs)
         { // move assignment operator
             this->parent::operator=(std::move(rhs));
             return *this;
         }
 
-        unordered_map& operator=(std::initializer_list<value_type> ilist)
+        unordered_multiset& operator=(std::initializer_list<value_type> ilist)
         { // assign initializer_list
             this->parent::operator=(ilist);
             return *this;
@@ -102,4 +101,4 @@ namespace nq
     };
 }
 
-#endif // NQ_UNORDERED_MAP_H_
+#endif // NQ_UNORDERED_MULTISET_H_

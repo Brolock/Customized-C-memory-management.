@@ -6,6 +6,7 @@
 #include "nq_set.h"
 #include "nq_unordered_set.h"
 #include "nq_unordered_map.h"
+#include "nq_unordered_multiset.h"
 #include <memory>
 #include <unordered_set>
 
@@ -58,10 +59,7 @@ public:
 
 int main()
 {
-    nq::unordered_map<int, Test> tmp{std::make_pair<int, Test>(1, Test(1, 2)),
-    std::make_pair<int, Test>(61, Test(4, 5)),
-    std::make_pair<int, Test>(3, Test(3, 22))};
-
+    nq::unordered_multiset<int> tab{3, 4 ,5};
     {
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
