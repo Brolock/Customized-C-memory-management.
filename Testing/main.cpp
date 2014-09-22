@@ -5,6 +5,7 @@
 #include "nq_vector.h"
 #include "nq_set.h"
 #include "nq_unordered_set.h"
+#include "nq_unordered_map.h"
 #include <memory>
 #include <unordered_set>
 
@@ -47,7 +48,8 @@ public:
 		std::cout << "~Test(" << num_ << ", " << whatever_ << ")" << std::endl;
 	}
 	Test(const Test& o)
-		: num_(o.num_)
+		: num_(o.num_),
+          whatever_(o.whatever_)
 	{
 		std::cout << "Test(Test&" << o.num_ << ", " << o.whatever_<< ")" << std::endl;
 	}
@@ -56,6 +58,10 @@ public:
 
 int main()
 {
+    nq::unordered_map<int, Test> tmp{std::make_pair<int, Test>(1, Test(1, 2)),
+    std::make_pair<int, Test>(61, Test(4, 5)),
+    std::make_pair<int, Test>(3, Test(3, 22))};
+
     {
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
@@ -69,23 +75,4 @@ int main()
     DomainSpace::getInstance().print();
     UnknownDomain::getInstance().print();
     SharedPtrRefCountDomain::getInstance().print();
-    /*
-	nq::vector<Test, DomainSpace> x;
-	x.push_back(Test(4));
-	x.push_back(Test(5));
-	x.push_back(Test(7));
-	x.push_back(Test(1));
-	x.push_back(Test(345));
-	x.push_back(Test(345));
-	x.push_back(Test(345));
-	nq::vector<Test, DomainEarth, DefaultAlloc> v;
-	v.push_back(Test(1));
-	v.push_back(Test(2));
-	v.push_back(Test(3));
-	v.push_back(Test(4));
-	v.push_back(Test(1214));
-
-	DomainSpace::getInstance().print();
-	DomainEarth::getInstance().print();
-    */
 }
