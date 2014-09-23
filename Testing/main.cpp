@@ -59,10 +59,10 @@ public:
 
 int main()
 {
-    nq::set<int, DomainSpace> a{1, 2 ,3};
-    nq::set<int, DomainSpace> b(a);
-nq::set<int, DomainSpace> c = std::move(b); 
+        nq::unique_ptr<int, DomainEarth> l(nq::New<int, DomainEarth>(1));
     {
+        auto lol = nq::make_unique<Test, DomainSpace>(1, 2);
+
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
         UnknownDomain::getInstance().print();

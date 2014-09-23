@@ -24,29 +24,30 @@ namespace nq
 		/* Allocator used to allocate the ref_count of the shared_ptr */
 		typedef nq::allocator<T, SharedPtrRefCountDomain, DefaultAlloc> count_alloc;
 		typedef nq::deleter<T, UnknownDomain, DefaultAlloc> deleter;
+        typedef std::shared_ptr<T> parent;
 
 		/*** Constructors for a nullptr ***/
 
 		shared_ptr() noexcept
-			: std::shared_ptr<T>(nullptr, deleter{}, count_alloc{})
+			: parent(nullptr, deleter{}, count_alloc{})
 		{ // construct with nullptr deleter{} and alloc{} 
 		}
 
 		shared_ptr(std::nullptr_t) noexcept
-			:std::shared_ptr<T>(nullptr, deleter{}, count_alloc{})
+			:parent(nullptr, deleter{}, count_alloc{})
 		{ // construct with nullptr, deleter{}, count_alloc{}
 		}
 
 		template<class Deleter>
 		shared_ptr(std::nullptr_t, Deleter del) noexcept
-			: std::shared_ptr<T>(nullptr, del, count_alloc{})
+			: parent(nullptr, del, count_alloc{})
 		{ // construct with nullptr, del and count_alloc{}
 		}
 
 		template<class Deleter,
 			class Allocator>
 		shared_ptr(std::nullptr_t, Deleter del, Allocator alloc) noexcept
-			: std::shared_ptr<T>(nullptr, del, alloc)
+			: parent(nullptr, del, alloc)
 		{ // construct with nullptr, del and alloc
 		}
 
@@ -55,7 +56,7 @@ namespace nq
 		template<class Y,
 			class Deleter>
 		shared_ptr(Y *ptr, Deleter del) noexcept
-			: std::shared_ptr<T>(ptr, del, count_alloc{})
+			: parent(ptr, del, count_alloc{})
 		{ // construct with ptr, del and count_alloc{}
 		}
 
@@ -63,7 +64,7 @@ namespace nq
 			class Deleter,
 			class Allocator>
 		shared_ptr(Y *ptr, Deleter del, Allocator alloc) noexcept
-			: std::shared_ptr<T>(ptr, del, alloc)
+			: parent(ptr, del, alloc)
 		{ // construct with ptr, del and alloc
 		}
 
@@ -71,12 +72,12 @@ namespace nq
 
 		template<class Y>
 		shared_ptr(const shared_ptr<Y>& other, T *ptr) noexcept
-			: std::shared_ptr<T>(other, ptr)
+			: parent(other, ptr)
 		{ // construct shared_ptr object that aliases ptr
 		}
 
 		shared_ptr(const shared_ptr& other) noexcept
-			: std::shared_ptr<T>(other)
+			: parent(other)
 		{ // construct a shared_ptr object that owns same resource as other
 		}
 
@@ -84,14 +85,14 @@ namespace nq
 			class = class std::enable_if<std::is_convertible<Y *, T *>::value,
 				void>::type>
 		shared_ptr(const shared_ptr<Y>& other) noexcept
-			: std::shared_ptr<T>(other)
+			: parent(other)
 		{ // construct a shared_ptr object that owns same resource as other
 		}
 
 		/*** Move contructors ***/
 
 		shared_ptr(shared_ptr&& other) noexcept
-			: std::shared_ptr<T>(std::move(other))
+			: parent(std::move(other))
 		{ // construct shared_ptr that takes resource from other
 		}
 
@@ -99,13 +100,13 @@ namespace nq
 			class = class std::enable_if<std::is_convertible<Y *, T *>::value,
 				void>::type>
 		shared_ptr(shared_ptr<Y>&& other) noexcept
-			: std::shared_ptr<T>(std::move(other))
+			: parent(std::move(other))
 		{ // construct shared_ptr that takes resource from other
 		}
 
 		template <class Y>
 		explicit shared_ptr(const nq::weak_ptr<Y>& other) noexcept
-			: std::shared_ptr<T>(other)
+			: parent(other)
 		{ // construct shared_ptr object that owns resource *other
 		}
 
@@ -113,7 +114,7 @@ namespace nq
 			class Y_Domain,
             class Y_AllocStrat>
 		shared_ptr(nq::unique_ptr<Y, Y_Domain, Y_AllocStrat>&& other) noexcept
-			: std::shared_ptr<T>(std::move(other))
+			: parent(std::move(other))
 		{ // construct from unique_ptr
 		}
 
@@ -124,20 +125,20 @@ namespace nq
         template<class Y>
         shared_ptr& operator=(const shared_ptr<Y>& r) noexcept
         { // copy assignement from shared_ptr<Y>
-            this->std::shared_ptr<T>::operator=(r);
+            this->parent::operator=(r);
             return *this;
         }
 
         shared_ptr& operator=(shared_ptr&& r) noexcept
         { // move assignement from shared_ptr
-            this->std::shared_ptr<T>::operator=(std::move(r));
+            this->parent::operator=(std::move(r));
             return *this;
         }
 
         template<class Y>
         shared_ptr& operator=(shared_ptr<Y>&& r) noexcept
         { // move assignement from shared_ptr<Y>
-            this->std::shared_ptr<T>::operator=(std::move(r));
+            this->parent::operator=(std::move(r));
             return *this;
         }
 
@@ -145,13 +146,14 @@ namespace nq
             class Del>
         shared_ptr& operator=(std::unique_ptr<Y, Del>&& other)
         { // move assignement from unique_ptr
-            this->std::shared_ptr<T>::operator=(std::move(other));
+            this->parent::operator=(std::move(other));
             return *this;
         }
     public:
+        /* TODO Check if this is really usefull */
         // convert to std from nq
         shared_ptr(std::shared_ptr<T>&& other) noexcept
-            : std::shared_ptr<T>(std::move(other))
+            : parent(std::move(other))
         {}
 
         //convert to nq from str

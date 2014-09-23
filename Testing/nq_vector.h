@@ -1,9 +1,8 @@
 #ifndef NQ_VECTOR_H_
 # define NQ_VECTOR_H_
 
-/* TODO ALALALALALFH EJHWBJK jkbek */
-
 # include <vector>
+
 # include "nq_allocator.h"
 # include "alloc_strat.h"
 # include "domains.h"
@@ -16,10 +15,10 @@ namespace nq
 	class vector : public std::vector < T, nq::allocator<T, Domain, AllocStrat> >
 	{
         typedef nq::allocator<T, Domain, AllocStrat> allocator_type;
-        typedef T value_type;
-
         typedef std::vector<T, nq::allocator<T, Domain, AllocStrat>> parent;
 
+        typedef T value_type;
+        typedef size_t size_type;
 	public:
 
         /*** Constructors ***/
@@ -33,7 +32,7 @@ namespace nq
         { // construct empty vector, allocator
         }
 
-		explicit vector(size_t count)
+		explicit vector(size_type count)
 			: parent(count)
 		{ // construct vector of size count
         }
@@ -46,12 +45,13 @@ namespace nq
         }
         */
 
-        vector(size_t count, const value_type& value)
+        vector(size_type count, const value_type& value)
             : parent(count, value)
         { // construct vector of size count copies of value
         }
 
-        vector(size_t count, const value_type& value, const allocator_type& alloc)
+        vector(size_type count, const value_type& value,
+                const allocator_type& alloc)
             : parent(count, value, alloc)
         { // construct vector of size count copies of value with alloc
         }
@@ -114,7 +114,7 @@ namespace nq
             return *this;
         }
 
-        vector& operator=(std::initializer_list<T> Ilist)
+        vector& operator=(std::initializer_list<value_type> Ilist)
         { // assign vector from ilist
             this->parent::operator=(Ilist);
             return *this;

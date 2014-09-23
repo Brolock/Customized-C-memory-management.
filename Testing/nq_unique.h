@@ -6,6 +6,8 @@
 # include "nq_deleter.h"
 # include "alloc_strat.h"
 
+/* TODO unique(T* ptr) should not me accepted since it can cause issues with deleter*/
+
 namespace nq
 {
 	template<class T,
@@ -14,10 +16,11 @@ namespace nq
 	class unique_ptr
     : public std::unique_ptr<T, nq::deleter<T, Domain, AllocStrat>>
 	{
-        typedef T element_type;
         typedef nq::deleter<T, Domain, AllocStrat> deleter_type;
-
 		typedef std::unique_ptr<T, deleter_type> parent;
+
+        typedef typename parent::element_type element_type;
+        typedef typename parent::pointer pointer;
 
         /*** Constructors ***/
 
@@ -32,12 +35,12 @@ namespace nq
         { // construct unique_ptr with nullptr (equivalent to default)
         }
 
-        explicit unique_ptr(T *ptr) noexcept
+        explicit unique_ptr(pointer ptr) noexcept
             : parent(ptr)
         { // construct unique_ptr with T*
         }
         
-        unique_ptr(T *ptr,
+        unique_ptr(pointer ptr,
                 typename std::conditional<std::is_reference<deleter_type>::value,
                   deleter_type, const deleter_type&>::type del) noexcept
             : parent(ptr, del)
