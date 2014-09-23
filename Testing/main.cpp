@@ -59,7 +59,9 @@ public:
 
 int main()
 {
-    nq::unordered_multiset<int> tab{3, 4 ,5};
+    nq::set<int, DomainSpace> a{1, 2 ,3};
+    nq::set<int, DomainSpace> b(a);
+nq::set<int, DomainSpace> c = std::move(b); 
     {
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
@@ -68,7 +70,6 @@ int main()
 
         std::cout << "=================" << std::endl;
     }
-
     DomainEarth::getInstance().print();
     DomainSpace::getInstance().print();
     UnknownDomain::getInstance().print();

@@ -19,6 +19,10 @@ namespace nq
         typedef nq::allocator<Key, Domain, AllocStrat> nq_alloc;
         typedef std::set<Key, Compare, nq_alloc> parent;
 
+        typedef typename parent::value_type value_type;
+        typedef typename parent::size_type size_type;
+        typedef typename parent::value_compare value_compare;
+
     public:
         /*** Constructors ***/
         set()
@@ -26,7 +30,7 @@ namespace nq
         {  // construct empty set
         }
 
-        explicit set(const Compare& comp, const nq_alloc& all = nq_alloc())
+        explicit set(const value_compare& comp, const nq_alloc& all = nq_alloc())
             : parent(comp, all)
         {  // construct empty set
         }
@@ -38,7 +42,8 @@ namespace nq
         }
 
         template<class Iterator>
-        set(Iterator first, Iterator last, const Compare& comp,
+        set(Iterator first, Iterator last,
+                const value_compare& comp,
                 const nq_alloc& all = nq_alloc())
             : parent(first, last, comp, all)
         { // construct set with the contents [first, last)
@@ -56,7 +61,8 @@ namespace nq
         { // construct set by taking other datas
         }
 
-        set(std::initializer_list<Key> list, const Compare& comp = Compare(),
+        set(std::initializer_list<value_type> list,
+                const value_compare comp = value_compare(),
                 const nq_alloc& all = nq_alloc())
             : parent(list, comp, all)
         { // construct set with the contents of the initializer list
@@ -76,7 +82,7 @@ namespace nq
             return *this;
         }
 
-        set& operator=(std::initializer_list<Key> list)
+        set& operator=(std::initializer_list<value_type> list)
         { // assign set with the contents of the initializer list
             this->parent::operator=(list);
             return *this;

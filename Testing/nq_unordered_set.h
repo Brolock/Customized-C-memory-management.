@@ -2,7 +2,6 @@
 # define NQ_UNORDERED_SET_H_
 
 # include <unordered_set>
-# include <cstdlib>
 
 # include "nq_allocator.h"
 # include "domains.h"
@@ -14,7 +13,7 @@ namespace nq
         class Domain = UnknownDomain,
         class AllocStrat = DefaultAlloc,
         class Hash = std::hash<Key>,
-        class KeyEqual = std::equal_to<Key>>
+        class KeyEqual= std::equal_to<Key>>
     class unordered_set
     : public std::unordered_set<Key, Hash, KeyEqual,
             nq::allocator<Key, Domain, AllocStrat>>
@@ -22,12 +21,16 @@ namespace nq
         typedef nq::allocator<Key, Domain, AllocStrat> nq_alloc;
         typedef std::unordered_set<Key, Hash, KeyEqual, nq_alloc> parent;
         
+        typedef typename parent::value_type value_type;
+        typedef typename parent::size_type size_type;
+        typedef typename parent::hasher hasher;
+        typedef typename parent::key_equal key_equal;
     public:
         /*** Constructors ***/
 
-        explicit unordered_set(std::size_t bucket_count = 10,
-                const Hash hf = Hash(),
-                const KeyEqual& keq = KeyEqual(),
+        explicit unordered_set(size_type bucket_count = 10,
+                const hasher hf = hasher(),
+                const key_equal& keq = key_equal(),
                 const nq_alloc& all = nq_alloc())
             : parent(bucket_count, hf, keq, all)
         { // construct empty u_set
@@ -40,9 +43,9 @@ namespace nq
 
         template<class Iterator>
         unordered_set(Iterator first, Iterator last,
-                std::size_t buckets = 0,
-                const Hash hf = Hash(),
-                const KeyEqual& keq = KeyEqual(),
+                size_type buckets = 0,
+                const hasher hf = hasher(),
+                const key_equal& keq = key_equal(),
                 const nq_alloc& all = nq_alloc())
             : parent(first, last, buckets, hf, keq, all)
         { // construct u_set from sequence [first, last)
@@ -65,10 +68,10 @@ namespace nq
 
         /* Initializer constructor */
 
-        unordered_set(std::initializer_list<Key> ilist,
-                std::size_t bucket_count = 0,
-                const Hash& hf = Hash(),
-                const KeyEqual& keq = KeyEqual(),
+        unordered_set(std::initializer_list<value_type> ilist,
+                size_type bucket_count = 0,
+                const hasher& hf = hasher(),
+                const key_equal& keq = key_equal(),
                 const nq_alloc& all = nq_alloc())
             : parent(ilist, bucket_count, hf, keq, all)
         { // construct u_set by copying elements in the list
@@ -88,7 +91,7 @@ namespace nq
             return *this;
         }
 
-        unordered_set& operator=(std::initializer_list<Key> ilist)
+        unordered_set& operator=(std::initializer_list<value_type> ilist)
         { // assign initializer_list
             this->parent::operator=(ilist);
             return *this;

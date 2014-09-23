@@ -2,7 +2,6 @@
 # define NQ_UNORDERED_MAP_H_
 
 # include <unordered_map>
-# include <cstdlib>
 
 # include "nq_allocator.h"
 # include "domains.h"
@@ -36,12 +35,12 @@ namespace nq
                 const key_equal& keq = key_equal(),
                 const nq_alloc& all = nq_alloc())
             : parent(bucket_count, hf, keq, all)
-        { // construct empty u_set
+        { // construct empty u_map
         }
 
         explicit unordered_map(nq_alloc& all)
             : parent(all)
-        { // construct empty u_set, nq_alloc
+        { // construct empty u_map, nq_alloc
         }
 
         template<class Iterator>
@@ -51,7 +50,7 @@ namespace nq
                 const key_equal& keq = key_equal(),
                 const nq_alloc& all = nq_alloc())
             : parent(first, last, buckets, hf, keq, all)
-        { // construct u_set from sequence [first, last)
+        { // construct u_map from sequence [first, last)
         }
 
 
@@ -59,14 +58,14 @@ namespace nq
 
         unordered_map(const unordered_map& other)
             : parent(other)
-        { // copy contruct u_set from other
+        { // copy contruct u_map from other
         }
 
         /* Move constructor */
 
         unordered_map(unordered_map&& other)
             : parent(std::move(other))
-        { // move contruct u_set from other
+        { // move contruct u_map from other
         }
 
         /* Initializer constructor */
@@ -77,7 +76,7 @@ namespace nq
                 const key_equal& keq = key_equal(),
                 const nq_alloc& all = nq_alloc())
             : parent(ilist, bucket_count, hf, keq, all)
-        { // construct u_set by copying elements in the list
+        { // construct u_map by copying elements in the list
         }
 
         /*** Assignement operator ***/
