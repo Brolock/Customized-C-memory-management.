@@ -7,6 +7,12 @@
 #include "nq_unordered_set.h"
 #include "nq_unordered_map.h"
 #include "nq_unordered_multiset.h"
+#include "nq_multiset.h"
+#include "nq_map.h"
+#include "nq_multimap.h"
+#include "nq_deque.h"
+#include "nq_forward_list.h"
+#include "nq_list.h"
 #include <memory>
 #include <unordered_set>
 
@@ -59,15 +65,22 @@ public:
 
 int main()
 {
-        nq::unique_ptr<int, DomainEarth> l(nq::New<int, DomainEarth>(1));
     {
-        auto lol = nq::make_unique<Test, DomainSpace>(1, 2);
+        nq::list<Test> k;
+        k.push_back(Test(2, 5));
+        k.push_front(Test(1, 3));
+        k.push_front(Test(1, 3));
+        k.push_back(Test(2, 5));
+        nq::list<int, DomainSpace> l{1,3, 4};
+
+        nq::list<Test> f(k);
+
+        nq::list<Test> kjkl(std::move(nq::list<Test>(f)));
 
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
         UnknownDomain::getInstance().print();
         SharedPtrRefCountDomain::getInstance().print();
-
         std::cout << "=================" << std::endl;
     }
     DomainEarth::getInstance().print();
