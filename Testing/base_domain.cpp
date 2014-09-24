@@ -56,7 +56,8 @@ void BaseDomain::add(void* internal_ptr, std::size_t size)
 void BaseDomain::remove(void *internal_ptr)
 {
 	Header* ptr = static_cast<Header*>(internal_ptr);
-	/* Check if tmp is the begin or the end of the Domain list and call the appropriate remove in consequences */
+	/* Check if tmp is the begin or the end of the Domain list and
+     * call the appropriate remove in consequences */
 	if (ptr == begin_)
 		begin_ = ptr->remove_begin();
 	if (ptr == end_)
@@ -72,7 +73,8 @@ void BaseDomain::print() const
 {
 	if (begin_ != nullptr)
 	{
-		std::cout << domain_name() << " memory log:\n=> " << count_ << " allocated objets\n";
+		std::cout << domain_name() << " memory log:\n=> "
+            << count_ << " allocated objets\n";
 		begin_->print();
 		std::cout << "--------------------" << std::endl;
 	}

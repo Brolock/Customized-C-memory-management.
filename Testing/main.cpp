@@ -65,18 +65,20 @@ public:
 
 int main()
 {
+   /* 
+        UnknownDomain::getInstance().print();
+    Test* ptr = new Test[10];
+        UnknownDomain::getInstance().print();
+
+    delete[] ptr;
+
+    UnknownDomain::getInstance().print();
+
+    std::unique_ptr<int[]> salut;
+
+    */
+    /*
     {
-        nq::list<Test> k;
-        k.push_back(Test(2, 5));
-        k.push_front(Test(1, 3));
-        k.push_front(Test(1, 3));
-        k.push_back(Test(2, 5));
-        nq::list<int, DomainSpace> l{1,3, 4};
-
-        nq::list<Test> f(k);
-
-        nq::list<Test> kjkl(std::move(nq::list<Test>(f)));
-
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
         UnknownDomain::getInstance().print();
@@ -87,4 +89,5 @@ int main()
     DomainSpace::getInstance().print();
     UnknownDomain::getInstance().print();
     SharedPtrRefCountDomain::getInstance().print();
+    */
 }

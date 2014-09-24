@@ -22,11 +22,10 @@ private:
 	class Header
 	{
 	private:
-		Header* prev_;
-		Header* next_;
+		Header *prev_;
+		Header *next_;
 		/* We use a size_t instead of others int (uint**_t, etc..) to get
-		** a 32 and 64 bits adaptability since sizeof(size_t) is dependent of it
-        */
+		* a 32 and 64 bits adaptability */
 		const size_t size_;
 
 		/* The padding is here for allignement */
@@ -38,11 +37,11 @@ private:
 			size_(size),
 			padding_(0)
 		{}
-		void add(Header* next);
+		void add(Header *next);
 		void remove();
 
 		/* remove_begin()/remove_end() return a Header* so the Domain can put
-		his begin_/end_ pointers up-to-date */
+         * his begin_/end_ pointers up-to-date */
 		Header* remove_begin();
 		Header* remove_end();
 
@@ -57,15 +56,18 @@ public:
 	size_t get_count() const { return count_; }
 
 private:
-	Header* begin_;
-	Header* end_;
+	Header *begin_;
+	Header *end_;
 public:
 	enum HSENUM { header_size = sizeof(Header) };
 
-	/* Add the Header constructed with size at the ptr location to the current Domain's list */
-	void add(void* internal_ptr, size_t size);
+	/* Add the Header constructed with size at the ptr location to the
+     * current Domain's list */
 
-	/* Remove from the current Domain's list the Header associated with the allocated ptr send */
+	void add(void *internal_ptr, size_t size);
+
+	/* Remove from the current Domain's list the Header associated with
+     * the allocated ptr send */
 	void remove(void *internal_ptr);
 
 protected:
@@ -80,19 +82,24 @@ private:
 	BaseDomain& operator= (const BaseDomain&) { return *this; };
 
 	/* return a string of the domain name for the printer, may change */
-	virtual const char* domain_name() const { assert(!"How did you get here!?"); return "never_reached"; };
+	virtual const char *domain_name() const
+    { assert(!"How did you get here!?"); return "never_reached"; };
+
 	/* printer for the debug, will probably to change */
 public:
 	void print() const;
 
 # ifdef ENVIRONMENT32
-		static_assert(sizeof(Header) == 16, "Header don't take 16 bytes in 32 bits");
+		static_assert(sizeof(Header) == 16,
+                "Header don't take 16 bytes in 32 bits");
 # else /* ENVIRONNEMENT32 */
-		static_assert(sizeof(Header) == 32, "Header don't take 32 bytes in 64 bits");
+		static_assert(sizeof(Header) == 32,
+                "Header don't take 32 bytes in 64 bits");
 # endif /* !ENVIRONNEMENT32 */
 };
 
-/* Generic declaration of a Domain to avoid copy paste at every new domain creation */
+/* Generic declaration of a Domain to avoid copy paste at every
+ * new domain creation */
 # define NQ_DOMAIN(new_domain)	      \
 class new_domain : public BaseDomain  \
 {                                     \

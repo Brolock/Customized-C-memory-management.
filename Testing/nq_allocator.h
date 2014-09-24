@@ -16,7 +16,7 @@
 
 namespace nq
 {
-	template<typename T,
+	template<class T,
 		class Domain = UnknownDomain,
 		class AllocStrat = DefaultAlloc>
 	struct allocator
@@ -45,25 +45,23 @@ namespace nq
 		explicit allocator() {}
 		allocator(const allocator&) {}
 
-		template <typename U>
+		template <class U>
 			allocator(const allocator<U, Domain, AllocStrat>&) {}
 
-		template<typename U>
-		allocator& operator=(const allocator<U, Domain, AllocStrat>&) { return *this; }
+		template<class U>
+		allocator& operator=(const allocator<U, Domain, AllocStrat>&)
+        { return *this; }
 
-		allocator& operator=(const allocator& other) { return *this; }
+		allocator& operator=(const allocator& other)
+        { return *this; }
 
 		~allocator() {};
 
 		/* Adress */
 		pointer adress(reference r) const
-		{
-			return &r;
-		}
+		{ return &r; }
 		const_pointer adress(const_reference r) const
-		{
-			return &r;
-		}
+		{ return &r; }
 
 		/* Memory allocation */
 		pointer allocate(size_type n, std::allocator<void>::const_pointer hint = 0)
@@ -83,7 +81,8 @@ namespace nq
 		{
 			if (usr_ptr != nullptr)
 			{
-				void *internal_ptr = (reinterpret_cast<char *>(usr_ptr)-DomainEarth::header_size);
+				void *internal_ptr =
+                     reinterpret_cast<char *>(usr_ptr) - DomainEarth::header_size;
 				Domain::getInstance().remove(internal_ptr);
 				allocator_strategy().deallocate(internal_ptr);
 			}
@@ -117,18 +116,18 @@ namespace nq
 
 
 	template<class T1,
-		typename Domain1,
+		class Domain1,
 		class T2,
-		typename Domain2>
+		class Domain2>
 	bool operator==(const allocator<T1, Domain1>& lhs, const allocator<T2, Domain2>& rhs)
 	{
 		return true;
 	}
 
 	template<class T1,
-		typename Domain1,
+		class Domain1,
 		class T2,
-		typename Domain2>
+		class Domain2>
 	bool operator!=(const allocator<T1, Domain1>& lhs, const allocator<T2, Domain2>& rhs)
 	{
 		return !operator==(lhs, rhs);
