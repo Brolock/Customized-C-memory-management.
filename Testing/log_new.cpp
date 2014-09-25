@@ -7,7 +7,7 @@ bool nq::Tracer::Ready = false;
 
 /* Change the operator new so it calls nq::allocator but it dont have the type ....*/
 
-/* Standard operator new */
+/*
 void *operator new(size_t size)
 {
 	void *p = std::malloc(size);
@@ -19,13 +19,13 @@ void *operator new(size_t size)
 	return p;
 }
 
-/* Standard operator delete */
 void operator delete(void *p) noexcept
 {
 	if (nq::Tracer::Ready)
 		NewTrace.Remove(p);
 	std::free(p);
 }
+*/
 
 /* Logged operator new */
 void *operator new(size_t size, const char *file, int line)

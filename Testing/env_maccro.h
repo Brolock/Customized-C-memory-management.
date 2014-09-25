@@ -1,6 +1,5 @@
 #ifndef ENV_MACCRO_H_
-#define ENV_MACCRO_H_
-
+# define ENV_MACCRO_H_
 
 /* Check windows */
 # if _WIN32 || _WIN64

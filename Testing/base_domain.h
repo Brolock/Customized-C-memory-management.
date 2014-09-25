@@ -82,8 +82,8 @@ private:
 	BaseDomain& operator= (const BaseDomain&) { return *this; };
 
 	/* return a string of the domain name for the printer, may change */
-	virtual const char *domain_name() const
-    { assert(!"How did you get here!?"); return "never_reached"; };
+	virtual const char* domain_name() const
+    { assert(!"How did you got here!?"); return "never_reached"; };
 
 	/* printer for the debug, will probably to change */
 public:
@@ -110,7 +110,7 @@ public:                               \
 		return instance;              \
 	}                                 \
 private:                              \
-	virtual const char* domain_name() const override { return #new_domain; } \
+	virtual const char* domain_name() const { return #new_domain; } \
 };
 
 #endif // !BASE_DOMAIN_H_

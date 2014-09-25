@@ -63,8 +63,80 @@ public:
 };
 
 
+void test_nq_new(nq::vector<int*>& vec)
+{
+    for (int i = 0; i < 10000; ++i)
+    {
+    int *j = nq::New<int, DomainSpace>(2);
+    vec.push_back(j);
+    }
+}
+
+void test_new(std::vector<int*>& vec)
+{
+    for (int i = 0; i < 10000; ++i)
+    {
+        int *j = new int(2);
+        vec.push_back(j);
+    }
+}
+
+#include <chrono>
+double loop()
+{
+    std::vector<int *> new_vec;
+    nq::vector<int *> nq_vec;
+
+    typedef std::chrono::microseconds ms;
+    typedef std::chrono::duration<double> fs;
+
+
+    auto start = std::chrono::system_clock::now();
+    test_nq_new(nq_vec);
+    auto end = std::chrono::high_resolution_clock::now();
+    fs nq_sec = end - start;
+
+
+
+    auto new_start = std::chrono::system_clock::now();
+    test_new(new_vec);
+    auto new_end = std::chrono::high_resolution_clock::now();
+    fs std_sec = new_end - new_start;
+
+    fs new_sec = std_sec - nq_sec;
+
+    double lol = ((nq_sec.count() - std_sec.count()) / std_sec.count()) * 100;
+
+    for (auto& it : new_vec)
+    { delete it; }
+    for (auto& it : nq_vec)
+    { nq::Delete<int, DomainSpace>(it); }
+
+    /*
+    std::cout << "NQ: " << nq_sec.count() << std::endl;
+    std::cout << "NEW: " << std_sec.count() << std::endl;
+    std::cout << "NEW - NQ :" << new_sec.count() << std::endl;
+    std::cout << "percent loss: " << lol << std::endl;
+    */
+
+    return lol;
+}
+
+
 int main()
 {
+    double result = 0;
+    int nb_loop = 10000;
+    for (int i = 0; i < nb_loop; ++i)
+    {
+        result += loop();
+    }
+    result /= nb_loop;
+
+    std::cout << result << std::endl;
+
+
+
    /* 
         UnknownDomain::getInstance().print();
     Test* ptr = new Test[10];

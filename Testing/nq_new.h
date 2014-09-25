@@ -26,7 +26,7 @@ namespace nq
 		T *ptr = nq::allocator<T, Domain, AllocStrat>().allocate(count);
         for(std::size_t i = 0; i < count; ++i)
         {
-		nq::allocator<T, Domain, AllocStrat>().construct(ptr + i);
+		    nq::allocator<T, Domain, AllocStrat>().construct(ptr + i);
         }
     }
 
@@ -80,7 +80,7 @@ void operator delete[](void *ptr) noexcept
     int *test = (int*) ptr;
     std::cout << *test << std::endl;
 
-    //nq::allocator<Newed_type, UnknownDomain>().deallocate(static_cast<Newed_type *>(ptr), 0);
+    nq::allocator<Newed_type, UnknownDomain>().deallocate(static_cast<Newed_type *>(ptr), 0);
     */
 }
 
