@@ -65,7 +65,7 @@ public:
 
 int main()
 {
-    int *k = new(DomainEarth::getInstance(), __LINE__, __LINE__) int(3);
+    int *k = new(DomainEarth::getInstance(), __FILE__, __LINE__) int(3);
     nq::vector<int, DomainEarth> v{1, 2, 3};
 
     DomainEarth::getInstance().print();

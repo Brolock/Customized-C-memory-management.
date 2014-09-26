@@ -57,21 +57,21 @@ private:
     class SubHeader : public Header
     {
     private:
-        size_t one_;
-        size_t two_;
+        const char *file_;
+        size_t line_;
         BaseDomain *dom_;
         size_t noth_;
     public:
-        SubHeader(size_t size, size_t one, size_t two, BaseDomain *dom)
+        SubHeader(size_t size, const char *file, size_t line, BaseDomain *dom)
             : Header(size, nullptr, nullptr, 1),
-            one_(one),
-            two_(two),
+            file_(file),
+            line_(line),
             dom_(dom),
             noth_(0)
         {}
         
-        size_t get_one() const { return one_; }
-        size_t get_two() const { return two_; }
+        const char *get_file() const { return file_; }
+        size_t get_line() const { return line_; }
     };
     /*!TEST*/
 private:
@@ -93,7 +93,7 @@ public:
 
     //TEST
     void add(void* internal_ptr, std::size_t size,
-        size_t one, size_t two, BaseDomain *dom);
+        const char *file, size_t line, BaseDomain *dom);
     //!TEST
 
 	/* Remove from the current Domain's list the Header associated with

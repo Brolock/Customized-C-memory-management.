@@ -82,10 +82,10 @@ void operator delete[](void *ptr) noexcept
 */
 
 template<class Domain>
-void *operator new(size_t count, const Domain&, size_t file, size_t line)  noexcept
+void *operator new(size_t count, const Domain&, const char *file, size_t line)  noexcept
 {
     char *internal_ptr = static_cast<char *>
-        (std::malloc(count + Domain::header_size + 4 * sizeof (size_t)));
+        (std::malloc(count + Domain::sub_header_size));
     if (internal_ptr == nullptr)
         throw std::bad_alloc();
 
@@ -93,25 +93,8 @@ void *operator new(size_t count, const Domain&, size_t file, size_t line)  noexc
             file, line, &(Domain::getInstance()));
  
     void *usr_ptr = reinterpret_cast<void*>
-        (internal_ptr + Domain::header_size + 4 * sizeof (size_t) );
+        (internal_ptr + Domain::sub_header_size);
     return usr_ptr;
 }
-
-/*
-void operator delete(void *usr_ptr) noexcept
-{
-    if (usr_ptr != nullptr)
-    {
-        void *internal_ptr =
-            reinterpret_cast<char *>(usr_ptr) - DomainEarth::header_size - 4 * sizeof(size_t);
-
-        void *domain_ptr = reinterpret_cast<char *>(internal_ptr) + DomainEarth::header_size + 2 * sizeof(size_t);
-
-
-        (reinterpret_cast<BaseDomain*>(domain_ptr))->virtual_remove(internal_ptr);
-
-        std::free(internal_ptr);
-    }
-}*/
 
 #endif /* !NQ_NEW_H_ */

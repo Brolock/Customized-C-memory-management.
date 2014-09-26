@@ -36,8 +36,8 @@ void BaseDomain::Header::print() const
     if (padding_ == 1)
     {
         std::cout << "Is a new, file: "
-            << (static_cast<const SubHeader*>(this))->get_one()
-            << "   line: " << (static_cast<const SubHeader*>(this))->get_two()
+            << (static_cast<const SubHeader*>(this))->get_file()
+            << "   line: " << (static_cast<const SubHeader*>(this))->get_line()
             << std::endl;
     }
     /*!TEST*/
@@ -64,11 +64,11 @@ void BaseDomain::add(void* internal_ptr, std::size_t size)
 }
 //TEST
 void BaseDomain::add(void* internal_ptr, std::size_t size,
-        size_t one, size_t two, BaseDomain *dom)
+        const char *file, size_t line, BaseDomain *dom)
 {
 	/* Construct a Header to the internal_ptr */
 
-    Header *head = new (internal_ptr)SubHeader(size, one, two, dom);
+    Header *head = new (internal_ptr)SubHeader(size, file, line, dom);
 	/* When adding the first element we initialize begin_ and end_ */
 	if (begin_ == nullptr)
 	{

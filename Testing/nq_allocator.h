@@ -83,7 +83,7 @@ namespace nq
 			if (usr_ptr != nullptr)
 			{
 				void *internal_ptr =
-                     reinterpret_cast<char *>(usr_ptr) - DomainEarth::header_size;
+                     reinterpret_cast<char *>(usr_ptr) - BaseDomain::header_size;
 				Domain::getInstance().remove(internal_ptr);
 				allocator_strategy().deallocate(internal_ptr);
 			}
