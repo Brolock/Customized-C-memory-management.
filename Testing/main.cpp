@@ -68,8 +68,8 @@ int main()
     int *k = new(DomainEarth::getInstance(), __LINE__, __LINE__) int(3);
     nq::vector<int, DomainEarth> v{1, 2, 3};
 
-    delete k;
     DomainEarth::getInstance().print();
+    delete k;
    /* 
         UnknownDomain::getInstance().print();
     Test* ptr = new Test[10];

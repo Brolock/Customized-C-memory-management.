@@ -143,12 +143,12 @@ public:                               \
 		static new_domain instance;   \
 		return instance;              \
 	}                                 \
-private:                              \
-	virtual const char* domain_name() const { return #new_domain; } \
-    void virtual_remove(void *internal_ptr) override\
+    virtual void virtual_remove(void *internal_ptr) override\
     {\
         this->remove(internal_ptr);\
     }\
+private:                              \
+	virtual const char* domain_name() const { return #new_domain; } \
 };
 
 #endif // !BASE_DOMAIN_H_
