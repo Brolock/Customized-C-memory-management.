@@ -31,11 +31,13 @@ private:
 		/* The padding is here for allignement */
 		const size_t padding_;
 	public:
-		Header(size_t size)
-			: prev_(nullptr),
-			next_(nullptr),
+		Header(size_t size,
+                Header *prev = nullptr, Header *next = nullptr,
+                size_t padding = 0)
+			: prev_(prev),
+			next_(next),
 			size_(size),
-			padding_(0)
+			padding_(padding)
 		{}
 		void add(Header *next);
 		void remove();
@@ -50,6 +52,28 @@ private:
 		/* printer for the debug, will probably change */
 		void print() const;
 	};
+
+    /*TEST*/
+    class SubHeader : public Header
+    {
+    private:
+        size_t one_;
+        size_t two_;
+        BaseDomain *dom_;
+        size_t noth_;
+    public:
+        SubHeader(size_t size, size_t one, size_t two, BaseDomain *dom)
+            : Header(size, nullptr, nullptr, 1),
+            one_(one),
+            two_(two),
+            dom_(dom),
+            noth_(0)
+        {}
+        
+        size_t get_one() const { return one_; }
+        size_t get_two() const { return two_; }
+    };
+    /*!TEST*/
 private:
 	size_t count_; // The number of non freed allocation in the domain
 public:
@@ -59,16 +83,26 @@ private:
 	Header *begin_;
 	Header *end_;
 public:
-	enum HSENUM { header_size = sizeof(Header) };
+	enum HSENUM { header_size = sizeof(Header),
+        sub_header_size = sizeof(SubHeader)};
 
 	/* Add the Header constructed with size at the ptr location to the
      * current Domain's list */
 
 	void add(void *internal_ptr, size_t size);
 
+    //TEST
+    void add(void* internal_ptr, std::size_t size,
+        size_t one, size_t two, BaseDomain *dom);
+    //!TEST
+
 	/* Remove from the current Domain's list the Header associated with
      * the allocated ptr send */
 	void remove(void *internal_ptr);
+
+    //TEST
+    virtual void virtual_remove(void *internal_ptr) = 0;
+    //!TEST
 
 protected:
 	/* BaseDomain is an interface: it can't be constructed */
@@ -111,6 +145,10 @@ public:                               \
 	}                                 \
 private:                              \
 	virtual const char* domain_name() const { return #new_domain; } \
+    void virtual_remove(void *internal_ptr) override\
+    {\
+        this->remove(internal_ptr);\
+    }\
 };
 
 #endif // !BASE_DOMAIN_H_

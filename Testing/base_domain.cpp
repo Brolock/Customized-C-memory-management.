@@ -1,6 +1,6 @@
 #include "base_domain.h"
 
-/* MAY CHANGE WITH THE NEW PRINT */
+/* TODO MAY CHANGE WITH THE NEW PRINT */
 #include <iostream>
 
 void BaseDomain::Header::add(Header* next)
@@ -31,6 +31,16 @@ BaseDomain::Header* BaseDomain::Header::remove_end()
 void BaseDomain::Header::print() const
 {
 	std::cout << "size: " << size_ << std::endl;
+
+    /*TEST*/
+    if (padding_ == 1)
+    {
+        std::cout << "Is a new, file: "
+            << (static_cast<const SubHeader*>(this))->get_one()
+            << "   line: " << (static_cast<const SubHeader*>(this))->get_two()
+            << std::endl;
+    }
+    /*!TEST*/
 	if (next_ != nullptr)
 		next_->print();
 }
@@ -52,6 +62,28 @@ void BaseDomain::add(void* internal_ptr, std::size_t size)
 	}
 	count_++;
 }
+//TEST
+void BaseDomain::add(void* internal_ptr, std::size_t size,
+        size_t one, size_t two, BaseDomain *dom)
+{
+	/* Construct a Header to the internal_ptr */
+
+    Header *head = new (internal_ptr)SubHeader(size, one, two, dom);
+	/* When adding the first element we initialize begin_ and end_ */
+	if (begin_ == nullptr)
+	{
+		end_ = head;
+		begin_ = end_;
+	}
+	/* otherwise we push back our element and put end_ up-to-date */
+	else
+	{
+		end_->add(head);
+		end_ = head;
+	}
+	count_++;
+}
+//!TEST
 
 void BaseDomain::remove(void *internal_ptr)
 {

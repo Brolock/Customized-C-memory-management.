@@ -58,8 +58,9 @@ class Header
     char* file;
 };
 
-# define NQ_NEW(Domain) new(Domain, __FILE__, __LINE__)
+# define NQ_NEW(Domain) new(Domain, __LINE__, __LINE__)
 
+/*
 void *operator new[](std::size_t count)
 {
     return nq::allocator<Newed_type, UnknownDomain>().allocate(count + sizeof(Header));
@@ -69,27 +70,48 @@ void operator delete[](void *ptr) noexcept
 {
     if (ptr != nullptr)
     {
-        /*
+    //IDEA
         Header* head = nullptr; // arithmetic
         Virtual_Domain* a = head->ID;
         a->virtual_remove(head);
-        */
+    //!IDEA
     }
 
-    /*
-    int *test = (int*) ptr;
-    std::cout << *test << std::endl;
-
-    nq::allocator<Newed_type, UnknownDomain>().deallocate(static_cast<Newed_type *>(ptr), 0);
-    */
+    //nq::allocator<Newed_type, UnknownDomain>().deallocate(static_cast<Newed_type *>(ptr), 0);
 }
+*/
 
 template<class Domain>
-void *operator new(size_t count, const Domain&)  noexcept
+void *operator new(size_t count, const Domain&, size_t file, size_t line)  noexcept
 {
-    std::cout << "salut" << std::endl;
-    std::cout << count << std::endl;
-    return nq::allocator<Newed_type, Domain>().allocate(count);
+    char *internal_ptr = static_cast<char *>
+        (std::malloc(count + Domain::header_size + 4 * sizeof (size_t)));
+    if (internal_ptr == nullptr)
+        throw std::bad_alloc();
+
+    Domain::getInstance().add(internal_ptr, count,
+            file, line, &(Domain::getInstance()));
+ 
+    void *usr_ptr = reinterpret_cast<void*>
+        (internal_ptr + Domain::header_size + 4 * sizeof (size_t) );
+    return usr_ptr;
 }
+
+/*
+void operator delete(void *usr_ptr) noexcept
+{
+    if (usr_ptr != nullptr)
+    {
+        void *internal_ptr =
+            reinterpret_cast<char *>(usr_ptr) - DomainEarth::header_size - 4 * sizeof(size_t);
+
+        void *domain_ptr = reinterpret_cast<char *>(internal_ptr) + DomainEarth::header_size + 2 * sizeof(size_t);
+
+
+        (reinterpret_cast<BaseDomain*>(domain_ptr))->virtual_remove(internal_ptr);
+
+        std::free(internal_ptr);
+    }
+}*/
 
 #endif /* !NQ_NEW_H_ */

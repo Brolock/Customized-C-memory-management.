@@ -174,7 +174,7 @@ namespace nq
 
 	/*** Non member functions ***/
 
-	template<class T,
+    template<class T,
 		class Domain = UnknownDomain,
 		class AllocStrat = DefaultAlloc,
 		class... Args>

@@ -26,8 +26,7 @@ void operator delete(void *p) noexcept
 	std::free(p);
 }
 */
-
-/* Logged operator new */
+/*
 void *operator new(size_t size, const char *file, int line)
 {
 	void *p = std::malloc(size);
@@ -39,10 +38,10 @@ void *operator new(size_t size, const char *file, int line)
 	return p;
 }
 
-/* Logged operator delete */
 void operator delete (void *p, const char *file, int line)
 {
 	if (nq::Tracer::Ready)
 		NewTrace.Remove(p);
 	free(p);
 }
+*/
