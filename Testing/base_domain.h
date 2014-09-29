@@ -18,7 +18,9 @@
 class BaseDomain
 {
 private:
-
+	// PAUL(29/09/2014) destructor only have to know about Header Structure.
+	friend void operator delete(void *usr_ptr) noexcept;
+	
 	class Header
 	{
 	private:
@@ -70,6 +72,8 @@ private:
             noth_(0)
         {}
         
+		BaseDomain *get_domain() const { return dom_; }
+
         const char *get_file() const { return file_; }
         size_t get_line() const { return line_; }
     };
