@@ -68,11 +68,14 @@ namespace nq
 		{ // allocate a raw memory with alloc_strat.allocate(n)
 			if (n == 0)
 				return nullptr;
-			char *internal_ptr = static_cast<char *>(allocator_strategy().allocate(n * sizeof(T) + Domain::header_size));
+			char *internal_ptr = static_cast<char*>
+                (allocator_strategy().allocate(n * sizeof(T) +
+                                               Domain::header_size));
 			if (internal_ptr == nullptr)
 				throw std::bad_alloc();
 			Domain::getInstance().add(internal_ptr, n * sizeof(T));
-			pointer usr_ptr = reinterpret_cast<pointer>(internal_ptr + Domain::header_size);
+			pointer usr_ptr = reinterpret_cast<pointer>
+                (internal_ptr + Domain::header_size);
 			return usr_ptr;
 
 //            return reinterpret_cast<pointer>(allocator_strategy().allocate(n * sizeof(T)));
@@ -83,7 +86,7 @@ namespace nq
 			if (usr_ptr != nullptr)
 			{
 				void *internal_ptr =
-                     reinterpret_cast<char *>(usr_ptr) - BaseDomain::header_size;
+                     reinterpret_cast<char*>(usr_ptr) - BaseDomain::header_size;
 				Domain::getInstance().remove(internal_ptr);
 				allocator_strategy().deallocate(internal_ptr);
 			}
@@ -122,7 +125,8 @@ namespace nq
 		class Domain1,
 		class T2,
 		class Domain2>
-	bool operator==(const allocator<T1, Domain1>& lhs, const allocator<T2, Domain2>& rhs)
+	bool operator==(const allocator<T1, Domain1>& lhs,
+            const allocator<T2, Domain2>& rhs)
 	{
 		return true;
 	}
@@ -131,7 +135,8 @@ namespace nq
 		class Domain1,
 		class T2,
 		class Domain2>
-	bool operator!=(const allocator<T1, Domain1>& lhs, const allocator<T2, Domain2>& rhs)
+	bool operator!=(const allocator<T1, Domain1>& lhs,
+            const allocator<T2, Domain2>& rhs)
 	{
 		return !operator==(lhs, rhs);
 	}

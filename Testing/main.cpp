@@ -1,5 +1,4 @@
 
-#include "tracer.h"
 #include "nq_allocator.h"
 #include "nq_new.h"
 #include "nq_vector.h"
@@ -29,8 +28,6 @@
 
 #include "Header.h"
 #include "nq_deleter.h"
-
-nq::Tracer NewTrace;
 
 struct Test
 {

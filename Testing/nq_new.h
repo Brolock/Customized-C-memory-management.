@@ -90,7 +90,7 @@ void *operator new(size_t count, const Domain&, const char *file, size_t line)  
         throw std::bad_alloc();
 
     Domain::getInstance().add(internal_ptr, count,
-            file, line, &(Domain::getInstance()));
+            file, line, (Domain::getInstance()));
  
     void *usr_ptr = reinterpret_cast<void*>
         (internal_ptr + Domain::sub_header_size);
