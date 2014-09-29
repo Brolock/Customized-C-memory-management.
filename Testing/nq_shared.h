@@ -296,16 +296,23 @@ namespace nq
 // Provide partial specialization of std fonctions for nq::shared_ptr
 namespace std
 {
+	#if __GNUC__
     /* have to copy paste the stl to make this works... */
     template<typename T>
     struct owner_less<nq::shared_ptr<T>>
     : public _Sp_owner_less<shared_ptr<T>, weak_ptr<T>>
     { };
+	#endif
 
+	#if __GNUC__
     template<typename T>
     struct owner_less<nq::weak_ptr<T>>
     : public _Sp_owner_less<weak_ptr<T>, shared_ptr<T>>
     { };
+	#endif
+
+	
 }
+
 
 #endif // !NQ_SHARED_H_
