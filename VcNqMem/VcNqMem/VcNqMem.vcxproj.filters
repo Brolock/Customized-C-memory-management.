@@ -15,7 +15,6 @@
     <ClInclude Include="..\..\Testing\nq_multimap.h" />
     <ClInclude Include="..\..\Testing\nq_multiset.h" />
     <ClInclude Include="..\..\Testing\nq_new.h" />
-    <ClInclude Include="..\..\Testing\nq_new.hxx" />
     <ClInclude Include="..\..\Testing\nq_set.h" />
     <ClInclude Include="..\..\Testing\nq_shared.h" />
     <ClInclude Include="..\..\Testing\nq_unique.h" />
@@ -24,14 +23,13 @@
     <ClInclude Include="..\..\Testing\nq_unordered_multiset.h" />
     <ClInclude Include="..\..\Testing\nq_unordered_set.h" />
     <ClInclude Include="..\..\Testing\nq_vector.h" />
-    <ClInclude Include="..\..\Testing\tracer.h" />
     <ClInclude Include="..\..\Testing\type_to_string.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Testing\base_domain.cpp" />
-    <ClCompile Include="..\..\Testing\log_new.cpp" />
+    <ClCompile Include="..\..\Testing\basic_perf_test.cpp" />
     <ClCompile Include="..\..\Testing\main.cpp" />
-    <ClCompile Include="..\..\Testing\tracer.cpp" />
+    <ClCompile Include="..\..\Testing\nq_new.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Testing\TODO" />
