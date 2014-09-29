@@ -12,7 +12,7 @@ namespace nq
 		return "UnknownType";
 	}
 
-#define __ ,
+#define COMMA ,
 #define REGISTER_TYPE_NAME(NAME) template <>\
     const char* TypeToString<NAME>() { return #NAME; };
 
@@ -20,7 +20,7 @@ namespace nq
 	/* User specific types */
 	/***********************/
 
-	REGISTER_TYPE_NAME(nq::allocator<int __ DomainEarth __ DefaultAlloc>);
+	REGISTER_TYPE_NAME(nq::allocator<int COMMA DomainEarth COMMA DefaultAlloc>);
 	REGISTER_TYPE_NAME(nq::allocator<int>);
 	REGISTER_TYPE_NAME(DomainEarth);
 
@@ -51,7 +51,7 @@ namespace nq
 	REGISTER_TYPE_NAME(wchar_t);
 	REGISTER_TYPE_NAME(bool);
 	REGISTER_TYPE_NAME(void);
-#undef __
+#undef COMMA
 }
 
 /*
