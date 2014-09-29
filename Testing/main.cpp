@@ -1,5 +1,4 @@
 
-#include "tracer.h"
 #include "nq_allocator.h"
 #include "nq_new.h"
 #include "nq_vector.h"
@@ -29,8 +28,6 @@
 
 #include "Header.h"
 #include "nq_deleter.h"
-
-nq::Tracer NewTrace;
 
 struct Test
 {
@@ -66,10 +63,12 @@ public:
 int main()
 {
     int *k = new(DomainEarth::getInstance(), __FILE__, __LINE__) int(3);
-    nq::vector<int, DomainEarth> v{1, 2, 3};
-
+    // nq::vector<int, DomainEarth> v{1, 2, 3};
     DomainEarth::getInstance().print();
     delete k;
+	DomainEarth::getInstance().print();
+
+	system("pause");
    /* 
         UnknownDomain::getInstance().print();
     Test* ptr = new Test[10];
