@@ -1,7 +1,7 @@
 #include <chrono>
 #include <vector>
 #include "nq_vector.h"
-#include "nq_new.h"
+#include "nq_memlib_new.h"
 
 
 void test_nq_new(nq::vector<int*>& vec)
@@ -24,8 +24,8 @@ void test_new(std::vector<int*>& vec)
 
 double loop()
 {
-    std::vector<int *> new_vec;
-    nq::vector<int *> nq_vec;
+    std::vector<int*> new_vec;
+    nq::vector<int*> nq_vec;
 
     typedef std::chrono::microseconds ms;
     typedef std::chrono::duration<double> fs;

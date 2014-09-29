@@ -2,15 +2,15 @@
 # define NQ_SHARED_H_
 
 # include <memory>
-# include <atomic>
 # include <type_traits>
 
 # include "nq_allocator.h"
-# include "nq_new.h"
 # include "nq_deleter.h"
 # include "domains.h"
 # include "alloc_strat.h"
 # include "nq_unique.h"
+
+# include "nq_memlib_new.h"
 
 namespace nq
 {
@@ -82,7 +82,7 @@ namespace nq
 		}
 
 		template<class Y,
-			class = class std::enable_if<std::is_convertible<Y *, T *>::value,
+			class = class std::enable_if<std::is_convertible<Y*, T*>::value,
 				void>::type>
 		shared_ptr(const shared_ptr<Y>& other) noexcept
 			: parent(other)
@@ -97,7 +97,7 @@ namespace nq
 		}
 
 		template<class Y,
-			class = class std::enable_if<std::is_convertible<Y *, T *>::value,
+			class = class std::enable_if<std::is_convertible<Y*, T*>::value,
 				void>::type>
 		shared_ptr(shared_ptr<Y>&& other) noexcept
 			: parent(std::move(other))
@@ -296,23 +296,18 @@ namespace nq
 // Provide partial specialization of std fonctions for nq::shared_ptr
 namespace std
 {
-	#if __GNUC__
+	#ifdef NQ_GNU_
     /* have to copy paste the stl to make this works... */
     template<typename T>
     struct owner_less<nq::shared_ptr<T>>
     : public _Sp_owner_less<shared_ptr<T>, weak_ptr<T>>
     { };
-	#endif
 
-	#if __GNUC__
     template<typename T>
     struct owner_less<nq::weak_ptr<T>>
     : public _Sp_owner_less<weak_ptr<T>, shared_ptr<T>>
     { };
-	#endif
-
-	
+	#endif //NQ_GNU_
 }
-
 
 #endif // !NQ_SHARED_H_

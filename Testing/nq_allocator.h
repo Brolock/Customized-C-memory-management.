@@ -12,8 +12,6 @@
 
 # undef max
 
-/* The alloc_strat could return the pointer with a significative BIT for wether or not it allocated */
-
 namespace nq
 {
 	template<class T,

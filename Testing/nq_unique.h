@@ -6,7 +6,7 @@
 # include "nq_deleter.h"
 # include "alloc_strat.h"
 
-/* TODO unique(T* ptr) should not me accepted since it can cause issues with deleter*/
+# include "nq_memlib_new.h"
 
 namespace nq
 {

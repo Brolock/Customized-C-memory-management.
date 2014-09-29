@@ -1,5 +1,6 @@
 
 #include "nq_allocator.h"
+#include "nq_memlib_new.h"
 #include "nq_new.h"
 #include "nq_vector.h"
 #include "nq_set.h"
@@ -34,16 +35,19 @@ struct Test
 private:
 	int num_;
 	int whatever_;
+    int break_;
 public:
 	Test()
 		: num_(55),
-        whatever_(33)
+        whatever_(33),
+        break_(123)
 	{
 		std::cout << "Test()" << std::endl;
 	}
-	Test(int i, int j)
+	Test(int i, int j, int h)
 		: num_(i),
-		whatever_(j)
+		whatever_(j),
+        break_(h)
 	{
 		std::cout << "Test(" << num_ << ", " << whatever_ << ")" << std::endl;
 	}
@@ -53,45 +57,53 @@ public:
 	}
 	Test(const Test& o)
 		: num_(o.num_),
-          whatever_(o.whatever_)
+          whatever_(o.whatever_),
+          break_(o.break_)
 	{
-		std::cout << "Test(Test&" << o.num_ << ", " << o.whatever_<< ")" << std::endl;
+		std::cout << "Test(Test&" << o.num_ << ", " << o.whatever_
+            << ", " << o.break_ << ")" << std::endl;
 	}
+
+    void print()
+    {
+        std::cout << num_ << ", " << whatever_ << ", " << break_ << std::endl;
+    }
 };
 
+void print(Test* a, int n)
+{
+    std::cout << "----------\n";
+    for(int t = 0; t < n; t++)
+        a[t].print();
+}
+
+# define NQ_NEW(Domain) new (Domain::getInstance(), __FILE__, __LINE__)
 
 int main()
 {
-    int *k = new(DomainEarth::getInstance(), __FILE__, __LINE__) int(3);
-    // nq::vector<int, DomainEarth> v{1, 2, 3};
-    DomainEarth::getInstance().print();
-    delete k;
-	DomainEarth::getInstance().print();
+    Test *ptr = nq::New_array<Test, DomainSpace>(3, {Test(1, 2, 3), Test(4, 44, 22), Test(324, 0, 78)});
 
-	system("pause");
-   /* 
-        UnknownDomain::getInstance().print();
-    Test* ptr = new Test[10];
-        UnknownDomain::getInstance().print();
+    print(ptr, 3);
 
-    delete[] ptr;
-
-    UnknownDomain::getInstance().print();
-
-    std::unique_ptr<int[]> salut;
-
-    */
-    /*
     {
+        int *k = NQ_NEW(DomainEarth) int(3);
+
+        /*
+        nq::vector<int, DomainEarth> lol{1};
+        lol.push_back(3);
+
+        nq::set<int, DomainEarth> l{2, 5, 32};
+        */
+    
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
         UnknownDomain::getInstance().print();
         SharedPtrRefCountDomain::getInstance().print();
         std::cout << "=================" << std::endl;
     }
+
     DomainEarth::getInstance().print();
     DomainSpace::getInstance().print();
     UnknownDomain::getInstance().print();
     SharedPtrRefCountDomain::getInstance().print();
-    */
 }

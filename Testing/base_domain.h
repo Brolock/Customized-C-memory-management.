@@ -15,6 +15,7 @@
 ** so we can recover them with trivial pointer arithmetic.
 ** Placing them there avoid useless extra allocation for every logging.
 */
+
 class BaseDomain
 {
 private:
@@ -33,9 +34,8 @@ private:
 		/* The padding is here for allignement */
 		const size_t padding_;
 	public:
-		Header(size_t size,
-                Header *prev = nullptr, Header *next = nullptr,
-                size_t padding = 0)
+		Header(size_t size, size_t padding = 0,
+                Header *prev = nullptr, Header *next = nullptr)
 			: prev_(prev),
 			next_(next),
 			size_(size),
@@ -55,29 +55,27 @@ private:
 		void print() const;
 	};
 
-    /*TEST*/
+private:
     class SubHeader : public Header
     {
     private:
         const char *file_;
         size_t line_;
         BaseDomain *dom_;
-        size_t noth_;
+        size_t nothing_;
     public:
         SubHeader(size_t size, const char *file, size_t line, BaseDomain *dom)
-            : Header(size, nullptr, nullptr, 1),
+            : Header(size, 1, nullptr, nullptr),
             file_(file),
             line_(line),
             dom_(dom),
-            noth_(0)
+            nothing_(0)
         {}
-        
-		BaseDomain *get_domain() const { return dom_; }
 
         const char *get_file() const { return file_; }
         size_t get_line() const { return line_; }
+		BaseDomain *get_domain() const { return dom_; }
     };
-    /*!TEST*/
 private:
 	size_t count_; // The number of non freed allocation in the domain
 public:
@@ -109,7 +107,7 @@ public:
     //!TEST
 
 protected:
-	/* BaseDomain is an interface: it can't be constructed */
+	/* BaseDomain is an interface  it's constructor can't be called */
 	BaseDomain()
 		: count_(0),
 		begin_(nullptr),
@@ -119,21 +117,21 @@ private:
 	BaseDomain(const BaseDomain&) {}
 	BaseDomain& operator= (const BaseDomain&) { return *this; };
 
-	/* return a string of the domain name for the printer, may change */
+	/* return a string of the domain name for the printer */
 	virtual const char* domain_name() const
     { assert(!"How did you got here!?"); return "never_reached"; };
 
-	/* printer for the debug, will probably to change */
 public:
+    /* printer for the debug, will probably to change */
 	void print() const;
 
-# ifdef ENVIRONMENT32
+# ifdef NQ_ENV_32
 		static_assert(sizeof(Header) == 16,
                 "Header don't take 16 bytes in 32 bits");
-# else /* ENVIRONNEMENT32 */
+# else // NQ_ENV_32
 		static_assert(sizeof(Header) == 32,
                 "Header don't take 32 bytes in 64 bits");
-# endif /* !ENVIRONNEMENT32 */
+# endif // !NQ_ENV_32
 };
 
 /* Generic declaration of a Domain to avoid copy paste at every

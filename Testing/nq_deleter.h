@@ -24,7 +24,7 @@ namespace nq
 		template <class U,
 			typename U_Domain,
 			class U_AllocStrat,
-			class = typename std::enable_if<std::is_convertible<U *, T *>::value, void>::type>
+			class = typename std::enable_if<std::is_convertible<U*, T*>::value, void>::type>
 		deleter(const deleter<U, U_Domain, U_AllocStrat>&)
 		{ // construct from another deleter
 		}
