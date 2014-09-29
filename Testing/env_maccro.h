@@ -25,4 +25,16 @@
 #  error "Compiler not recognized (Try to go with visual x32 or x64 or GCC)"
 # endif // !_WIN32 || _WIN64 || __GNUC__
 
+/* Check specific compiler syntax */
+#if __GNUC__
+#endif
+
+#if _WIN32 || _WIN64
+#define noexcept
+#endif
+
+/* Exception handling */
+
+
+
 #endif // !ENV_MACCRO_H_
