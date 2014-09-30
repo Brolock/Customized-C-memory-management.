@@ -1,4 +1,3 @@
-
 #include "nq_allocator.h"
 #include "nq_memlib_new.h"
 #include "nq_new.h"
@@ -81,12 +80,12 @@ void print(Test* a, int n)
 
 int main()
 {
-    Test *ptr = nq::New_array<Test, DomainSpace>(3, {Test(1, 2, 3), Test(4, 44, 22), Test(324, 0, 78)});
+    Test *ptr = nq::memlib::New_array<Test, DomainSpace>(3, {Test(1, 2, 3), Test(4, 44, 22), Test(324, 0, 78)});
 
     print(ptr, 3);
 
     {
-        int *k = NQ_NEW(DomainEarth) int(3);
+        nq::vector<int> j{1, 3, 4};
 
         /*
         nq::vector<int, DomainEarth> lol{1};

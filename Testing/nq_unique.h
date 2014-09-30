@@ -126,11 +126,12 @@ namespace nq
     typename Unique_if<T, Domain, AllocStrat>::single_object
     make_unique(Args&&... args) 
     {
-        return unique_ptr<T, Domain, AllocStrat>(nq::New<T, Domain, AllocStrat>(std::forward<Args>(args)...));
+        return unique_ptr<T, Domain, AllocStrat>
+            (nq::memlib::New<T, Domain, AllocStrat>(std::forward<Args>(args)...));
     }
 
     /* Really to test all these T[] new[] things */
-    /* TODO replace new U[n] by nq::New[](n) or smth */
+    /* TODO replace new U[n] by nq::memlib::New[](n) or smth */
     template<class T,
         class Domain = UnknownDomain,
         class AllocStrat = DefaultAlloc>

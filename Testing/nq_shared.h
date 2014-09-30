@@ -183,7 +183,8 @@ namespace nq
 		typedef nq::allocator<T, SharedPtrRefCountDomain, DefaultAlloc> count_alloc;
 		typedef nq::deleter<T, Domain, AllocStrat> deleter;
 
-		return shared_ptr<T>(nq::New<T, Domain, AllocStrat>(std::forward<Args>(args)...), deleter{}, count_alloc{});
+		return shared_ptr<T>(nq::memlib::New<T, Domain, AllocStrat>
+                (std::forward<Args>(args)...), deleter{}, count_alloc{});
 	}
 
 	template<class T,

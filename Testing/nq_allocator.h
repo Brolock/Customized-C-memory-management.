@@ -7,6 +7,9 @@
 # include <limits>
 # include <iostream>
 
+# include "nq_memlib_tools.h"
+# include "nq_memlib_allocate.h"
+
 # include "domains.h"
 # include "alloc_strat.h"
 
@@ -62,21 +65,26 @@ namespace nq
 		{ return &r; }
 
 		/* Memory allocation */
-		pointer allocate(size_type n, std::allocator<void>::const_pointer hint = 0)
+		pointer allocate(size_type n,
+                std::allocator<void>::const_pointer hint = 0)
 		{ // allocate a raw memory with alloc_strat.allocate(n)
 			if (n == 0)
 				return nullptr;
-			char *internal_ptr = static_cast<char*>
+			/*char *internal_ptr = static_cast<char*>
                 (allocator_strategy().allocate(n * sizeof(T) +
-                                               Domain::header_size));
+                                               Domain::header_size));*/
+            pointer internal_ptr = memlib::allocate<T, AllocStrat>
+                    (n, Domain::header_size);
+
 			if (internal_ptr == nullptr)
 				throw std::bad_alloc();
+
 			Domain::getInstance().add(internal_ptr, n * sizeof(T));
 			pointer usr_ptr = reinterpret_cast<pointer>
-                (internal_ptr + Domain::header_size);
+                (reinterpret_cast<char*>(internal_ptr) + Domain::header_size);
 			return usr_ptr;
 
-//            return reinterpret_cast<pointer>(allocator_strategy().allocate(n * sizeof(T)));
+//          return reinterpret_cast<pointer>(allocator_strategy().allocate(n * sizeof(T)));
 		}
 
 		void deallocate(pointer usr_ptr, size_type)
@@ -86,9 +94,8 @@ namespace nq
 				void *internal_ptr =
                      reinterpret_cast<char*>(usr_ptr) - BaseDomain::header_size;
 				Domain::getInstance().remove(internal_ptr);
-				allocator_strategy().deallocate(internal_ptr);
+                memlib::deallocate<AllocStrat>(internal_ptr);
 			}
-            
 			//	allocator_strategy().deallocate(usr_ptr);
 			/* size_type ? */
 		}
@@ -100,21 +107,21 @@ namespace nq
 
 		void construct(pointer p, const_reference val)
 		{
-			new (static_cast<void*>(p)) T(val);
+            memlib::construct(p, val);
 		}
 
 		template <class U,
-			class ... Args>
+			class... Args>
 		void construct(U* p, Args&&... args)
 		{
-			 ::new (static_cast<void*>(p)) U(std::forward<Args>(args)...);
+            memlib::construct(p, std::forward<Args>(args)...);
 		}
 
 		/* destroy(pointer p) and destroy(U* p) are the same.*/
 		template <class U>
 		void destroy(U* p)
 		{
-			p->~U();
+            memlib::destroy(p);
 		}
 	};
 

@@ -8,7 +8,7 @@ void test_nq_new(nq::vector<int*>& vec)
 {
     for (int i = 0; i < 10000; ++i)
     {
-    int *j = nq::New<int, DomainSpace>(2);
+    int *j = nq::memlib::New<int, DomainSpace>(2);
     vec.push_back(j);
     }
 }
@@ -50,7 +50,7 @@ double loop()
     for (auto& it : new_vec)
     { delete it; }
     for (auto& it : nq_vec)
-    { nq::Delete<int, DomainSpace>(it); }
+    { nq::memlib::Delete<int, DomainSpace>(it); }
 
     return perf_loss;
 }

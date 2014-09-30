@@ -1,5 +1,7 @@
 GREP TODO!
 
+In debug mode header_size and sub_header_size should be equal to 0 since the logic of allocation shouldnt change !
+
 reset_new(Args) that do the new in intern, avoiding new please !
 
 Find a way to make creaton of personal allocator easy for the client via maccros maybe something else, what is an issue is really the allocstrat specification
