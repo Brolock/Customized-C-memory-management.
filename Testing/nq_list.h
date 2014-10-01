@@ -14,7 +14,7 @@ namespace nq
 		class AllocStrat = DefaultAlloc>
 	class list : public std::list<T, nq::allocator<T, Domain, AllocStrat>>
 	{
-        typedef nq::allocator<T, Domain, AllocStrat> allocator_type;
+        typedef nq::allocator<T, Domain, AllocStrat> nq_alloc;
         typedef std::list<T, nq::allocator<T, Domain, AllocStrat>> parent;
 
         typedef T value_type;
@@ -27,7 +27,7 @@ namespace nq
 		{ // construct empty list
         }
 
-        explicit list(const allocator_type& alloc)
+        explicit list(const nq_alloc& alloc)
             : parent(alloc)
         { // construct empty list, allocator
         }
@@ -39,7 +39,7 @@ namespace nq
 
         /* Should be available with the C++14 and replace list(size_t)
 
-        list(size_t count, const allocator_type& alloc = allocator_type{})
+        list(size_t count, const nq_alloc& alloc = nq_alloc{})
             : parent(count, alloc)
         { // construct list of size count
         }
@@ -51,7 +51,7 @@ namespace nq
         }
 
         list(size_type count, const value_type& value,
-                const allocator_type& alloc)
+                const nq_alloc& alloc)
             : parent(count, value, alloc)
         { // construct list of size count copies of value with alloc
         }
@@ -63,7 +63,7 @@ namespace nq
         }
 
         template<class Iter>
-        list(Iter first, Iter end, const allocator_type& alloc)
+        list(Iter first, Iter end, const nq_alloc& alloc)
             : parent(first, end, alloc)
         { // construct list from [first, last) with allocator
         }
@@ -75,7 +75,7 @@ namespace nq
         { // construct by copying other
         }
 
-        list(const list& other, const allocator_type& alloc)
+        list(const list& other, const nq_alloc& alloc)
             : parent(other, alloc)
         { // construct by copying other with alloc
         }
@@ -87,7 +87,7 @@ namespace nq
         { // construct by moving other
         }
 
-        list(list&& other, const allocator_type& alloc)
+        list(list&& other, const nq_alloc& alloc)
             : parent(other, alloc)
         { // construct by moving other with allocator
         }
@@ -95,7 +95,7 @@ namespace nq
         /* Initializer lise constructor */
 
         list(std::initializer_list<value_type> Ilist,
-                const allocator_type& alloc = allocator_type{})
+                const nq_alloc& alloc = nq_alloc{})
             : parent(Ilist, alloc)
         { // construct list from the initializer_list
         }

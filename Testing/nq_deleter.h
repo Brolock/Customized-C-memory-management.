@@ -24,14 +24,15 @@ namespace nq
 		template <class U,
 			typename U_Domain,
 			class U_AllocStrat,
-			class = typename std::enable_if<std::is_convertible<U*, T*>::value, void>::type>
+			class = typename std::enable_if<
+                    std::is_convertible<U*, T*>::value, void>::type>
 		deleter(const deleter<U, U_Domain, U_AllocStrat>&)
 		{ // construct from another deleter
 		}
 
 		void operator()(T *ptr) const
-		{ //delete a pointer by calling allocator<...>.deallocate
-			allocator<T, Domain, AllocStrat>{}.deallocate(ptr, 0);
+		{ //delete the ptr with allocstrat
+			allocator<T, Domain, AllocStrat>().deallocate(ptr, 0);
 		}
 	};
 
@@ -52,7 +53,7 @@ namespace nq
 
 		void operator()(T *ptr) const
 		{
-			allocator<T, Domain, AllocStrat>{}.deallocate(ptr, 0);
+            memlib::Delete_array<T, Domain, AllocStrat>(ptr);
 		}
 	};
 }

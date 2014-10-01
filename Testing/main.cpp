@@ -53,7 +53,7 @@ public:
 	}
 	~Test()
 	{
-		std::cout << "Test(" << num_ << ", " << whatever_
+		std::cout << "~Test(" << num_ << ", " << whatever_
             << ", " << break_<< ")" << std::endl;
 	}
 	Test(const Test& o)
@@ -82,12 +82,15 @@ void print(Test* a, int n)
 
 int main()
 {
-    Test *ptr = nq::memlib::New_array<Test, DomainSpace>(3, {Test(1, 2, 3), Test(4, 44, 22), Test(324, 0, 78)});
+    /*
+    Test *ptr = nq::memlib::New_array<Test, DomainSpace>(3);
+
+    Test* jay = NQ_NEW(DomainEarth) Test(111, 333, 987);
 
     print(ptr, 3);
+    */
 
     {
-        nq::vector<Test> j{Test(1, 2, 3), Test(2, 4, 3)};
 
         /*
         nq::vector<int, DomainEarth> lol{1};
@@ -102,6 +105,11 @@ int main()
         SharedPtrRefCountDomain::getInstance().print();
         std::cout << "=================" << std::endl;
     }
+
+    /*
+    nq::memlib::Delete_array<Test, DomainSpace>(ptr);
+    delete jay;
+    */
 
     DomainEarth::getInstance().print();
     DomainSpace::getInstance().print();

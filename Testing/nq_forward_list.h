@@ -15,7 +15,7 @@ namespace nq
 	class forward_list
     : public std::forward_list<T, nq::allocator<T, Domain, AllocStrat>>
 	{
-        typedef nq::allocator<T, Domain, AllocStrat> allocator_type;
+        typedef nq::allocator<T, Domain, AllocStrat> nq_alloc;
         typedef std::forward_list<T, nq::allocator<T, Domain, AllocStrat>> parent;
 
         typedef T value_type;
@@ -28,7 +28,7 @@ namespace nq
 		{ // construct empty forward_list
         }
 
-        explicit forward_list(const allocator_type& alloc)
+        explicit forward_list(const nq_alloc& alloc)
             : parent(alloc)
         { // construct empty forward_list, allocator
         }
@@ -40,7 +40,7 @@ namespace nq
 
         /* Should be available with the C++14 and replace forward_list(size_t)
 
-        forward_list(size_t count, const allocator_type& alloc = allocator_type{})
+        forward_list(size_t count, const nq_alloc& alloc = nq_alloc{})
             : parent(count, alloc)
         { // construct forward_list of size count
         }
@@ -52,7 +52,7 @@ namespace nq
         }
 
         forward_list(size_type count, const value_type& value,
-                const allocator_type& alloc)
+                const nq_alloc& alloc)
             : parent(count, value, alloc)
         { // construct forward_list of size count copies of value with alloc
         }
@@ -64,7 +64,7 @@ namespace nq
         }
 
         template<class Iter>
-        forward_list(Iter first, Iter end, const allocator_type& alloc)
+        forward_list(Iter first, Iter end, const nq_alloc& alloc)
             : parent(first, end, alloc)
         { // construct forward_list from [first, last) with allocator
         }
@@ -76,7 +76,7 @@ namespace nq
         { // construct by copying other
         }
 
-        forward_list(const forward_list& other, const allocator_type& alloc)
+        forward_list(const forward_list& other, const nq_alloc& alloc)
             : parent(other, alloc)
         { // construct by copying other with alloc
         }
@@ -88,7 +88,7 @@ namespace nq
         { // construct by moving other
         }
 
-        forward_list(forward_list&& other, const allocator_type& alloc)
+        forward_list(forward_list&& other, const nq_alloc& alloc)
             : parent(other, alloc)
         { // construct by moving other with allocator
         }
@@ -96,7 +96,7 @@ namespace nq
         /* Initializer lise constructor */
 
         forward_list(std::initializer_list<value_type> Ilist,
-                const allocator_type& alloc = allocator_type{})
+                const nq_alloc& alloc = nq_alloc{})
             : parent(Ilist, alloc)
         { // construct forward_list from the initializer_list
         }

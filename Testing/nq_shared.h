@@ -23,30 +23,30 @@ namespace nq
 	public:
 		/* Allocator used to allocate the ref_count of the shared_ptr */
 		typedef nq::allocator<T, SharedPtrRefCountDomain, DefaultAlloc> count_alloc;
-		typedef nq::deleter<T, UnknownDomain, DefaultAlloc> deleter;
+		typedef nq::deleter<T, UnknownDomain, DefaultAlloc> nq_deleter;
         typedef std::shared_ptr<T> parent;
 
 		/*** Constructors for a nullptr ***/
 
 		shared_ptr() noexcept
-			: parent(nullptr, deleter{}, count_alloc{})
-		{ // construct with nullptr deleter{} and alloc{} 
+			: parent(nullptr, nq_deleter{}, count_alloc{})
+		{ // construct with nullptr nq_deleter{} and alloc{} 
 		}
 
 		shared_ptr(std::nullptr_t) noexcept
-			:parent(nullptr, deleter{}, count_alloc{})
-		{ // construct with nullptr, deleter{}, count_alloc{}
+			:parent(nullptr, nq_deleter{}, count_alloc{})
+		{ // construct with nullptr, nq_deleter{}, count_alloc{}
 		}
 
-		template<class Deleter>
-		shared_ptr(std::nullptr_t, Deleter del) noexcept
+		template<class nq_deleter>
+		shared_ptr(std::nullptr_t, nq_deleter del) noexcept
 			: parent(nullptr, del, count_alloc{})
 		{ // construct with nullptr, del and count_alloc{}
 		}
 
-		template<class Deleter,
+		template<class nq_deleter,
 			class Allocator>
-		shared_ptr(std::nullptr_t, Deleter del, Allocator alloc) noexcept
+		shared_ptr(std::nullptr_t, nq_deleter del, Allocator alloc) noexcept
 			: parent(nullptr, del, alloc)
 		{ // construct with nullptr, del and alloc
 		}
@@ -54,16 +54,16 @@ namespace nq
 		/*** Constructors for an already allocated ptr ***/
 
 		template<class Y,
-			class Deleter>
-		shared_ptr(Y *ptr, Deleter del) noexcept
+			class nq_deleter>
+		shared_ptr(Y *ptr, nq_deleter del) noexcept
 			: parent(ptr, del, count_alloc{})
 		{ // construct with ptr, del and count_alloc{}
 		}
 
 		template<class Y,
-			class Deleter,
+			class nq_deleter,
 			class Allocator>
-		shared_ptr(Y *ptr, Deleter del, Allocator alloc) noexcept
+		shared_ptr(Y *ptr, nq_deleter del, Allocator alloc) noexcept
 			: parent(ptr, del, alloc)
 		{ // construct with ptr, del and alloc
 		}
@@ -181,10 +181,10 @@ namespace nq
 	shared_ptr<T> new_shared(Args&&... args)
 	{ // make a shared_ptr with two allocation (as the shared_ptr constructor do)
 		typedef nq::allocator<T, SharedPtrRefCountDomain, DefaultAlloc> count_alloc;
-		typedef nq::deleter<T, Domain, AllocStrat> deleter;
+		typedef nq::deleter<T, Domain, AllocStrat> nq_deleter;
 
 		return shared_ptr<T>(nq::memlib::New<T, Domain, AllocStrat>
-                (std::forward<Args>(args)...), deleter{}, count_alloc{});
+                (std::forward<Args>(args)...), nq_deleter{}, count_alloc{});
 	}
 
 	template<class T,

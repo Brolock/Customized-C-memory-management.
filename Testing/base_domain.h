@@ -16,11 +16,13 @@
 ** Placing them there avoid useless extra allocation for every logging.
 */
 
+namespace nq { namespace memlib { void remove_header_operator_delete(void *ptr);}}
+
 class BaseDomain
 {
 private:
-	// PAUL(29/09/2014) destructor only have to know about Header Structure.
-	friend void operator delete(void *usr_ptr) noexcept;
+	// delete function only have to know about Header Structure.
+	friend void nq::memlib::remove_header_operator_delete(void *ptr);
 	
 	class Header
 	{
