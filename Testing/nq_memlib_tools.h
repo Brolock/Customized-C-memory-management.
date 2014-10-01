@@ -6,7 +6,9 @@
 namespace nq { namespace memlib
 {
     /*
-     * */
+    ** construct() and destroy() construct and destroy the element of type T
+    ** pointed by ptr
+    */
     template<class T,
         class... Args>
     void construct(T *ptr, Args&&... args)
@@ -59,6 +61,22 @@ namespace nq { namespace memlib
         {
             destroy<T>(ptr + i);
         }
+    }
+
+    template<typename T>
+    T* get_usr_ptr(T *internal_ptr, std::size_t headers)
+    {
+        char *arithmetic_ptr = reinterpret_cast<char*>(internal_ptr);
+        arithmetic_ptr += headers;
+        return reinterpret_cast<T*>(arithmetic_ptr);
+    }
+
+    template<typename T>
+    T* get_internal_ptr(T* usr_ptr, std::size_t headers)
+    {
+        char *arithmetic_ptr = reinterpret_cast<char*>(usr_ptr);
+        arithmetic_ptr -= headers;
+        return reinterpret_cast<T*>(arithmetic_ptr);
     }
 }} // namespace nq::memlib
 

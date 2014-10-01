@@ -48,11 +48,13 @@ public:
 		whatever_(j),
         break_(h)
 	{
-		std::cout << "Test(" << num_ << ", " << whatever_ << ")" << std::endl;
+		std::cout << "Test(" << num_ << ", " << whatever_
+            << ", " << break_<< ")" << std::endl;
 	}
 	~Test()
 	{
-		std::cout << "~Test(" << num_ << ", " << whatever_ << ")" << std::endl;
+		std::cout << "Test(" << num_ << ", " << whatever_
+            << ", " << break_<< ")" << std::endl;
 	}
 	Test(const Test& o)
 		: num_(o.num_),
@@ -85,7 +87,7 @@ int main()
     print(ptr, 3);
 
     {
-        nq::vector<int> j{1, 3, 4};
+        nq::vector<Test> j{Test(1, 2, 3), Test(2, 4, 3)};
 
         /*
         nq::vector<int, DomainEarth> lol{1};

@@ -67,12 +67,10 @@ namespace nq
 		/* Memory allocation */
 		pointer allocate(size_type n,
                 std::allocator<void>::const_pointer hint = 0)
-		{ // allocate a raw memory with alloc_strat.allocate(n)
+		{ // allocate memory with alloc_strat
 			if (n == 0)
 				return nullptr;
-			/*char *internal_ptr = static_cast<char*>
-                (allocator_strategy().allocate(n * sizeof(T) +
-                                               Domain::header_size));*/
+
             pointer internal_ptr = memlib::allocate<T, AllocStrat>
                     (n, Domain::header_size);
 
@@ -80,19 +78,23 @@ namespace nq
 				throw std::bad_alloc();
 
 			Domain::getInstance().add(internal_ptr, n * sizeof(T));
-			pointer usr_ptr = reinterpret_cast<pointer>
-                (reinterpret_cast<char*>(internal_ptr) + Domain::header_size);
+
+            pointer usr_ptr =
+                memlib::get_usr_ptr(internal_ptr, Domain::header_size);
+			/*pointer usr_ptr = reinterpret_cast<pointer>
+                (reinterpret_cast<char*>(internal_ptr) + Domain::header_size);*/
 			return usr_ptr;
 
 //          return reinterpret_cast<pointer>(allocator_strategy().allocate(n * sizeof(T)));
 		}
 
 		void deallocate(pointer usr_ptr, size_type)
-		{
+		{ // deallocate memory pointer by ust_ptr with alloc_strat
 			if (usr_ptr != nullptr)
 			{
 				void *internal_ptr =
-                     reinterpret_cast<char*>(usr_ptr) - BaseDomain::header_size;
+                     memlib::get_internal_ptr(usr_ptr, Domain::header_size);
+                     //reinterpret_cast<char*>(usr_ptr) - BaseDomain::header_size;
 				Domain::getInstance().remove(internal_ptr);
                 memlib::deallocate<AllocStrat>(internal_ptr);
 			}
