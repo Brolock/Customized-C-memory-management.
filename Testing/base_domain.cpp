@@ -94,7 +94,7 @@ void BaseDomain::remove(void *internal_ptr)
 		begin_ = ptr->remove_begin();
 	if (ptr == end_)
 		end_ = ptr->remove_end();
-	if (ptr != begin_ && ptr != end_)
+	if (ptr != begin_ && ptr != end_ && ptr != nullptr)
 		ptr->remove();
 	/* Destructor called */
 	ptr->~Header();

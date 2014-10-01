@@ -143,12 +143,15 @@ namespace nq
         }
 
         template<class Y,
-            class Del>
-        shared_ptr& operator=(std::unique_ptr<Y, Del>&& other)
+			class Y_Domain,
+            class Y_AllocStrat>
+        shared_ptr& operator=(unique_ptr<Y, Y_Domain, Y_AllocStrat>&& other)
         { // move assignement from unique_ptr
             this->parent::operator=(std::move(other));
             return *this;
         }
+
+        //template<class Y,
     public:
         /* TODO Check if this is really usefull */
         // convert to std from nq
@@ -163,7 +166,8 @@ namespace nq
         }
 	private:
 		/*
-		** We don't want to take the risk that a misinformed user write somthing like:
+		** We don't want to take the risk that a miss informed user write
+        ** something like:
 		** nq::shared<T>(new (Domain, AllocStrat) T());
 		** The pointer allocated in Domain with AllocStrat will be, by default,
 		** deleted in Unknown Domain with DefaultAlloc
@@ -180,11 +184,13 @@ namespace nq
 		class... Args>
 	shared_ptr<T> new_shared(Args&&... args)
 	{ // make a shared_ptr with two allocation (as the shared_ptr constructor do)
-		typedef nq::allocator<T, SharedPtrRefCountDomain, DefaultAlloc> count_alloc;
+		typedef nq::allocator<
+            T, SharedPtrRefCountDomain, DefaultAlloc> count_alloc;
+
 		typedef nq::deleter<T, Domain, AllocStrat> nq_deleter;
 
 		return shared_ptr<T>(nq::memlib::New<T, Domain, AllocStrat>
-                (std::forward<Args>(args)...), nq_deleter{}, count_alloc{});
+                (std::forward<Args>(args)...), nq_deleter(), count_alloc());
 	}
 
 	template<class T,
@@ -195,7 +201,7 @@ namespace nq
 	{ // make a shared_ptr with a single allocation
 		typedef nq::allocator<T, Domain, AllocStrat> alloc;
 
-		return std::allocate_shared<T>(alloc{}, std::forward<Args>(args)...);
+		return std::allocate_shared<T>(alloc(), std::forward<Args>(args)...);
 	}
 
 	template<class T,
@@ -266,7 +272,7 @@ namespace nq
            Move Contructors
         
         weak_ptr(weak_ptr&& r) noexcept
-            : parent(std::move(r))
+         : parent(std::move(r))
         { // Construct weak_ptr by taking the ressource pointer to by other
         }
 

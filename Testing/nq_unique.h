@@ -88,9 +88,22 @@ namespace nq
             this->parent::operator=(nullptr);
             return *this;
         }
+
+    public:
+        /*
+        // convert to std from nq
+        unique_ptr(std::unique_ptr<T, deleter_type>&& other) noexcept
+            : parent(std::move(other))
+        {}
+
+        //convert to nq from str
+        operator std::unique_ptr<T, deleter_type>()
+        {
+            return *this;
+        }
+        */
 	};
     
-    /* TODO Check how the deleter behave */
 	template<class T,
 		class Domain,
         class AllocStrat>
@@ -203,8 +216,6 @@ namespace nq
                                         std::forward<Args>(args)...));
     }
 
-    /* Really to test all these T[] new[] things */
-    /* TODO replace new U[n] by nq::memlib::New[](n) or smth */
     template<class T,
         class Domain = UnknownDomain,
         class AllocStrat = DefaultAlloc>

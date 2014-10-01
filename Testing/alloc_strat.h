@@ -5,8 +5,7 @@
 
 /*
  * TODO
-template < int T, bool ... >
-class PoolAlloc
+template < int T, bool ... > class PoolAlloc
 {};
 template <int size = 126, bool ThreadSafe = true>
 */

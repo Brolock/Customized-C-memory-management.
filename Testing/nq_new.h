@@ -13,7 +13,7 @@ class NewedType
 };
 
 template<class Domain>
-void *operator new(size_t count,
+void* operator new(size_t count,
         const Domain&, const char *file, size_t line) noexcept
 {
     // TODO To replace
@@ -33,7 +33,7 @@ void *operator new(size_t count,
 }
 
 template<class Domain>
-void *operator new[](size_t count,
+void* operator new[](size_t count,
         const Domain& domain, const char *file, size_t line) noexcept
 {
     return (operator new(count, domain, file, line));

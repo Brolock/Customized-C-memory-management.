@@ -19,6 +19,21 @@ void operator delete[](void *usr_ptr) noexcept
     operator delete(usr_ptr);
 }
 
+void* operator new(size_t count)
+{
+    void *internal_ptr =
+        nq::memlib::allocate<NewedType>(count, UnknownDomain::sub_header_size);
+    if (internal_ptr == nullptr)
+        throw std::bad_alloc();
+
+    UnknownDomain::getInstance().add(internal_ptr, count,
+            "Don't use standard new", 999, &(UnknownDomain::getInstance()));
+ 
+    void *usr_ptr = 
+        nq::memlib::get_usr_ptr(internal_ptr, UnknownDomain::sub_header_size);
+    return usr_ptr;
+}
+
 namespace nq { namespace memlib {
     void remove_header_operator_delete(void *ptr)
     {

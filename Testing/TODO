@@ -1,16 +1,16 @@
 GREP TODO!
 
+reset_new(Args) that do the new in intern, avoiding new please !
+
+Really needs some tests
+
 fusion operator new() impl and nq::allocator.allocate() and nq::New_array impl by one single function that does what we need.
 
 Replace object{} occurences with object (), todo when tests will be up
 
 In debug mode header_size and sub_header_size should be equal to 0 since the logic of allocation shouldnt change !
 
-reset_new(Args) that do the new in intern, avoiding new please !
-
-Find a way to make creaton of personal allocator easy for the client via maccros maybe something else, what is an issue is really the allocstrat specification
-
-Handle the array new (new[]) and more specifically nq::New[] ? See if it has no downfall on the allocator or things like that
+Find a way to make creaton of personal allocstrat easy for the client via maccros maybe something else, what is an issue is really the allocstrat specification
 
 Replace the call to the constructor from Myclass{} to Myclass() since it can cause issues with the initializer_lists ...
 
