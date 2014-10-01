@@ -82,15 +82,15 @@ void print(Test* a, int n)
 
 int main()
 {
-    /*
     Test *ptr = nq::memlib::New_array<Test, DomainSpace>(3);
 
     Test* jay = NQ_NEW(DomainEarth) Test(111, 333, 987);
 
     print(ptr, 3);
-    */
+
 
     {
+    auto j = nq::make_unique<Test[]>(3);
 
         /*
         nq::vector<int, DomainEarth> lol{1};
@@ -105,11 +105,8 @@ int main()
         SharedPtrRefCountDomain::getInstance().print();
         std::cout << "=================" << std::endl;
     }
-
-    /*
     nq::memlib::Delete_array<Test, DomainSpace>(ptr);
     delete jay;
-    */
 
     DomainEarth::getInstance().print();
     DomainSpace::getInstance().print();

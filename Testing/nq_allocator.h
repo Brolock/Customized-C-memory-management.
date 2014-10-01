@@ -6,6 +6,7 @@
 # include <cstddef>
 # include <limits>
 # include <iostream>
+# include <memory>
 
 # include "nq_memlib_tools.h"
 # include "nq_memlib_allocate.h"
@@ -20,7 +21,7 @@ namespace nq
 	template<class T,
 		class Domain = UnknownDomain,
 		class AllocStrat = DefaultAlloc>
-	struct allocator
+	struct allocator : public std::allocator<T>
 	{
 		static_assert(sizeof(T) > 0, "Can't allocate an incomplete type");
 
@@ -86,7 +87,7 @@ namespace nq
 		}
 
 		void deallocate(pointer usr_ptr, size_type)
-		{ // deallocate memory pointer by ust_ptr with alloc_strat
+		{ // deallocate memory pointer by usr_ptr with alloc_strat
             // TODO To replace
 			if (usr_ptr != nullptr)
 			{
