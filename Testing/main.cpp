@@ -80,13 +80,12 @@ void print(Test* a, int n)
 
 int main()
 {
-    nq::shared_ptr<int> jhgf = nq::shared_ptr<int>(nq::memlib::New<int, DomainEarth>(4), nq::deleter<int, DomainEarth>());
 	{
     //nq::shared_ptr<int> joy(nq::memlib::New<int, DomainEarth>(3), nq::deleter<int, DomainEarth>());
 
     //auto as = nq::make_shared<int, DomainEarth>(3);
 
-    std::shared_ptr<int> j = nq::allocate_shared<int>(nq::allocator<int, DomainSpace>(), 3);
+    auto j = nq::allocate_shared<int>(nq::allocator<int, DomainSpace>(), 3);
 
 		DomainEarth::getInstance().print();
 		DomainSpace::getInstance().print();

@@ -157,12 +157,12 @@ namespace nq
 
         //template<class Y,
     public:
-        /* TODO Check if this is really usefull */
         // convert to std from nq
         shared_ptr(std::shared_ptr<T>&& other) noexcept
             : parent(std::move(other))
         {}
 
+        /* TODO Check if this is really usefull */
         //convert to nq from str
         operator std::shared_ptr<T>()
         {
