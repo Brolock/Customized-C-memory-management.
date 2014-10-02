@@ -120,7 +120,11 @@ namespace nq
 
         /*** Assignement operator ***/
 
-        shared_ptr& operator=(const shared_ptr& r) noexcept = default;
+        shared_ptr& operator=(const shared_ptr& r) noexcept
+        {
+            this->parent::operator=(r);
+            return *this;
+        }
 
         template<class Y>
         shared_ptr& operator=(const shared_ptr<Y>& r) noexcept

@@ -1,9 +1,0 @@
-Beware !
-
-auto jay = nq::make_unique<Test, DomainEarth>(111, 33, 445);
-auto joy = nq::make_shared<Test, DomainEarth>(1, 3, 4);
-
-joy = std::move(jay);
-
-Will do an extra allocation for the RefcountPtr of the new
-object pointed, and it will use new for it!
