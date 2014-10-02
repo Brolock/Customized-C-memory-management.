@@ -81,6 +81,7 @@ namespace nq
 		{ // construct a shared_ptr object that owns same resource as other
 		}
 
+        /*
 		template<class Y,
 			class = class std::enable_if<std::is_convertible<Y*, T*>::value,
 				void>::type>
@@ -88,6 +89,7 @@ namespace nq
 			: parent(other)
 		{ // construct a shared_ptr object that owns same resource as other
 		}
+        */
 
 		/*** Move contructors ***/
 
@@ -96,10 +98,9 @@ namespace nq
 		{ // construct shared_ptr that takes resource from other
 		}
 
-		template<class Y,
-			class = class std::enable_if<std::is_convertible<Y*, T*>::value,
-				void>::type>
-		shared_ptr(shared_ptr<Y>&& other) noexcept
+		template<class Y>
+		shared_ptr(shared_ptr<Y>&& other,
+			typename std::enable_if<std::is_convertible<Y*, T*>::value>::type* = 0) noexcept
 			: parent(std::move(other))
 		{ // construct shared_ptr that takes resource from other
 		}
@@ -117,7 +118,6 @@ namespace nq
 			: parent(std::move(other))
 		{ // construct from unique_ptr
 		}
-
         /*** Assignement operator ***/
 
         shared_ptr& operator=(const shared_ptr& r) noexcept
@@ -163,7 +163,7 @@ namespace nq
             : parent(std::move(other))
         {}
 
-        //convert to nq from str
+        //convert to nq from std
         operator std::shared_ptr<T>()
         {
             return *this;
