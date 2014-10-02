@@ -82,9 +82,6 @@ int main()
 {
 	{
     //nq::shared_ptr<int> joy(nq::memlib::New<int, DomainEarth>(3), nq::deleter<int, DomainEarth>());
-
-    //auto as = nq::make_shared<int, DomainEarth>(3);
-
     auto j = nq::allocate_shared<int>(nq::allocator<int, DomainSpace>(), 3);
 
 		DomainEarth::getInstance().print();

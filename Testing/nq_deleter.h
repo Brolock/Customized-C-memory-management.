@@ -23,10 +23,10 @@ namespace nq
 		** unwanted compilation (copy constructing an unconvertible type) */
 		template <class U,
 			typename U_Domain,
-			class U_AllocStrat,
-			class = typename std::enable_if<
-                    std::is_convertible<U*, T*>::value, void>::type>
-		deleter(const deleter<U, U_Domain, U_AllocStrat>&)
+			class U_AllocStrat>
+		deleter(const deleter<U, U_Domain, U_AllocStrat>&,
+			    typename std::enable_if<
+                  std::is_convertible<U*, T*>::value>::type* = nullptr)
 		{ // construct from another deleter
 		}
 
