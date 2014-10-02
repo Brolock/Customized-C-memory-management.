@@ -82,37 +82,14 @@ void print(Test* a, int n)
 
 int main()
 {
-    //Test *ptr = nq::memlib::New_array<Test, DomainSpace>(3);
-
-
-    //print(ptr, 3);
-
-    auto jay = nq::make_unique<Test, DomainEarth>(111, 33, 445);
-
-    //auto joy = nq::make_shared<Test, DomainEarth>(1, 3, 4);
-
-    //nq::shared_ptr<Test> joy(std::move(jay));
-    
-    auto slt = nq::new_shared<Test, DomainSpace>(1,3,4);
-
+    auto jay = nq::make_shared<int, DomainEarth>(3);
     {
-    //auto j = nq::make_unique<Test[]>(3);
-
-        /*
-        nq::vector<int, DomainEarth> lol{1};
-        lol.push_back(3);
-
-        nq::set<int, DomainEarth> l{2, 5, 32};
-        */
-    
         DomainEarth::getInstance().print();
         DomainSpace::getInstance().print();
         UnknownDomain::getInstance().print();
         SharedPtrRefCountDomain::getInstance().print();
         std::cout << "=================" << std::endl;
-        slt = std::move(jay);
     }
-    //nq::memlib::Delete_array<Test, DomainSpace>(ptr);
 
     DomainEarth::getInstance().print();
     DomainSpace::getInstance().print();
