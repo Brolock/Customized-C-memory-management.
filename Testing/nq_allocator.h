@@ -23,8 +23,6 @@ namespace nq
 		class AllocStrat = DefaultAlloc>
 	struct allocator : public std::allocator<T>
 	{
-		static_assert(sizeof(T) > 0, "Can't allocate an incomplete type");
-
 		/* Member types */
 		typedef T value_type;
 		typedef T* pointer;

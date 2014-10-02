@@ -3,6 +3,7 @@
 
 # include <initializer_list>
 # include <cassert>
+# include <cstdint>
 
 # include "nq_allocator.h"
 # include "domains.h"

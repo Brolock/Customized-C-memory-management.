@@ -21,6 +21,7 @@ void operator delete[](void *usr_ptr) noexcept
 
 void* operator new(size_t count)
 {
+    // TODO To replace
     void *internal_ptr =
         nq::memlib::allocate<NewedType>(count, UnknownDomain::sub_header_size);
     if (internal_ptr == nullptr)

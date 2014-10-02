@@ -26,7 +26,6 @@
 #include <algorithm>
 #include <iostream>
 
-#include "Header.h"
 #include "nq_deleter.h"
 
 struct Test
@@ -34,88 +33,70 @@ struct Test
 private:
 	int num_;
 	int whatever_;
-    int break_;
+	int break_;
 public:
 	Test()
 		: num_(55),
-        whatever_(33),
-        break_(123)
+		whatever_(33),
+		break_(123)
 	{
 		std::cout << "Test()" << std::endl;
 	}
 	Test(int i, int j, int h)
 		: num_(i),
 		whatever_(j),
-        break_(h)
+		break_(h)
 	{
 		std::cout << "Test(" << num_ << ", " << whatever_
-            << ", " << break_<< ")" << std::endl;
+			<< ", " << break_ << ")" << std::endl;
 	}
 	~Test()
 	{
 		std::cout << "~Test(" << num_ << ", " << whatever_
-            << ", " << break_<< ")" << std::endl;
+			<< ", " << break_ << ")" << std::endl;
 	}
 	Test(const Test& o)
 		: num_(o.num_),
-          whatever_(o.whatever_),
-          break_(o.break_)
+		whatever_(o.whatever_),
+		break_(o.break_)
 	{
 		std::cout << "Test(Test&" << o.num_ << ", " << o.whatever_
-            << ", " << o.break_ << ")" << std::endl;
+			<< ", " << o.break_ << ")" << std::endl;
 	}
 
-    void print()
-    {
-        std::cout << num_ << ", " << whatever_ << ", " << break_ << std::endl;
-    }
+	void print()
+	{
+		std::cout << num_ << ", " << whatever_ << ", " << break_ << std::endl;
+	}
 };
 
 void print(Test* a, int n)
 {
-    std::cout << "----------\n";
-    for(int t = 0; t < n; t++)
-        a[t].print();
+	std::cout << "----------\n";
+	for (int t = 0; t < n; t++)
+		a[t].print();
 }
-
 # define NQ_NEW(Domain) new (Domain::getInstance(), __FILE__, __LINE__)
 
 int main()
 {
-    //Test *ptr = nq::memlib::New_array<Test, DomainSpace>(3);
+	//nq::shared_ptr<int> jay(NQ_NEW(DomainSpace) int (1));
 
 
-    //print(ptr, 3);
+    //std::shared_ptr<int> sel(nq::memlib::New<int>(3), nq::deleter<int>(),
+    //                       test::test_allocator<int, SharedPtrRefCountDomain>());
+	{
+    nq::shared_ptr<int> joy(nq::memlib::New<int, DomainEarth>(3), nq::deleter<int, DomainEarth>());
+		DomainEarth::getInstance().print();
+		DomainSpace::getInstance().print();
+		UnknownDomain::getInstance().print();
+		SharedPtrRefCountDomain::getInstance().print();
+		std::cout << "=================" << std::endl;
+	}
+	//nq::memlib::Delete_array<Test, DomainSpace>(ptr);
 
-    auto jay = nq::make_unique<Test, DomainEarth>(111, 33, 445);
-
-    //auto joy = nq::make_shared<Test, DomainEarth>(1, 3, 4);
-
-    //nq::shared_ptr<Test> joy(std::move(jay));
-    
-    auto slt = nq::new_shared<Test, DomainSpace>(1,3,4);
-
-    {
-    //auto j = nq::make_unique<Test[]>(3);
-
-        /*
-        nq::vector<int, DomainEarth> lol{1};
-        lol.push_back(3);
-
-        nq::set<int, DomainEarth> l{2, 5, 32};
-        */
-    
-        DomainEarth::getInstance().print();
-        DomainSpace::getInstance().print();
-        UnknownDomain::getInstance().print();
-        SharedPtrRefCountDomain::getInstance().print();
-        std::cout << "=================" << std::endl;
-        slt = std::move(jay);
-    }
-    //nq::memlib::Delete_array<Test, DomainSpace>(ptr);
-
-    DomainEarth::getInstance().print();
-    DomainSpace::getInstance().print();
-    UnknownDomain::getInstance().print();
-    SharedPtrRefCountDomain::getInstance().print();
+	DomainEarth::getInstance().print();
+	DomainSpace::getInstance().print();
+	UnknownDomain::getInstance().print();
+	SharedPtrRefCountDomain::getInstance().print();
 }

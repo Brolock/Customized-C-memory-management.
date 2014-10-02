@@ -23,9 +23,9 @@ namespace nq
 	public:
 		/* Allocator used to allocate the ref_count of the shared_ptr */
 		typedef nq::allocator<T, SharedPtrRefCountDomain, DefaultAlloc> count_alloc;
+		//typedef std::allocator<T> count_alloc;
 		typedef nq::deleter<T, UnknownDomain, DefaultAlloc> nq_deleter;
         typedef std::shared_ptr<T> parent;
-
 		/*** Constructors for a nullptr ***/
 
 		shared_ptr() noexcept
