@@ -81,9 +81,7 @@ namespace nq
 		{ // construct a shared_ptr object that owns same resource as other
 		}
 
-		template<class Y,
-			class = class std::enable_if<std::is_convertible<Y*, T*>::value,
-				void>::type>
+		template<class Y>
 		shared_ptr(const shared_ptr<Y>& other,
             typename std::enable_if<
               std::is_convertible<Y*, T*>::value>::type* = nullptr) noexcept
