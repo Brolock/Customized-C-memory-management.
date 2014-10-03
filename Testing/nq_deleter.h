@@ -5,7 +5,12 @@
 
 #include "nq_allocator.h"
 
-/* Maybe some work to do with the unique_ptr deleter to use it as allocator ?? */
+/* 
+** The deleter class is used in RAII classes to know the way a given
+** pointer needs to be deleted.
+** It's the operator() associated with this class that define the
+** method to follow
+*/
 
 namespace nq
 {
@@ -18,9 +23,6 @@ namespace nq
 		{ // default construct
 		}
 
-		/* In the template declaration list, (it seems) the last one is a
-		** "template way" to check is types are convertible and so to avoid
-		** unwanted compilation (copy constructing an unconvertible type) */
 		template <class U,
 			typename U_Domain,
 			class U_AllocStrat>
@@ -37,8 +39,6 @@ namespace nq
 	};
 
 	
-	/* This deleter is to think about since it's only used for unique_ptr[]
-	** which hasnt the same behviaviour as our allocator one */
 	template <typename T,
 		typename Domain,
 		class AllocStrat>
@@ -54,6 +54,43 @@ namespace nq
 		void operator()(T *ptr) const
 		{
             memlib::Delete_array<T, Domain, AllocStrat>(ptr);
+		}
+	};
+
+    /* new_deleter used by default by nq::shared_ptr to delete a newed ptr */
+	template <typename T>
+	struct new_deleter
+	{
+		new_deleter()
+		{ // default construct
+		}
+
+		template <class U>
+		new_deleter(const new_deleter<U>&,
+			    typename std::enable_if<
+                  std::is_convertible<U*, T*>::value>::type* = nullptr)
+		{ // construct from another deleter
+		}
+
+		void operator()(T *ptr) const
+		{ //delete the ptr with allocstrat
+            delete ptr;
+		}
+	};
+
+	template <typename T>
+	struct new_deleter <T[]>
+	{
+		new_deleter()
+		{ // default construct
+		}
+
+		template <typename U>
+		void operator()(U *ptr) const = delete;
+
+		void operator()(T *ptr) const
+		{
+            delete[](ptr);
 		}
 	};
 }

@@ -22,9 +22,11 @@ namespace nq
 	{
 	public:
 		/* Allocator used to allocate the ref_count of the shared_ptr */
-		typedef nq::allocator<T, SharedPtrRefCountDomain, DefaultAlloc> count_alloc;
+		typedef nq::allocator<T, SharedPtrRefCountDomain,
+                                            DefaultAlloc> count_alloc;
+
 		//typedef std::allocator<T> count_alloc;
-		typedef nq::deleter<T, UnknownDomain, DefaultAlloc> nq_deleter;
+		typedef nq::new_deleter<T> nq_deleter;
         typedef std::shared_ptr<T> parent;
 		/*** Constructors for a nullptr ***/
 
@@ -52,6 +54,12 @@ namespace nq
 		}
 
 		/*** Constructors for an already allocated ptr ***/
+
+		template<class Y>
+		explicit shared_ptr(Y *ptr)
+            : parent(ptr, nq_deleter(), count_alloc())
+        { // construct with ptr, nq_deleter() and count_alloc()
+        }
 
 		template<class Y,
 			class nq_deleter>
@@ -167,16 +175,6 @@ namespace nq
         {
             return *this;
         }
-	private:
-		/*
-		** We don't want to take the risk that a miss informed user write
-        ** something like:
-		** nq::shared<T>(new (Domain, AllocStrat) T());
-		** The pointer allocated in Domain with AllocStrat will be, by default,
-		** deleted in Unknown Domain with DefaultAlloc
-		*/
-		template<class Y>
-		explicit shared_ptr(Y *ptr) = delete;
 	};
 
 	/*** Non member functions ***/
@@ -186,7 +184,7 @@ namespace nq
 		class AllocStrat = DefaultAlloc,
 		class... Args>
 	shared_ptr<T> new_shared(Args&&... args)
-	{ // make a shared_ptr with two allocation (as the shared_ptr constructor do)
+	{ // make a shared_ptr with two allocation
 		typedef nq::allocator<
             T, SharedPtrRefCountDomain, DefaultAlloc> count_alloc;
 
