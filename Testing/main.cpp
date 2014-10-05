@@ -80,10 +80,9 @@ void print(Test* a, int n)
 
 int main()
 {
+    auto f = nq::make_unique<int, DomainSpace>(4);
 	{
-    //nq::shared_ptr<int> joy(nq::memlib::New<int, DomainEarth>(3), nq::deleter<int, DomainEarth>());
-        nq::shared_ptr<int> jay(NQ_NEW(DomainEarth) int(3));
-    auto j = nq::allocate_shared<int>(nq::allocator<int, DomainSpace>(), 3);
+        nq::unique_ptr<int> j(NQ_NEW(DomainEarth) int(3));
 
 		DomainEarth::getInstance().print();
 		DomainSpace::getInstance().print();
