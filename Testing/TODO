@@ -1,12 +1,11 @@
 GREP TODO!
 
+reset(ptr) also to do !
 reset_new(Args) that do the new in intern, avoiding new please !
 
 Really needs some tests
 
 fusion operator new() impl and nq::allocator.allocate() and nq::New_array impl by one single function that does what we need.
-
-Replace object{} occurences with object (), todo when tests will be up
 
 In debug mode header_size and sub_header_size should be equal to 0 since the logic of allocation shouldnt change !
 
@@ -14,7 +13,7 @@ Find a way to make creaton of personal allocstrat easy for the client via maccro
 
 Replace the call to the constructor from Myclass{} to Myclass() since it can cause issues with the initializer_lists ...
 
-add something in mode debug  for the allocstrat to say that you really allocated or not (like putting a bit to 1 at the end of the ptr adress if allocation have been done)
+add something in mode debug  for the allocstrat to say that you really allocated or not (like putting a bit to 1 at the end of the ptr adress if allocation have been made)
 
 Do something clear with the compile flags
 

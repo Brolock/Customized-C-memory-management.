@@ -3,6 +3,7 @@
 void operator delete(void *usr_ptr) noexcept
 {
     // TODO To replace
+    /*
     if (usr_ptr != nullptr)
     {
         void *internal_ptr =
@@ -12,6 +13,9 @@ void operator delete(void *usr_ptr) noexcept
 
         nq::memlib::deallocate(internal_ptr);
     }
+    */
+    nq::memlib::test_deallocate(usr_ptr, BaseDomain::sub_header_size,
+                    nq::memlib::remove_header_operator_delete);
 }
 
 void operator delete[](void *usr_ptr) noexcept

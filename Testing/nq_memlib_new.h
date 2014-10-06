@@ -77,7 +77,7 @@ namespace nq { namespace memlib
             return nullptr;
         T *internal_ptr =
             nq::memlib::allocate<T>(count * sizeof (T),
-                                Domain::sub_header_size + sizeof (ArrayHeader));
+                                Domain::header_size + sizeof (ArrayHeader));
         if (internal_ptr == nullptr)
             throw std::bad_alloc();
 
@@ -91,7 +91,7 @@ namespace nq { namespace memlib
         ArrayHeader *array_ptr =
             reinterpret_cast<ArrayHeader*>
                 (nq::memlib::get_internal_ptr(usr_ptr, sizeof (ArrayHeader)));
-		memlib::construct(array_ptr, count);
+		construct(array_ptr, count);
 
         // construct the elements of the allocated array
         construct_from_range(usr_ptr, count, ilist.begin(), ilist.end());

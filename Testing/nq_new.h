@@ -4,7 +4,6 @@
 # include "nq_memlib_allocate.h"
 # include "nq_memlib_tools.h"
 
-# include "nq_allocator.h"
 # include "domains.h"
 
 class NewedType

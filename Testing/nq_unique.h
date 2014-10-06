@@ -28,7 +28,7 @@
     class unique_ptr {};
 
 
-    */
+*/
 
 namespace nq
 {
@@ -336,13 +336,15 @@ namespace nq
         }
         
         unique_ptr(pointer ptr,
-                typename std::conditional<std::is_reference<deleter_type>::value,
-                  deleter_type, const deleter_type&>::type del) noexcept
+                typename std::conditional<
+                  std::is_reference<deleter_type>::value,
+                    deleter_type, const deleter_type&>::type del) noexcept
             : parent(ptr, del)
         {}
 
         unique_ptr(T *ptr,
-                typename std::remove_reference<deleter_type>::type&& del) noexcept
+                typename std::remove_reference<
+                    deleter_type>::type&& del) noexcept
             : parent(std::move(ptr), std::move(del))
         {}
 

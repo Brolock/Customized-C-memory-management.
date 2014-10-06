@@ -2,9 +2,12 @@
 # define NQ_MEMLIB_TOOLS_H_
 
 # include <utility>
+# include <functional>
+
+# include "nq_memlib_allocate.h"
 
 namespace nq { namespace memlib
-{
+{ 
     /*
     ** construct() and destroy() construct and destroy the element of type T
     ** pointed by ptr
@@ -77,6 +80,19 @@ namespace nq { namespace memlib
         char *arithmetic_ptr = reinterpret_cast<char*>(usr_ptr);
         arithmetic_ptr -= headers;
         return reinterpret_cast<T*>(arithmetic_ptr);
+    }
+
+    inline void test_deallocate(void *usr_ptr, size_t headers,
+            std::function<void(void*)> remove_function)
+    {
+        if (usr_ptr != nullptr)
+        {
+            void *internal_ptr = get_internal_ptr(usr_ptr, headers);
+
+            remove_function(internal_ptr);
+
+            deallocate(internal_ptr);
+        }
     }
 }} // namespace nq::memlib
 

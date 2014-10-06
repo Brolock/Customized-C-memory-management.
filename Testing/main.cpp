@@ -82,7 +82,11 @@ int main()
 {
     auto f = nq::make_unique<int, DomainSpace>(4);
 	{
-        nq::unique_ptr<int> j(NQ_NEW(DomainEarth) int(3));
+        nq::unique_ptr<Test> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
+
+        nq::unique_ptr<Test, DomainSpace> lol =  nq::make_unique<Test, DomainSpace>(3, 4, 5);
+
+        //nq::unique_ptr<Test>folk(lol.release());
 
 		DomainEarth::getInstance().print();
 		DomainSpace::getInstance().print();
