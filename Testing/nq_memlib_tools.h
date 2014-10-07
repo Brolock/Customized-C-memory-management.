@@ -84,16 +84,17 @@ namespace nq { namespace memlib
         return reinterpret_cast<T*>(arithmetic_ptr);
     }
 
-    inline void deallocate_log(void *usr_ptr, size_t headers,
-            std::function<void(void*)> remove_function)
+    template<class AllocStrat = DefaultAlloc>
+    void deallocate_log(void *usr_ptr, size_t headers,
+            std::function<void(void*)> remove_header_fun)
     {
         if (usr_ptr != nullptr)
         {
             void *internal_ptr = get_internal_ptr(usr_ptr, headers);
 
-            remove_function(internal_ptr);
+            remove_header_fun(internal_ptr);
 
-            deallocate(internal_ptr);
+            memlib::deallocate<AllocStrat>(internal_ptr);
         }
     }
 
@@ -104,13 +105,12 @@ namespace nq { namespace memlib
     {
         if (count == 0)
             return nullptr;
-        T *internal_ptr = memlib::allocate<T>(count, headers);
+        T *internal_ptr = memlib::allocate<T, AllocStrat>(count, headers);
 
         if (internal_ptr == nullptr)
             throw std::bad_alloc();
 
-        /* whatif new overload of new ?!*/
-        Domain::getInstance().add(internal_ptr, count);
+        Domain::getInstance().add(internal_ptr, count * sizeof (T));
 
         return memlib::get_usr_ptr(internal_ptr, headers);
     }
@@ -123,7 +123,7 @@ namespace nq { namespace memlib
     {
         if (count == 0)
             return nullptr;
-        T *internal_ptr = memlib::allocate<T>(count, headers);
+        T *internal_ptr = memlib::allocate<T, AllocStrat>(count, headers);
 
         if (internal_ptr == nullptr)
             throw std::bad_alloc();

@@ -82,10 +82,26 @@ int main()
 {
     //auto f = nq::make_unique<int, DomainSpace>(4);
     
+    /*Test *ho = nq::memlib::New<Test, DomainEarth>(3, 5, 1);
 
-
+    nq::memlib::Delete<Test, DomainEarth>(ho);
+    */
     {
-        int *jay = new int[3] {3, 45, 123};
+        /*
+        Test *dom_new = NQ_NEW(DomainSpace) Test(77, 100, 43);
+        delete dom_new;
+        */
+        /*
+        int *salut = nq::memlib::New_array<int, DomainSpace>(123, {42, 66, 321});
+        for (int i = 0; i < 123; ++i)
+        {
+            std::cout << salut[i] << " -- ";
+        }
+        std::cout << std::endl;
+        nq::memlib::Delete_array<int, DomainSpace>(salut);
+        */
+        //int *jay = new int[3] {3, 45, 123};
+        //delete[] jay;
         //auto nq_un = nq::make_unique<Test[], DomainSpace>(3);
         //nq_un[0] = Test(3, 5, 1);
         
@@ -104,8 +120,11 @@ int main()
     nq::shared_ptr<int> n_shar(NQ_NEW(DomainEarth) int(3));
     n_weak = n_shar;
     */
+        /*
+       nq::vector<Test> vec{Test(3, 521, 900), Test(3, 5, 6)};
+       vec.push_back(Test(3, 5123, 87));
+       */
     /*
-    nq::vector<Test> vec{Test(3, 521, 900), Test(3, 5, 6)};
         nq::unique_ptr<Test> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
 
         nq::unique_ptr<Test, DomainSpace> lol =  nq::make_unique<Test, DomainSpace>(3, 4, 5);*/
@@ -117,7 +136,6 @@ int main()
 		UnknownDomain::getInstance().print();
 		SharedPtrRefCountDomain::getInstance().print();
 		std::cout << "=================" << std::endl;
-        delete[] jay;
 	}
 
 	DomainEarth::getInstance().print();

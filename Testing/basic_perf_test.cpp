@@ -3,12 +3,14 @@
 #include "nq_vector.h"
 #include "nq_memlib_new.h"
 
+#include "nq_new.h"
 
 void test_nq_new(nq::vector<int*>& vec)
 {
     for (int i = 0; i < 10000; ++i)
     {
-    int *j = nq::memlib::New<int, DomainSpace>(2);
+    //int *j = nq::memlib::New<int, DomainSpace>(2);
+    int *j = new(DomainSpace::getInstance(), __FILE__, __LINE__) int(2);
     vec.push_back(j);
     }
 }
@@ -50,8 +52,8 @@ double loop()
     for (auto& it : new_vec)
     { delete it; }
     for (auto& it : nq_vec)
-    { nq::memlib::Delete<int, DomainSpace>(it); }
-
+    //{ nq::memlib::Delete<int, DomainSpace>(it); }
+    { delete it; }
     return perf_loss;
 }
 

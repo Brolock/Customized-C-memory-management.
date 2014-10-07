@@ -15,6 +15,7 @@ template<class Domain>
 void* operator new(size_t count,
         const Domain&, const char *file, size_t line) noexcept
 {
+    /*
     // TODO To replace
     if (count == 0)
         return nullptr;
@@ -29,6 +30,10 @@ void* operator new(size_t count,
     void *usr_ptr = 
         nq::memlib::get_usr_ptr(internal_ptr, Domain::sub_header_size);
     return usr_ptr;
+    //!TOOD
+    */
+    return nq::memlib::allocate_log<NewedType, Domain>(count,
+            Domain::sub_header_size, file, line);
 }
 
 #include <iostream>

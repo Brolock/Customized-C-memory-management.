@@ -32,7 +32,10 @@ namespace nq { namespace memlib
 		 class... Args>
 	T* New(Args... Parameters)
 	{
-		T *ptr = nq::allocator<T, Domain, AllocStrat>().allocate(1);
+        //TODO remove if working 
+	//	T *ptr = nq::allocator<T, Domain, AllocStrat>().allocate(1);
+        T *ptr = memlib::allocate_log<T, Domain, AllocStrat>(1,
+                Domain::header_size);
 		memlib::construct(ptr, std::forward<Args>(Parameters)...);
 		return ptr;
 	}
@@ -73,6 +76,7 @@ namespace nq { namespace memlib
                 "Trying to initialize a newed array (nq::New_array) with an"
                 " initializer_list of greater size than the array size");
 
+        /*
         // TODO To replace
         if (count == 0)
             return nullptr;
@@ -88,11 +92,14 @@ namespace nq { namespace memlib
         T *usr_ptr = nq::memlib::get_usr_ptr(
                 internal_ptr, Domain::header_size + sizeof (ArrayHeader));
         // !TODO
+        */
+        
+        T *usr_ptr = memlib::allocate_log<T, Domain, AllocStrat>(count,
+                Domain::header_size + sizeof (ArrayHeader));
         
         /* Adding the number of elements to be deleted with nq::Delete_array */
-        ArrayHeader *array_ptr =
-            reinterpret_cast<ArrayHeader*>
-                (nq::memlib::get_internal_ptr(usr_ptr, sizeof (ArrayHeader)));
+        ArrayHeader *array_ptr = reinterpret_cast<ArrayHeader*>(
+                nq::memlib::get_internal_ptr(usr_ptr, sizeof (ArrayHeader)));
 		construct(array_ptr, count);
 
         // construct the elements of the allocated array

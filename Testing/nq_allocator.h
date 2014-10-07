@@ -64,9 +64,10 @@ namespace nq
 		{ return &r; }
 
 		/* Memory allocation */
-		pointer allocate(size_type n,
+		pointer allocate(size_type count,
                 std::allocator<void>::const_pointer = 0)
 		{ // allocate memory with alloc_strat
+            /*
             // TODO To replace
 			if (n == 0)
 				return nullptr;
@@ -83,6 +84,9 @@ namespace nq
                 memlib::get_usr_ptr(internal_ptr, Domain::header_size);
 			return usr_ptr;
             // !TODO
+            */
+            return memlib::allocate_log<T, Domain, AllocStrat>(count,
+                                                    Domain::header_size);
 		}
 
 		void deallocate(pointer usr_ptr, size_type)
