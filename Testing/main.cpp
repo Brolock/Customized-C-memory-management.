@@ -85,12 +85,13 @@ int main()
 
 
     {
+        int *jay = new int[3] {3, 45, 123};
         //auto nq_un = nq::make_unique<Test[], DomainSpace>(3);
         //nq_un[0] = Test(3, 5, 1);
         
         //auto j = nq::make_shared<Test>(2, 3, 5); 44
 
-        nq::shared_ptr<Test> h(NQ_NEW(DomainSpace) Test(3, 5, 6));
+        //nq::shared_ptr<Test> h(NQ_NEW(DomainSpace) Test(3, 5, 6));
 
         //auto f = nq::new_shared<Test, DomainSpace>(44, 3030, 190);
 
@@ -103,7 +104,7 @@ int main()
     nq::shared_ptr<int> n_shar(NQ_NEW(DomainEarth) int(3));
     n_weak = n_shar;
     */
-        /*
+    /*
     nq::vector<Test> vec{Test(3, 521, 900), Test(3, 5, 6)};
         nq::unique_ptr<Test> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
 
@@ -116,6 +117,7 @@ int main()
 		UnknownDomain::getInstance().print();
 		SharedPtrRefCountDomain::getInstance().print();
 		std::cout << "=================" << std::endl;
+        delete[] jay;
 	}
 
 	DomainEarth::getInstance().print();

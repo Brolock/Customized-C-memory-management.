@@ -4,6 +4,8 @@
 # include <utility>
 # include <functional>
 
+# include "alloc_strat.h"
+# include "domains.h"
 # include "nq_memlib_allocate.h"
 
 namespace nq { namespace memlib
@@ -82,7 +84,7 @@ namespace nq { namespace memlib
         return reinterpret_cast<T*>(arithmetic_ptr);
     }
 
-    inline void deallocate_remove(void *usr_ptr, size_t headers,
+    inline void deallocate_log(void *usr_ptr, size_t headers,
             std::function<void(void*)> remove_function)
     {
         if (usr_ptr != nullptr)
@@ -93,6 +95,44 @@ namespace nq { namespace memlib
 
             deallocate(internal_ptr);
         }
+    }
+
+    template<class T,
+        class Domain = UnknownDomain,
+        class AllocStrat = DefaultAlloc>
+    T* allocate_log(size_t count, size_t headers)
+    {
+        if (count == 0)
+            return nullptr;
+        T *internal_ptr = memlib::allocate<T>(count, headers);
+
+        if (internal_ptr == nullptr)
+            throw std::bad_alloc();
+
+        /* whatif new overload of new ?!*/
+        Domain::getInstance().add(internal_ptr, count);
+
+        return memlib::get_usr_ptr(internal_ptr, headers);
+    }
+
+    template<class T,
+        class Domain = UnknownDomain,
+        class AllocStrat = DefaultAlloc>
+    T* allocate_log(size_t count, size_t headers,
+            const char *file, size_t line)
+    {
+        if (count == 0)
+            return nullptr;
+        T *internal_ptr = memlib::allocate<T>(count, headers);
+
+        if (internal_ptr == nullptr)
+            throw std::bad_alloc();
+
+        /* whatif new overload of new ?!*/
+        Domain::getInstance().add(internal_ptr, count,
+                file, line, &Domain::getInstance());
+
+        return memlib::get_usr_ptr(internal_ptr, headers);
     }
 }} // namespace nq::memlib
 

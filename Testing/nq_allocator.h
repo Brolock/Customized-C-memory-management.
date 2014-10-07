@@ -82,6 +82,7 @@ namespace nq
             pointer usr_ptr =
                 memlib::get_usr_ptr(internal_ptr, Domain::header_size);
 			return usr_ptr;
+            // !TODO
 		}
 
 		void deallocate(pointer usr_ptr, size_type)
@@ -97,7 +98,7 @@ namespace nq
 
                 memlib::deallocate<AllocStrat>(internal_ptr);
 			}*/
-            memlib::deallocate_remove(usr_ptr, Domain::header_size,
+            memlib::deallocate_log(usr_ptr, Domain::header_size,
                     nq::remove_elem_domain<Domain>);
                 /*
                     std::bind(&Domain::remove,

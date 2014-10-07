@@ -14,7 +14,7 @@ void operator delete(void *usr_ptr) noexcept
         nq::memlib::deallocate(internal_ptr);
     }
     */
-    nq::memlib::deallocate_remove(usr_ptr, BaseDomain::sub_header_size,
+    nq::memlib::deallocate_log(usr_ptr, BaseDomain::sub_header_size,
                     nq::memlib::remove_header_operator_delete);
 }
 
@@ -25,6 +25,7 @@ void operator delete[](void *usr_ptr) noexcept
 
 void* operator new(size_t count)
 {
+    /*
     // TODO To replace
     void *internal_ptr =
         nq::memlib::allocate<NewedType>(count, UnknownDomain::sub_header_size);
@@ -37,6 +38,16 @@ void* operator new(size_t count)
     void *usr_ptr = 
         nq::memlib::get_usr_ptr(internal_ptr, UnknownDomain::sub_header_size);
     return usr_ptr;
+    // !TODO
+    */
+
+    return nq::memlib::allocate_log<NewedType, UnknownDomain>(count,
+            UnknownDomain::getInstance().sub_header_size, "Do not use new", 0);
+}
+
+void* operator new[](size_t count)
+{
+    return operator new(count);
 }
 
 namespace nq { namespace memlib {

@@ -43,7 +43,8 @@ namespace nq { namespace memlib
 	void Delete(T *ptr)
 	{
         memlib::destroy(ptr);
-		nq::allocator<T, Domain, AllocStrat>().deallocate(ptr, 0);
+        memlib::deallocate_log(ptr, Domain::header_size,
+                nq::remove_elem_domain<Domain>);
 	}
 
     struct ArrayHeader
@@ -121,7 +122,7 @@ namespace nq { namespace memlib
             //!TODO
             */
 
-            memlib::deallocate_remove(usr_ptr,
+            memlib::deallocate_log(usr_ptr,
                     Domain::header_size + sizeof(ArrayHeader),
                     nq::remove_elem_domain<Domain>);
         }
