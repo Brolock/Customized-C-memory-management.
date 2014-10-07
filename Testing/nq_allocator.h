@@ -65,7 +65,7 @@ namespace nq
 
 		/* Memory allocation */
 		pointer allocate(size_type n,
-                std::allocator<void>::const_pointer hint = 0)
+                std::allocator<void>::const_pointer = 0)
 		{ // allocate memory with alloc_strat
             // TODO To replace
 			if (n == 0)
@@ -87,6 +87,7 @@ namespace nq
 		void deallocate(pointer usr_ptr, size_type)
 		{ // deallocate memory pointer by usr_ptr with alloc_strat
             // TODO To replace
+            /*
 			if (usr_ptr != nullptr)
 			{
 				void *internal_ptr =
@@ -95,7 +96,13 @@ namespace nq
 				Domain::getInstance().remove(internal_ptr);
 
                 memlib::deallocate<AllocStrat>(internal_ptr);
-			}
+			}*/
+            memlib::deallocate_remove(usr_ptr, Domain::header_size,
+                    nq::remove_elem_domain<Domain>);
+                /*
+                    std::bind(&Domain::remove,
+                        &Domain::getInstance(), std::placeholders::_1));
+                        */
 			/* size_type ? */
 		}
 

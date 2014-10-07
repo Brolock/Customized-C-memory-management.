@@ -19,4 +19,6 @@ Do something clear with the compile flags
 
 nq::allocator inherite from std::allocator and with a debug flag can just be an empty shell that forward std::allocator
 
+operator new[] gives a pointer alligned while it allocate a header of size 4, trixed malloc call ?
+
 having Domains beeing merged to one single type to avoid too much code size (not urgent)

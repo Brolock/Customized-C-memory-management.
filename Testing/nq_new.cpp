@@ -14,7 +14,7 @@ void operator delete(void *usr_ptr) noexcept
         nq::memlib::deallocate(internal_ptr);
     }
     */
-    nq::memlib::test_deallocate(usr_ptr, BaseDomain::sub_header_size,
+    nq::memlib::deallocate_remove(usr_ptr, BaseDomain::sub_header_size,
                     nq::memlib::remove_header_operator_delete);
 }
 

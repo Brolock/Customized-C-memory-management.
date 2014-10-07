@@ -31,6 +31,7 @@ void* operator new(size_t count,
     return usr_ptr;
 }
 
+#include <iostream>
 template<class Domain>
 void* operator new[](size_t count,
         const Domain& domain, const char *file, size_t line) noexcept

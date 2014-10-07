@@ -9,8 +9,8 @@
 namespace nq { namespace memlib
 { 
     /*
-    ** construct() and destroy() construct and destroy the element of type T
-    ** pointed by ptr
+    ** construct() and destroy() construct and destroy an element of type T
+    ** at pointer ptr
     */
     template<class T,
         class... Args>
@@ -82,7 +82,7 @@ namespace nq { namespace memlib
         return reinterpret_cast<T*>(arithmetic_ptr);
     }
 
-    inline void test_deallocate(void *usr_ptr, size_t headers,
+    inline void deallocate_remove(void *usr_ptr, size_t headers,
             std::function<void(void*)> remove_function)
     {
         if (usr_ptr != nullptr)

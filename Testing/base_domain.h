@@ -3,6 +3,7 @@
 
 # include <cassert>
 # include <cstddef>
+# include <utility>
 
 # include "env_maccro.h"
 
@@ -135,6 +136,22 @@ public:
                 "Header don't take 32 bytes in 64 bits");
 # endif // !NQ_ENV_32
 };
+
+/*** Non-member functions ***/
+namespace nq {
+    template<class Domain>
+    void remove_elem_domain(void *ptr)
+    {
+        Domain::getInstance().remove(ptr);
+    }
+
+    template<class Domain,
+        class... Args>
+    void add_elem_domain(Args... args)
+    {
+        Domain::getInstance().add(std::forward<Args>(args)...);
+    }
+}
 
 /* Generic declaration of a Domain to avoid copy paste at every
  * new domain creation */

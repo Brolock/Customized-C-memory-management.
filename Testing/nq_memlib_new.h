@@ -23,8 +23,8 @@ namespace nq { namespace memlib
     */
 
     /*
-    ** New and Delete follows the same behaviour as any stl container
-    ** so we use nq::allocator
+    ** New and Delete follows the same behaviour as any stl container for
+    ** allocations
     */
 	template <class T,
 		 class Domain = UnknownDomain,
@@ -76,12 +76,13 @@ namespace nq { namespace memlib
         if (count == 0)
             return nullptr;
         T *internal_ptr =
-            nq::memlib::allocate<T>(count * sizeof (T),
+            nq::memlib::allocate<T>(count,
                                 Domain::header_size + sizeof (ArrayHeader));
         if (internal_ptr == nullptr)
             throw std::bad_alloc();
 
-        Domain::getInstance().add(internal_ptr, count * sizeof (T));
+        Domain::getInstance().add(internal_ptr,
+                count * sizeof (T) + sizeof (ArrayHeader));
 
         T *usr_ptr = nq::memlib::get_usr_ptr(
                 internal_ptr, Domain::header_size + sizeof (ArrayHeader));
@@ -109,6 +110,7 @@ namespace nq { namespace memlib
             ArrayHeader *array_ptr = reinterpret_cast<ArrayHeader*>(
                     get_internal_ptr(usr_ptr, sizeof (ArrayHeader)));
             destroy_from_range(usr_ptr, array_ptr->size_);
+            /*
             // TODO To replace
             void *internal_ptr = nq::memlib::get_internal_ptr(
                     usr_ptr, BaseDomain::header_size + sizeof (ArrayHeader));
@@ -117,6 +119,11 @@ namespace nq { namespace memlib
 
             nq::memlib::deallocate(internal_ptr);
             //!TODO
+            */
+
+            memlib::deallocate_remove(usr_ptr,
+                    Domain::header_size + sizeof(ArrayHeader),
+                    nq::remove_elem_domain<Domain>);
         }
     }
 }} // namespace nq::memlib
