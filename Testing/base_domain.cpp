@@ -35,9 +35,9 @@ void BaseDomain::Header::print() const
     /*TEST*/
     if (padding_ == 1)
     {
-        std::cout << "Is a new, file: "
+        std::cout << "Is a new, @ File: "
             << (static_cast<const SubHeader*>(this))->get_file()
-            << "   line: " << (static_cast<const SubHeader*>(this))->get_line()
+            << ", Line: " << (static_cast<const SubHeader*>(this))->get_line()
             << std::endl;
     }
     /*!TEST*/

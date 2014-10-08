@@ -32,8 +32,6 @@ namespace nq { namespace memlib
 		 class... Args>
 	T* New(Args... Parameters)
 	{
-        //TODO remove if working 
-	//	T *ptr = nq::allocator<T, Domain, AllocStrat>().allocate(1);
         T *ptr = memlib::allocate_log<T, Domain, AllocStrat>(1,
                 Domain::header_size);
 		memlib::construct(ptr, std::forward<Args>(Parameters)...);
@@ -76,38 +74,25 @@ namespace nq { namespace memlib
                 "Trying to initialize a newed array (nq::New_array) with an"
                 " initializer_list of greater size than the array size");
 
-        /*
-        // TODO To replace
-        if (count == 0)
-            return nullptr;
-        T *internal_ptr =
-            nq::memlib::allocate<T>(count,
-                                Domain::header_size + sizeof (ArrayHeader));
-        if (internal_ptr == nullptr)
-            throw std::bad_alloc();
-
-        Domain::getInstance().add(internal_ptr,
-                count * sizeof (T) + sizeof (ArrayHeader));
-
-        T *usr_ptr = nq::memlib::get_usr_ptr(
-                internal_ptr, Domain::header_size + sizeof (ArrayHeader));
-        // !TODO
-        */
-        
         T *usr_ptr = memlib::allocate_log<T, Domain, AllocStrat>(count,
                 Domain::header_size + sizeof (ArrayHeader));
         
-        /* Adding the number of elements to be deleted with nq::Delete_array */
-        ArrayHeader *array_ptr = reinterpret_cast<ArrayHeader*>(
-                nq::memlib::get_internal_ptr(usr_ptr, sizeof (ArrayHeader)));
-		construct(array_ptr, count);
+        /*
+        ** Stock the number of elements to be destroyed when
+        ** memlib::Delete_array is called
+        */
+        {
+            ArrayHeader *array_ptr = reinterpret_cast<ArrayHeader*>(
+                    memlib::get_internal_ptr(usr_ptr, sizeof (ArrayHeader)));
+            construct(array_ptr, count);
+        }
 
         // construct the elements of the allocated array
         construct_from_range(usr_ptr, count, ilist.begin(), ilist.end());
         return usr_ptr;
     }
 
-    /* Delete_array delete a Newed array */
+    /* Delete_array delete an array allocated with New_array */
 	template <class T,
 		 class Domain = UnknownDomain,
 		 class AllocStrat = DefaultAlloc>
@@ -115,19 +100,15 @@ namespace nq { namespace memlib
     {
         if (usr_ptr != nullptr)
         {
-            ArrayHeader *array_ptr = reinterpret_cast<ArrayHeader*>(
-                    get_internal_ptr(usr_ptr, sizeof (ArrayHeader)));
-            destroy_from_range(usr_ptr, array_ptr->size_);
             /*
-            // TODO To replace
-            void *internal_ptr = nq::memlib::get_internal_ptr(
-                    usr_ptr, BaseDomain::header_size + sizeof (ArrayHeader));
-
-            Domain::getInstance().remove(internal_ptr);
-
-            nq::memlib::deallocate(internal_ptr);
-            //!TODO
+            ** Recover the number of elements to be destroyed in the
+            ** ArrayHeader and use it to call destroy_from_range
             */
+            {
+                ArrayHeader *array_ptr = reinterpret_cast<ArrayHeader*>(
+                        get_internal_ptr(usr_ptr, sizeof (ArrayHeader)));
+                destroy_from_range(usr_ptr, array_ptr->size_);
+            }
 
             memlib::deallocate_log(usr_ptr,
                     Domain::header_size + sizeof(ArrayHeader),

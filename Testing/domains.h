@@ -10,6 +10,5 @@ NQ_DOMAIN(DomainTest);
 
 NQ_DOMAIN(SharedPtrRefCountDomain);
 
-
 # undef NQ_DOMAIN
 #endif // !DOMAINS_H_

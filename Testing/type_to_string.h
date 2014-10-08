@@ -20,9 +20,9 @@ namespace nq
 	/* User specific types */
 	/***********************/
 
-	REGISTER_TYPE_NAME(nq::allocator<int COMMA DomainEarth COMMA DefaultAlloc>);
 	REGISTER_TYPE_NAME(nq::allocator<int>);
-	REGISTER_TYPE_NAME(DomainEarth);
+	//REGISTER_TYPE_NAME(nq::allocator<int COMMA DomainEarth COMMA DefaultAlloc>);
+	//REGISTER_TYPE_NAME(DomainEarth);
 
 	/********************/
 	/* STL common types */

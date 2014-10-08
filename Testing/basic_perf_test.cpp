@@ -5,29 +5,59 @@
 
 #include "nq_new.h"
 
-void test_nq_new(nq::vector<int*>& vec)
+struct Test
+{
+private:
+	int num_;
+	int whatever_;
+	int break_;
+public:
+	Test()
+		: num_(55),
+		whatever_(33),
+		break_(123)
+	{
+	}
+	Test(int i, int j, int h)
+		: num_(i),
+		whatever_(j),
+		break_(h)
+	{
+	}
+	~Test()
+	{
+	}
+	Test(const Test& o)
+		: num_(o.num_),
+		whatever_(o.whatever_),
+		break_(o.break_)
+	{
+	}
+};
+
+void test_nq_new(nq::vector<Test*>& vec)
 {
     for (int i = 0; i < 10000; ++i)
     {
-    //int *j = nq::memlib::New<int, DomainSpace>(2);
-    int *j = new(DomainSpace::getInstance(), __FILE__, __LINE__) int(2);
+    Test *j = nq::memlib::New<Test, DomainSpace>(i % 10000, (i+1) % 10000, (i + 2) % 10000);
+    //int *j = new(DomainSpace::getInstance(), __FILE__, __LINE__) int(2);
     vec.push_back(j);
     }
 }
 
-void test_new(std::vector<int*>& vec)
+void test_new(std::vector<Test*>& vec)
 {
     for (int i = 0; i < 10000; ++i)
     {
-        int *j = new int(2);
+        Test *j = new Test(i % 10000, (i+1) % 10000, (i + 2) % 10000);
         vec.push_back(j);
     }
 }
 
 double loop()
 {
-    std::vector<int*> new_vec;
-    nq::vector<int*> nq_vec;
+    std::vector<Test*> new_vec;
+    nq::vector<Test*> nq_vec;
 
     typedef std::chrono::microseconds ms;
     typedef std::chrono::duration<double> fs;
@@ -52,8 +82,8 @@ double loop()
     for (auto& it : new_vec)
     { delete it; }
     for (auto& it : nq_vec)
-    //{ nq::memlib::Delete<int, DomainSpace>(it); }
-    { delete it; }
+    { nq::memlib::Delete<Test, DomainSpace>(it); }
+    //{ delete it; }
     return perf_loss;
 }
 

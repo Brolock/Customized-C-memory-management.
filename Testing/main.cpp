@@ -70,12 +70,6 @@ public:
 	}
 };
 
-void print(Test* a, int n)
-{
-	std::cout << "----------\n";
-	for (int t = 0; t < n; t++)
-		a[t].print();
-}
 # define NQ_NEW(Domain) new (Domain::getInstance(), __FILE__, __LINE__)
 
 int main()
@@ -114,22 +108,23 @@ int main()
         
         //nq::unique_ptr<Test[]> j(NQ_NEW(DomainEarth) Test[3]);
 
-    /*
-    nq::weak_ptr<int> n_weak;
-	{
-    nq::shared_ptr<int> n_shar(NQ_NEW(DomainEarth) int(3));
-    n_weak = n_shar;
-    */
         /*
-       nq::vector<Test> vec{Test(3, 521, 900), Test(3, 5, 6)};
+           nq::weak_ptr<int> n_weak;
+           {
+           nq::shared_ptr<int> n_shar(NQ_NEW(DomainEarth) int(3));
+           n_weak = n_shar;
+           }
+           */
+        /*
+       nq::vector<Test, DomainSpace> vec{Test(3, 521, 900), Test(3, 5, 6)};
        vec.push_back(Test(3, 5123, 87));
        */
-    /*
-        nq::unique_ptr<Test> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
-
-        nq::unique_ptr<Test, DomainSpace> lol =  nq::make_unique<Test, DomainSpace>(3, 4, 5);*/
-
-        //nq::unique_ptr<Test>folk(lol.release());
+        //nq::unique_ptr<Test> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
+        /*
+        nq::unique_ptr<Test, DomainSpace> lol =
+                        nq::make_unique<Test, DomainSpace>(3, 4, 5);
+        nq::unique_ptr<Test>folk(lol.release());
+        */
 
 		DomainEarth::getInstance().print();
 		DomainSpace::getInstance().print();
