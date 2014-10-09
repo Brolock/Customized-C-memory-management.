@@ -1,8 +1,5 @@
 #include "base_domain.h"
 
-/* TODO MAY CHANGE WITH THE NEW PRINT */
-#include <iostream>
-
 void BaseDomain::Header::add(Header* next)
 {
 	next_ = next;
@@ -28,21 +25,19 @@ BaseDomain::Header* BaseDomain::Header::remove_end()
 	return prev_;
 }
 
-void BaseDomain::Header::print() const
+void BaseDomain::Header::print(std::ostream& os = std::cout) const
 {
-	std::cout << "size: " << size_ << std::endl;
+	os << "size: " << size_ << std::endl;
 
-    /*TEST*/
     if (padding_ == 1)
     {
-        std::cout << "Is a new, @ File: "
+        os << "Is a new, @ File: "
             << (static_cast<const SubHeader*>(this))->get_file()
             << ", Line: " << (static_cast<const SubHeader*>(this))->get_line()
             << std::endl;
     }
-    /*!TEST*/
 	if (next_ != nullptr)
-		next_->print();
+		next_->print(os);
 }
 void BaseDomain::add(void* internal_ptr, std::size_t size)
 {
@@ -62,7 +57,6 @@ void BaseDomain::add(void* internal_ptr, std::size_t size)
 	}
 	count_++;
 }
-//TEST
 void BaseDomain::add(void* internal_ptr, std::size_t size,
         const char *file, size_t line, BaseDomain *dom)
 {
@@ -83,7 +77,6 @@ void BaseDomain::add(void* internal_ptr, std::size_t size,
 	}
 	count_++;
 }
-//!TEST
 
 void BaseDomain::remove(void *internal_ptr)
 {
@@ -101,17 +94,17 @@ void BaseDomain::remove(void *internal_ptr)
 	count_--;
 }
 
-void BaseDomain::print() const
+void BaseDomain::print(std::ostream& os = std::cout) const
 {
 	if (begin_ != nullptr)
 	{
-		std::cout << domain_name() << " memory log:\n=> "
+		os << domain_name() << " memory log:\n=> "
             << count_ << " allocated objets\n";
-		begin_->print();
-		std::cout << "--------------------" << std::endl;
+		begin_->print(os);
+		os << "--------------------" << std::endl;
 	}
 	else
 	{
-		std::cout << "No memory allocated in " << domain_name() << std::endl;
+		os << "No memory allocated in " << domain_name() << std::endl;
 	}
 }

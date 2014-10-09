@@ -5,6 +5,9 @@
 # include <cstddef>
 # include <utility>
 
+#include <iostream>
+
+
 # include "env_maccro.h"
 
 /*
@@ -55,7 +58,7 @@ private:
 		const size_t size() const { return size_; }
 
 		/* printer for the debug, will probably change */
-		void print() const;
+        void print(std::ostream&) const;
 	};
 
 private:
@@ -96,18 +99,14 @@ public:
 
 	void add(void *internal_ptr, size_t size);
 
-    //TEST
     void add(void* internal_ptr, std::size_t size,
         const char *file, size_t line, BaseDomain *dom);
-    //!TEST
 
 	/* Remove from the current Domain's list the Header associated with
      * the allocated ptr send */
 	void remove(void *internal_ptr);
 
-    //TEST
     virtual void virtual_remove(void *internal_ptr) = 0;
-    //!TEST
 
 protected:
 	/* BaseDomain is an interface  it's constructor can't be called */
@@ -126,7 +125,7 @@ private:
 
 public:
     /* printer for the debug, will probably to change */
-	void print() const;
+    void print(std::ostream&) const;
 
 # ifdef NQ_ENV_32
 		static_assert(sizeof(Header) == 16,

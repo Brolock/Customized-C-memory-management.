@@ -14,6 +14,7 @@
 #include "nq_list.h"
 #include <memory>
 #include <unordered_set>
+#include <fstream>
 
 #include <vector>
 #include "alloc_strat.h"
@@ -72,6 +73,7 @@ public:
 
 # define NQ_NEW(Domain) new (Domain::getInstance(), __FILE__, __LINE__)
 
+#include <unistd.h>
 int main()
 {
     //auto f = nq::make_unique<int, DomainSpace>(4);
@@ -115,10 +117,9 @@ int main()
            n_weak = n_shar;
            }
            */
-        /*
+        std::ofstream file("log_file");
        nq::vector<Test, DomainSpace> vec{Test(3, 521, 900), Test(3, 5, 6)};
        vec.push_back(Test(3, 5123, 87));
-       */
         //nq::unique_ptr<Test> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
         /*
         nq::unique_ptr<Test, DomainSpace> lol =
@@ -126,15 +127,20 @@ int main()
         nq::unique_ptr<Test>folk(lol.release());
         */
 
+        /*
 		DomainEarth::getInstance().print();
 		DomainSpace::getInstance().print();
 		UnknownDomain::getInstance().print();
 		SharedPtrRefCountDomain::getInstance().print();
-		std::cout << "=================" << std::endl;
+        */
+
+        nq::log::print();
 	}
 
+    /*
 	DomainEarth::getInstance().print();
 	DomainSpace::getInstance().print();
 	UnknownDomain::getInstance().print();
 	SharedPtrRefCountDomain::getInstance().print();
+    */
 }

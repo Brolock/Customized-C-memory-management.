@@ -21,4 +21,6 @@ nq::allocator inherite from std::allocator and with a debug flag can just be an 
 
 operator new[] gives a pointer alligned while it allocate a header of size 4, trixed malloc call ?
 
-having Domains beeing merged to one single type to avoid too much code size (not urgent)
+ofstream buffer is allocated with new...
+
+having Domains beeing merged to one single type to avoid too much code size (works with typedef)
