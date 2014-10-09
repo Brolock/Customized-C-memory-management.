@@ -41,8 +41,8 @@ void test_nq_new(nq::vector<Test*, DomainEarth>& vec)
 {
     for (int i = 0; i < 10000; ++i)
     {
-    Test *j = nq::memlib::New<Test, DomainSpace>(i % 10000, (i+1) % 10000, (i + 2) % 10000);
-    //int *j = new(DomainSpace::getInstance(), __FILE__, __LINE__) int(2);
+    //Test *j = nq::memlib::New<Test, DomainSpace>(i % 10000, (i+1) % 10000, (i + 2) % 10000);
+    Test *j = new(DomainSpace::getInstance(), __FILE__, __LINE__) Test(i % 10000, (i+1) % 10000, (i + 2) % 10000);
     vec.push_back(j);
     }
 }
@@ -84,8 +84,8 @@ double loop()
     for (auto& it : new_vec)
     { delete it; }
     for (auto& it : nq_vec)
-    { nq::memlib::Delete<Test, DomainSpace>(it); }
-    //{ delete it; }
+    //{ nq::memlib::Delete<Test, DomainSpace>(it); }
+    { delete it; }
     return perf_loss;
 }
 

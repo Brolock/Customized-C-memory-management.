@@ -1,5 +1,6 @@
 #include "base_domain.h"
 
+#ifdef WITH_NQ_MEMLOG
 void BaseDomain::Header::add(Header* next)
 {
 	next_ = next;
@@ -108,3 +109,4 @@ void BaseDomain::print(std::ostream& os = std::cout) const
 		os << "No memory allocated in " << domain_name() << std::endl;
 	}
 }
+#endif // WITH_NQ_MEMLOG

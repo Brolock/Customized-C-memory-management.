@@ -20,8 +20,11 @@
 ** Placing them there avoid costy extra allocation for every logging.
 */
 
-namespace nq { namespace memlib { void remove_header_operator_delete(void *ptr);}}
+namespace nq { namespace memlib {
+    void remove_header_operator_delete(void *ptr);
+}} // nq::memlib
 
+#ifdef WITH_NQ_MEMLOG
 class BaseDomain
 {
 private:
@@ -59,7 +62,7 @@ private:
 		Header* remove_begin();
 		Header* remove_end();
 
-		const size_t size() const { return size_; }
+		inline const size_t size() const { return size_; }
 
 		/* printer for the debug, will probably change */
         void print(std::ostream&) const;
@@ -87,18 +90,17 @@ private:
             nothing_(0)
         {}
 
-        const char *get_file() const { return file_; }
-        size_t get_line() const { return line_; }
-		BaseDomain *get_domain() const { return dom_; }
+        inline const char *get_file() const { return file_; }
+        inline size_t get_line() const { return line_; }
+		inline BaseDomain *get_domain() const { return dom_; }
     };
 private:
 	size_t count_; // The number of non freed allocation in the domain
-public:
-	size_t get_count() const { return count_; }
-
 private:
 	Header *begin_;
 	Header *end_;
+public:
+	inline size_t get_count() const { return count_; }
 public:
 	enum HSENUM { header_size = sizeof(Header),
         sub_header_size = sizeof(SubHeader)};
@@ -144,6 +146,25 @@ public:
                 "Header don't take 32 bytes in 64 bits");
 # endif // !NQ_ENV_32
 };
+# else // WITH_NQ_MEMLOG
+class BaseDomain
+{
+public:
+    enum HSENUM { header_size = 0,
+        sub_header_size = 0 };
+
+	inline void add(void *internal_ptr, size_t size) {}
+
+    inline void add(void* internal_ptr, std::size_t size,
+        const char *file, size_t line, BaseDomain *dom) {}
+
+	inline void remove(void *internal_ptr) {}
+
+    inline void print(std::ostream&) const {}
+protected:
+	BaseDomain() {}
+};
+# endif // WITH_NQ_MEMLOG
 
 /*** Non-member functions ***/
 namespace nq { namespace memlib {
@@ -162,9 +183,11 @@ namespace nq { namespace memlib {
     }
 }} // nq::memlib
 
+# ifdef WITH_NQ_MEMLOG
+
 /* Generic declaration of a Domain to avoid copy paste at every
  * new domain creation */
-# define NQ_DOMAIN(new_domain)	      \
+#  define NQ_DOMAIN(new_domain)	      \
 class new_domain : public BaseDomain  \
 {                                     \
 public:                               \
@@ -180,5 +203,21 @@ public:                               \
 private:                              \
 	virtual const char* domain_name() const { return #new_domain; } \
 };
+
+# else //WITH_NQ_MEMLOG
+class NoDomain: public BaseDomain
+{
+public:
+	static NoDomain& getInstance()
+	{
+		static NoDomain instance;
+		return instance;
+	}
+};
+
+# define NQ_DOMAIN(new_domain)	      \
+    typedef NoDomain new_domain;
+
+# endif // !WITH_NQ_MEMLOG
 
 #endif // !BASE_DOMAIN_H_
