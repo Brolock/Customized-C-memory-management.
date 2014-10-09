@@ -6,6 +6,8 @@
 
 # include "domains.h"
 
+# define NQ_NEW(Domain) new (Domain::getInstance(), __FILE__, __LINE__)
+
 class NewedType
 {
     char size;
@@ -19,7 +21,6 @@ void* operator new(size_t count,
             Domain::sub_header_size, file, line);
 }
 
-#include <iostream>
 template<class Domain>
 void* operator new[](size_t count,
         const Domain& domain, const char *file, size_t line) noexcept

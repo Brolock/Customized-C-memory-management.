@@ -17,7 +17,7 @@
 ** Domains are double linked lists of Headers.
 ** Headers are placed (by the allocator!) before all the allocated memory
 ** so we can recover them with trivial pointer arithmetic.
-** Placing them there avoid useless extra allocation for every logging.
+** Placing them there avoid costy extra allocation for every logging.
 */
 
 namespace nq { namespace memlib { void remove_header_operator_delete(void *ptr);}}
@@ -25,7 +25,7 @@ namespace nq { namespace memlib { void remove_header_operator_delete(void *ptr);
 class BaseDomain
 {
 private:
-	// delete function only have to know about Header Structure.
+	// operator delete function only have to know about Header Structure.
 	friend void nq::memlib::remove_header_operator_delete(void *ptr);
 	
 	class Header
@@ -38,6 +38,10 @@ private:
 		const size_t size_;
 
 		/* The padding is here for allignement */
+        /*
+        ** !It's also used to log wheter the Header is a SubHeader or not;
+        ** it avoids dynamic_cast for a static_cast (less costy)
+        */
 		const size_t padding_;
 	public:
 		Header(size_t size, size_t padding = 0,
@@ -62,6 +66,11 @@ private:
 	};
 
 private:
+    /*
+    ** SubHeader is the Header specific to operator new and delete so we can:
+    ** -log the file and line they have been allocated in
+    ** -log the Domain* used by new so it can be recovered later by delete.
+    */
     class SubHeader : public Header
     {
     private:
@@ -137,7 +146,8 @@ public:
 };
 
 /*** Non-member functions ***/
-namespace nq {
+namespace nq { namespace memlib {
+    /* These non member are (way) easier to pass as function pointers */
     template<class Domain>
     void remove_elem_domain(void *ptr)
     {
@@ -150,7 +160,7 @@ namespace nq {
     {
         Domain::getInstance().add(std::forward<Args>(args)...);
     }
-}
+}} // nq::memlib
 
 /* Generic declaration of a Domain to avoid copy paste at every
  * new domain creation */

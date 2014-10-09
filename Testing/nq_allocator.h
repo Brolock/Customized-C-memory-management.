@@ -74,7 +74,7 @@ namespace nq
 		void deallocate(pointer usr_ptr, size_type)
 		{ // deallocate memory pointer by usr_ptr with alloc_strat
             memlib::deallocate_log(usr_ptr, Domain::header_size,
-                    nq::remove_elem_domain<Domain>);
+                    memlib::remove_elem_domain<Domain>);
 			/* size_type ? */
 		}
 

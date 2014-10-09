@@ -1,7 +1,9 @@
 #include <chrono>
 #include <vector>
+
 #include "nq_vector.h"
 #include "nq_memlib_new.h"
+#include "domains.h"
 
 #include "nq_new.h"
 
@@ -35,7 +37,7 @@ public:
 	}
 };
 
-void test_nq_new(nq::vector<Test*>& vec)
+void test_nq_new(nq::vector<Test*, DomainEarth>& vec)
 {
     for (int i = 0; i < 10000; ++i)
     {
@@ -57,7 +59,7 @@ void test_new(std::vector<Test*>& vec)
 double loop()
 {
     std::vector<Test*> new_vec;
-    nq::vector<Test*> nq_vec;
+    nq::vector<Test*, DomainEarth> nq_vec;
 
     typedef std::chrono::microseconds ms;
     typedef std::chrono::duration<double> fs;

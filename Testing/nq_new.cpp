@@ -23,6 +23,10 @@ void* operator new[](size_t count)
 }
 
 namespace nq { namespace memlib {
+    /*
+    ** Function used by operator delete to recover the SubHeader of a pointer
+    ** and call the logged Domain to remove the log
+    */
     void remove_header_operator_delete(void *ptr)
     {
 		BaseDomain::SubHeader* subHeader =

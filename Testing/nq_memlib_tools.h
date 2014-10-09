@@ -68,6 +68,10 @@ namespace nq { namespace memlib
         }
     }
 
+    /*
+    ** get_usr_ptr and get_internal_ptr, hide the pointer arithmetic done
+    ** when recovering or placing a Header
+    */
     template<typename T>
     T* get_usr_ptr(T *internal_ptr, std::size_t headers)
     {
@@ -84,20 +88,11 @@ namespace nq { namespace memlib
         return reinterpret_cast<T*>(arithmetic_ptr);
     }
 
-    template<class AllocStrat = DefaultAlloc>
-    void deallocate_log(void *usr_ptr, size_t headers,
-            std::function<void(void*)> remove_header_fun)
-    {
-        if (usr_ptr != nullptr)
-        {
-            void *internal_ptr = get_internal_ptr(usr_ptr, headers);
-
-            remove_header_fun(internal_ptr);
-
-            memlib::deallocate<AllocStrat>(internal_ptr);
-        }
-    }
-
+    /* allocate_log and deallocate_log are used by every allocating class */
+    /*
+    ** allocate with AllocStrat a new pointer of count elements T, and
+    ** log it in Domain.
+    */
     template<class T,
         class Domain = UnknownDomain,
         class AllocStrat = DefaultAlloc>
@@ -115,6 +110,7 @@ namespace nq { namespace memlib
         return memlib::get_usr_ptr(internal_ptr, headers);
     }
 
+    /* This allocate_log overload is used by operator new */
     template<class T,
         class Domain = UnknownDomain,
         class AllocStrat = DefaultAlloc>
@@ -128,11 +124,27 @@ namespace nq { namespace memlib
         if (internal_ptr == nullptr)
             throw std::bad_alloc();
 
-        /* whatif new overload of new ?!*/
         Domain::getInstance().add(internal_ptr, count,
                 file, line, &Domain::getInstance());
 
         return memlib::get_usr_ptr(internal_ptr, headers);
+    }
+
+    /*
+    ** deallocate with AllocStrat pointer ptr, and unlog it in Domain.
+    */
+    template<class AllocStrat = DefaultAlloc>
+    void deallocate_log(void *usr_ptr, size_t headers,
+            std::function<void(void*)> remove_header_fun)
+    {
+        if (usr_ptr != nullptr)
+        {
+            void *internal_ptr = get_internal_ptr(usr_ptr, headers);
+
+            remove_header_fun(internal_ptr);
+
+            memlib::deallocate<AllocStrat>(internal_ptr);
+        }
     }
 }} // namespace nq::memlib
 

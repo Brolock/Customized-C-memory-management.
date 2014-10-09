@@ -389,6 +389,7 @@ namespace nq
 
     /*** Non member functions ***/
 
+    /* nq::make_unique follows the standard implementation of C++14 */
     template<class T, class Domain, class AllocStrat>
     struct Unique_if
     {

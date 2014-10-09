@@ -1,9 +1,10 @@
 #ifndef NQ_DELETER_H_
 # define NQ_DELETER_H_
 
-#include <type_traits>
+# include <type_traits>
 
-#include "nq_allocator.h"
+# include "nq_allocator.h"
+# include "nq_memlib_new.h"
 
 /* 
 ** The deleter class is used in RAII classes to know the way a given

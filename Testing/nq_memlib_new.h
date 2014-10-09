@@ -45,9 +45,10 @@ namespace nq { namespace memlib
 	{
         memlib::destroy(ptr);
         memlib::deallocate_log(ptr, Domain::header_size,
-                nq::remove_elem_domain<Domain>);
+                memlib::remove_elem_domain<Domain>);
 	}
 
+    /* The ArrayHeader is used by New_array and Delete_array */
     struct ArrayHeader
     {
         ArrayHeader()
@@ -112,7 +113,7 @@ namespace nq { namespace memlib
 
             memlib::deallocate_log(usr_ptr,
                     Domain::header_size + sizeof(ArrayHeader),
-                    nq::remove_elem_domain<Domain>);
+                    memlib::remove_elem_domain<Domain>);
         }
     }
 }} // namespace nq::memlib
