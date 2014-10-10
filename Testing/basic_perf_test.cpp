@@ -37,7 +37,8 @@ public:
 	}
 };
 
-void test_nq_new(nq::vector<Test*, DomainEarth>& vec)
+void test_nq_new(std::vector<Test*, nq::allocator<Test*>>& vec)
+//void test_nq_new(std::vector<Test*>& vec)
 {
     for (int i = 0; i < 10000; ++i)
     {
@@ -60,6 +61,7 @@ double loop()
 {
     std::vector<Test*> new_vec;
     nq::vector<Test*, DomainEarth> nq_vec;
+    //std::vector<Test*> nq_vec;
 
     typedef std::chrono::microseconds ms;
     typedef std::chrono::duration<double> fs;

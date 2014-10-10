@@ -16,6 +16,7 @@ struct DefaultAlloc
 	{
 		return std::malloc(size);
 	}
+
 	void deallocate(void *ptr)
 	{
 		std::free(ptr);

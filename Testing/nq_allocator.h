@@ -2,10 +2,7 @@
 # define NQ_ALLOCATOR_H_
 
 # include <cassert>
-# include <cstdlib>
-# include <cstddef>
 # include <limits>
-# include <iostream>
 # include <memory>
 
 # include "nq_memlib_tools.h"
@@ -31,8 +28,6 @@ namespace nq
 		typedef const T& const_reference;
 		typedef std::size_t size_type;
 		typedef std::ptrdiff_t difference_type;
-
-		typedef AllocStrat allocator_strategy;
 
 		/* Allocator convertor from T to U */
 		template<class U>
@@ -67,12 +62,15 @@ namespace nq
 		pointer allocate(size_type count,
                 std::allocator<void>::const_pointer = 0)
 		{ // allocate memory with alloc_strat
-# ifdef WITH_NQ_MEMLOG
+//# ifdef WITH_NQ_MEMLOG
             return memlib::allocate_log<T, Domain, AllocStrat>(count,
                                                     Domain::header_size);
+            /*
 # else
-            return static_cast<pointer>(AllocStrat().allocate(sizeof (T)));
+            return static_cast<pointer>(
+                    AllocStrat().allocate(count * sizeof (T)));
 # endif
+*/
 		}
 
 		void deallocate(pointer usr_ptr, size_type)
@@ -107,7 +105,7 @@ namespace nq
 #ifdef WITH_NQ_MEMLOG
             memlib::construct(ptr, std::forward<Args>(args)...);
 #else // WITH_NQ_MEMLOG
-            new(ptr) T(std::forward<Args>(args)...);
+            new(ptr) U(std::forward<Args>(args)...);
 #endif // !WITH_NQ_MEMLOG
 		}
 
