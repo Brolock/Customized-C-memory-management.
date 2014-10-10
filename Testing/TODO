@@ -23,4 +23,6 @@ operator new[] gives a pointer alligned while it allocate a header of size 4, tr
 
 ofstream buffer is allocated with new...
 
+Try a DLL precompiled with -O3 could be funky !
+
 having Domains beeing merged to one single type to avoid too much code size (works with typedef)

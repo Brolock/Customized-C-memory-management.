@@ -10,8 +10,9 @@ namespace nq { namespace log {
     */
     void print_helper(std::ostream& os, const char *message)
     {
-        os << "logged at:";
+#ifdef WITH_NQ_LOGTIME
         print_time(os);
+#endif // !WITH_NQ_LOGTIME
 
         os << message << std::endl;
     }
@@ -21,6 +22,8 @@ namespace nq { namespace log {
 # include <ctime>
     void print_time(::std::ostream& os)
     {
+        os << "logged at:";
+
         time_t t = time(0); // get current time
         tm *now = localtime(&t);
         os  << now->tm_hour << "h"

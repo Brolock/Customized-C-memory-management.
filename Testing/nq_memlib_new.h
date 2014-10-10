@@ -32,10 +32,16 @@ namespace nq { namespace memlib
 		 class... Args>
 	T* New(Args... Parameters)
 	{
+#ifdef WITH_NQ_MEMLOG
         T *ptr = memlib::allocate_log<T, Domain, AllocStrat>(1,
                 Domain::header_size);
 		memlib::construct(ptr, std::forward<Args>(Parameters)...);
 		return ptr;
+#else
+        void *ptr = AllocStrat().allocate(sizeof (T));
+        new(ptr) T(std::forward<Args>(Parameters)...);
+        return static_cast<T*>(ptr);
+#endif
 	}
 
 	template <class T,
@@ -43,9 +49,14 @@ namespace nq { namespace memlib
 		class AllocStrat = DefaultAlloc>
 	void Delete(T *ptr)
 	{
+#ifdef WITH_NQ_MEMLOG
         memlib::destroy(ptr);
-        memlib::deallocate_log(ptr, Domain::header_size,
+        memlib::deallocate_log<AllocStrat>(ptr, Domain::header_size,
                 memlib::remove_elem_domain<Domain>);
+#else
+        ptr->~T();
+        AllocStrat().deallocate(ptr);
+#endif
 	}
 
     /* The ArrayHeader is used by New_array and Delete_array */
@@ -111,7 +122,7 @@ namespace nq { namespace memlib
                 destroy_from_range(usr_ptr, array_ptr->size_);
             }
 
-            memlib::deallocate_log(usr_ptr,
+            memlib::deallocate_log<AllocStrat>(usr_ptr,
                     Domain::header_size + sizeof(ArrayHeader),
                     memlib::remove_elem_domain<Domain>);
         }

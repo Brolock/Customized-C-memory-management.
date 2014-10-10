@@ -1,5 +1,6 @@
 #include "nq_new.h"
 
+/*
 void operator delete(void *usr_ptr) noexcept
 {
     nq::memlib::deallocate_log(usr_ptr, BaseDomain::sub_header_size,
@@ -13,7 +14,7 @@ void operator delete[](void *usr_ptr) noexcept
 
 void* operator new(size_t count)
 {
-    return nq::memlib::allocate_log<NewedType, UnknownDomain>(count,
+    return nq::memlib::allocate_log<NewedType>(count,
             UnknownDomain::getInstance().sub_header_size, "Do not use new", 0);
 }
 
@@ -21,6 +22,7 @@ void* operator new[](size_t count)
 {
     return operator new(count);
 }
+*/
 
 namespace nq { namespace memlib {
 #ifdef WITH_NQ_MEMLOG

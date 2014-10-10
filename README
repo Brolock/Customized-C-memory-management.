@@ -1,9 +1,4 @@
-Beware !
-
-auto jay = nq::make_unique<Test, DomainEarth>(111, 33, 445);
-auto joy = nq::make_shared<Test, DomainEarth>(1, 3, 4);
-
-joy = std::move(jay);
-
-Will do an extra allocation for the RefcountPtr of the new
-object pointed, and it will use new for it!
+define :
+-WITH_NQ_MEMLOG to activate the logging with domains
+-WITH_NQ_LOGTIME to display the time in hour/min/sec of your log
+    (beware recovering the time makes allocations)

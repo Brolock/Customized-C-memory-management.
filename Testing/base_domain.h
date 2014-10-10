@@ -146,7 +146,15 @@ public:
                 "Header don't take 32 bytes in 64 bits");
 # endif // !NQ_ENV_32
 };
+
+/*
+**
+*/
 # else // WITH_NQ_MEMLOG
+/*
+** If not logging, BaseDomain is an empty class in which all methods are
+** doing nothing
+*/
 class BaseDomain
 {
 public:
@@ -205,6 +213,11 @@ private:                              \
 };
 
 # else //WITH_NQ_MEMLOG
+/*
+** If not logging all the Domains type are merged to one (NoDomain)
+** to avoid code duplication in templates.
+** This results in smaller binary file
+*/
 class NoDomain: public BaseDomain
 {
 public:

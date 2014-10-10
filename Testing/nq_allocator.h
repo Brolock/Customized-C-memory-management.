@@ -67,14 +67,22 @@ namespace nq
 		pointer allocate(size_type count,
                 std::allocator<void>::const_pointer = 0)
 		{ // allocate memory with alloc_strat
+# ifdef WITH_NQ_MEMLOG
             return memlib::allocate_log<T, Domain, AllocStrat>(count,
                                                     Domain::header_size);
+# else
+            return static_cast<pointer>(AllocStrat().allocate(sizeof (T)));
+# endif
 		}
 
 		void deallocate(pointer usr_ptr, size_type)
 		{ // deallocate memory pointer by usr_ptr with alloc_strat
-            memlib::deallocate_log(usr_ptr, Domain::header_size,
+# ifdef WITH_NQ_MEMLOG
+            memlib::deallocate_log<AllocStrat>(usr_ptr, Domain::header_size,
                     memlib::remove_elem_domain<Domain>);
+# else // WITH_NQ_MEMLOG
+            AllocStrat().deallocate(usr_ptr);
+# endif // !WITH_NQ_MEMLOG
 			/* size_type ? */
 		}
 
@@ -83,23 +91,35 @@ namespace nq
 			return std::numeric_limits<size_type>::max();
 		}
 
-		void construct(pointer p, const_reference val)
+		void construct(pointer ptr, const_reference val)
 		{
-            memlib::construct(p, val);
+# ifdef WITH_NQ_MEMLOG
+            memlib::construct(ptr, val);
+# else // WITH_NQ_MEMLOG
+            new(ptr) T(val);
+# endif // !WITH_NQ_MEMLOG
 		}
 
 		template <class U,
 			class... Args>
-		void construct(U* p, Args&&... args)
+		void construct(U* ptr, Args&&... args)
 		{
-            memlib::construct(p, std::forward<Args>(args)...);
+#ifdef WITH_NQ_MEMLOG
+            memlib::construct(ptr, std::forward<Args>(args)...);
+#else // WITH_NQ_MEMLOG
+            new(ptr) T(std::forward<Args>(args)...);
+#endif // !WITH_NQ_MEMLOG
 		}
 
 		/* destroy(pointer p) and destroy(U* p) are the same.*/
 		template <class U>
-		void destroy(U* p)
+		void destroy(U* ptr)
 		{
-            memlib::destroy(p);
+#ifdef WITH_NQ_MEMLOG
+            memlib::destroy(ptr);
+#else // WITH_NQ_MEMLOG
+            ptr->~U();
+#endif // !WITH_NQ_MEMLOG
 		}
 	};
 

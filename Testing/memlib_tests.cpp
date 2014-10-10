@@ -49,7 +49,7 @@ public:
 
 void tests()
 {
-    auto f = nq::make_unique<int, DomainSpace>(4);
+    //auto f = nq::make_unique<int, DomainSpace>(4);
     
     /*Test *ho = nq::memlib::New<Test, DomainEarth>(3, 5, 1);
 
@@ -76,7 +76,7 @@ void tests()
         
         //auto j = nq::make_shared<Test>(2, 3, 5); 44
 
-        nq::shared_ptr<Test> h(NQ_NEW(DomainSpace) Test(3, 5, 6));
+        //nq::shared_ptr<Test> h(NQ_NEW(DomainSpace) Test(3, 5, 6));
 
         //auto f = nq::new_shared<Test, DomainSpace>(44, 3030, 190);
 
@@ -90,8 +90,10 @@ void tests()
            n_weak = n_shar;
            }
            */
+        /*
         nq::vector<Test, DomainSpace> vec{Test(3, 521, 900), Test(3, 5, 6)};
         vec.push_back(Test(3, 5123, 87));
+        */
         //nq::unique_ptr<Test> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
         /*
         nq::unique_ptr<Test, DomainSpace> lol =
