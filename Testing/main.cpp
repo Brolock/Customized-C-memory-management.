@@ -3,6 +3,6 @@ void perf_test();
 
 int main()
 {
-    //tests();
-    perf_test();
+//    perf_test();
+    tests();
 }

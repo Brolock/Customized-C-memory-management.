@@ -105,9 +105,7 @@ namespace nq { namespace memlib
         if (internal_ptr == nullptr)
             throw std::bad_alloc();
 
-# ifdef WITH_NQ_MEMLOG
         Domain::getInstance().add(internal_ptr, count * sizeof (T));
-# endif // !WITH_NQ_MEMLOG
 
         return memlib::get_usr_ptr(internal_ptr, headers);
     }
@@ -125,10 +123,9 @@ namespace nq { namespace memlib
 
         if (internal_ptr == nullptr)
             throw std::bad_alloc();
-# ifdef WITH_NQ_MEMLOG
+
         Domain::getInstance().add(internal_ptr, count,
                 file, line, &Domain::getInstance());
-# endif // !WITH_NQ_MEMLOG
 
         return memlib::get_usr_ptr(internal_ptr, headers);
     }
@@ -143,10 +140,7 @@ namespace nq { namespace memlib
         if (usr_ptr != nullptr)
         {
             void *internal_ptr = get_internal_ptr(usr_ptr, headers);
-
-# ifdef WITH_NQ_MEMLOG
             remove_header_fun(internal_ptr);
-# endif // !WITH_NQ_MEMLOG
             memlib::deallocate<AllocStrat>(internal_ptr);
         }
     }

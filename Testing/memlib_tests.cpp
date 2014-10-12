@@ -106,4 +106,3 @@ void tests()
 	}
     nq::log::print();
 }
-

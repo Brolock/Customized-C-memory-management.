@@ -5,7 +5,7 @@
 # include <cstddef>
 # include <utility>
 
-#include <iostream>
+# include <iostream>
 
 
 # include "env_maccro.h"
@@ -24,7 +24,7 @@ namespace nq { namespace memlib {
     void remove_header_operator_delete(void *ptr);
 }} // nq::memlib
 
-#ifdef WITH_NQ_MEMLOG
+# ifdef WITH_NQ_MEMLOG
 class BaseDomain
 {
 private:
@@ -147,9 +147,6 @@ public:
 # endif // !NQ_ENV_32
 };
 
-/*
-**
-*/
 # else // WITH_NQ_MEMLOG
 /*
 ** If not logging, BaseDomain is an empty class in which all methods are
