@@ -150,7 +150,7 @@ public:
 # else // WITH_NQ_MEMLOG
 /*
 ** If not logging, BaseDomain is an empty class in which all methods are
-** doing nothing
+** empty
 */
 class BaseDomain
 {
@@ -173,7 +173,7 @@ protected:
 
 /*** Non-member functions ***/
 namespace nq { namespace memlib {
-    /* These non member are (way) easier to pass as function pointers */
+    /* These non-members are (way) easier to pass as function pointers */
     template<class Domain>
     void remove_elem_domain(void *ptr)
     {
@@ -211,7 +211,7 @@ private:                              \
 
 # else //WITH_NQ_MEMLOG
 /*
-** If not logging all the Domains type are merged to one (NoDomain)
+** If not logging all the Domains type are merged to one type (NoDomain)
 ** to avoid code duplication in templates.
 ** This results in smaller binary file
 */

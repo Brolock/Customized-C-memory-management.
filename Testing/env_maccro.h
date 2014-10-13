@@ -1,14 +1,17 @@
 #ifndef ENV_MACCRO_H_
 # define ENV_MACCRO_H_
 
+/* NQ_WIN_ to check if we are on a windows compiler */
 # if _WIN32 || _WIN64
 #  define NQ_WIN_
 # endif // _WIN32 || _WIN64
 
+/* NQ_GNU_ to check if we are on a gnu compiler */
 # if __GNUC__
 #  define NQ_GNU_
 # endif // __GNUC__
 
+/* NQ_ENV_64 if compiling on 64 bits, NQ_ENV_32 if compiling on a 32 */
 /* Check windows */
 # if _WIN32 || _WIN64
 #  if _WIN64
@@ -41,6 +44,8 @@
 # ifdef NQ_GNU_
 # endif // !NQ_GNU_
 
+/* Under Windows the keyword noexcept doesn't exist so we replace it with an
+ * empty macro */
 # ifdef NQ_WIN_
 #  define noexcept
 # endif // !NQ_WIN_

@@ -210,7 +210,7 @@ namespace nq
 		class... Args>
 	shared_ptr<T> allocate_shared(const Allocator& alloc, Args&&... args)
 	{ // make a shared_ptr with a single allocation
-		return std::allocate_shared<T>(alloc, std::forward<Args>(args)...);
+        return std::allocate_shared<T>(alloc, std::forward<Args>(args)...);
 	}
 
     template<class T>

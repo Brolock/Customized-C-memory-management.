@@ -6,7 +6,7 @@ namespace nq { namespace log {
     /*
     ** The print_helper fonction is here to avoid having a lot of non needed
     ** code in the print() function in domains.h.
-    ** It calls all the sub print functions.
+    ** It calls all the print options (like displaying time, message...)
     */
     void print_helper(std::ostream& os, const char *message)
     {

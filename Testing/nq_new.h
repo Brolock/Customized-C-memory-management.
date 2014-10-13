@@ -6,6 +6,10 @@
 
 # include "domains.h"
 
+/*
+** NQ_NEW is logged with its file line for easier leak detections
+** The Domain is also logged to be recovered by operator delete
+*/
 # define NQ_NEW(Domain) new (Domain::getInstance(), __FILE__, __LINE__)
 
 class NewedType

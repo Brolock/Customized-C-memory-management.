@@ -55,7 +55,8 @@ namespace nq
 }
 
 /*
-** could also works with VA_ARGS (variadic args in maccros) but need to write the name twice
+** could also works with VA_ARGS (variadic args in maccros) but need to write
+** the name twice: 
 #define SET_TYPE_NAME(NAME, ...) \
 template<typename T>          \
 std::string name();           \

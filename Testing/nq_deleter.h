@@ -9,8 +9,8 @@
 /* 
 ** The deleter class is used in RAII classes to know the way a given
 ** pointer needs to be deleted.
-** It's the operator() associated with this class that define the
-** method to follow
+** It's the operator() associated with this class that define the way the
+** pointer should be deleted
 */
 
 namespace nq
@@ -58,7 +58,10 @@ namespace nq
 		}
 	};
 
-    /* new_deleter used by default by nq::shared_ptr to delete a newed ptr */
+    /*
+    ** new_deleter used by default by nq::shared_ptr to delete a newed ptr.
+    ** It allows to write code like shared_ptr<T> s_p(new T());
+    */
 	template <typename T>
 	struct new_deleter
 	{
