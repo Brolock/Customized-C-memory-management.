@@ -9,23 +9,23 @@
 
 namespace nq
 {
-	template<typename T,
-		class Domain = UnknownDomain,
-		class AllocStrat = DefaultAlloc>
-	class forward_list
+    template<typename T,
+        class Domain = UnknownDomain,
+        class AllocStrat = DefaultAlloc>
+    class forward_list
     : public std::forward_list<T, nq::allocator<T, Domain, AllocStrat>>
-	{
+    {
         typedef nq::allocator<T, Domain, AllocStrat> nq_alloc;
         typedef std::forward_list<T, nq::allocator<T, Domain, AllocStrat>> parent;
 
         typedef T value_type;
         typedef size_t size_type;
-	public:
+    public:
 
         /*** Constructors ***/
-		forward_list()
+        forward_list()
             : parent()
-		{ // construct empty forward_list
+        { // construct empty forward_list
         }
 
         explicit forward_list(const nq_alloc& alloc)
@@ -33,9 +33,9 @@ namespace nq
         { // construct empty forward_list, allocator
         }
 
-		explicit forward_list(size_type count)
-			: parent(count)
-		{ // construct forward_list of size count
+        explicit forward_list(size_type count)
+            : parent(count)
+        { // construct forward_list of size count
         }
 
         /* Should be available with the C++14 and replace forward_list(size_t)
@@ -120,7 +120,7 @@ namespace nq
             this->parent::operator=(Ilist);
             return *this;
         }
-	};
+    };
 }
 
 #endif // !NQ_FORWARD_LIST_H_

@@ -30,11 +30,11 @@ namespace nq { namespace memlib {
     */
     void remove_header_operator_delete(void *ptr)
     {
-		BaseDomain::SubHeader* subHeader =
+        BaseDomain::SubHeader* subHeader =
             reinterpret_cast<BaseDomain::SubHeader*>(ptr);
 
-		BaseDomain* domain_ptr = subHeader->get_domain();
-		domain_ptr->virtual_remove(ptr);
+        BaseDomain* domain_ptr = subHeader->get_domain();
+        domain_ptr->virtual_remove(ptr);
     }
 #else // WITH_NQ_MEMLOG
     void remove_header_operator_delete(void *ptr) {}

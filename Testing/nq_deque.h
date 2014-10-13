@@ -9,22 +9,22 @@
 
 namespace nq
 {
-	template<typename T,
-		class Domain = UnknownDomain,
-		class AllocStrat = DefaultAlloc>
-	class deque : public std::deque<T, nq::allocator<T, Domain, AllocStrat>>
-	{
+    template<typename T,
+        class Domain = UnknownDomain,
+        class AllocStrat = DefaultAlloc>
+    class deque : public std::deque<T, nq::allocator<T, Domain, AllocStrat>>
+    {
         typedef nq::allocator<T, Domain, AllocStrat> nq_alloc;
         typedef std::deque<T, nq::allocator<T, Domain, AllocStrat>> parent;
 
         typedef T value_type;
         typedef size_t size_type;
-	public:
+    public:
 
         /*** Constructors ***/
-		deque()
+        deque()
             : parent()
-		{ // construct empty deque
+        { // construct empty deque
         }
 
         explicit deque(const nq_alloc& alloc)
@@ -32,9 +32,9 @@ namespace nq
         { // construct empty deque, allocator
         }
 
-		explicit deque(size_type count)
-			: parent(count)
-		{ // construct deque of size count
+        explicit deque(size_type count)
+            : parent(count)
+        { // construct deque of size count
         }
 
         /* Should be available with the C++14 and replace deque(size_t)
@@ -119,7 +119,7 @@ namespace nq
             this->parent::operator=(Ilist);
             return *this;
         }
-	};
+    };
 }
 
 #endif // !NQ_DEQUE_H_

@@ -10,31 +10,31 @@
 struct Test
 {
 private:
-	int num_;
-	int whatever_;
-	int break_;
+    int num_;
+    int whatever_;
+    int break_;
 public:
-	Test()
-		: num_(55),
-		whatever_(33),
-		break_(123)
-	{
-	}
-	Test(int i, int j, int h)
-		: num_(i),
-		whatever_(j),
-		break_(h)
-	{
-	}
-	~Test()
-	{
-	}
-	Test(const Test& o)
-		: num_(o.num_),
-		whatever_(o.whatever_),
-		break_(o.break_)
-	{
-	}
+    Test()
+        : num_(55),
+        whatever_(33),
+        break_(123)
+    {
+    }
+    Test(int i, int j, int h)
+        : num_(i),
+        whatever_(j),
+        break_(h)
+    {
+    }
+    ~Test()
+    {
+    }
+    Test(const Test& o)
+        : num_(o.num_),
+        whatever_(o.whatever_),
+        break_(o.break_)
+    {
+    }
 };
 
 void test_nq_new(std::vector<Test*, nq::allocator<Test*>>& vec)

@@ -26,27 +26,27 @@ namespace nq { namespace memlib
     ** New and Delete follows the same behaviour as any stl container for
     ** allocations
     */
-	template <class T,
-		 class Domain = UnknownDomain,
-		 class AllocStrat = DefaultAlloc,
-		 class... Args>
-	T* New(Args... Parameters)
-	{
+    template <class T,
+         class Domain = UnknownDomain,
+         class AllocStrat = DefaultAlloc,
+         class... Args>
+    T* New(Args... Parameters)
+    {
         T *ptr = memlib::allocate_log<T, Domain, AllocStrat>(1,
                 Domain::header_size);
-		memlib::construct(ptr, std::forward<Args>(Parameters)...);
-		return ptr;
-	}
+        memlib::construct(ptr, std::forward<Args>(Parameters)...);
+        return ptr;
+    }
 
-	template <class T,
-		class Domain = UnknownDomain,
-		class AllocStrat = DefaultAlloc>
-	void Delete(T *ptr)
-	{
+    template <class T,
+        class Domain = UnknownDomain,
+        class AllocStrat = DefaultAlloc>
+    void Delete(T *ptr)
+    {
         memlib::destroy(ptr);
         memlib::deallocate_log<AllocStrat>(ptr, Domain::header_size,
                 memlib::remove_elem_domain<Domain>);
-	}
+    }
 
     /* The ArrayHeader is used by New_array and Delete_array */
     struct ArrayHeader
@@ -66,9 +66,9 @@ namespace nq { namespace memlib
     ** New array allocate a ArrayHeader to stock the number of elements
     ** to destruct when Delete_array is called
     */
-	template <class T,
-		 class Domain = UnknownDomain,
-		 class AllocStrat = DefaultAlloc>
+    template <class T,
+         class Domain = UnknownDomain,
+         class AllocStrat = DefaultAlloc>
     T* New_array(std::size_t count, std::initializer_list<T> ilist = {})
     { // allocate a raw memory of size count initialized with ilist
         assert(ilist.size() <= count &&
@@ -94,9 +94,9 @@ namespace nq { namespace memlib
     }
 
     /* Delete_array delete an array allocated with New_array */
-	template <class T,
-		 class Domain = UnknownDomain,
-		 class AllocStrat = DefaultAlloc>
+    template <class T,
+         class Domain = UnknownDomain,
+         class AllocStrat = DefaultAlloc>
     void Delete_array(T *usr_ptr)
     {
         if (usr_ptr != nullptr)

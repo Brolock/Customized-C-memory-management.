@@ -9,22 +9,22 @@
 
 namespace nq
 {
-	template<typename T,
-		class Domain = UnknownDomain,
-		class AllocStrat = DefaultAlloc>
-	class vector : public std::vector<T, nq::allocator<T, Domain, AllocStrat>>
-	{
+    template<typename T,
+        class Domain = UnknownDomain,
+        class AllocStrat = DefaultAlloc>
+    class vector : public std::vector<T, nq::allocator<T, Domain, AllocStrat>>
+    {
         typedef nq::allocator<T, Domain, AllocStrat> nq_alloc;
         typedef std::vector<T, nq::allocator<T, Domain, AllocStrat>> parent;
 
         typedef T value_type;
         typedef size_t size_type;
-	public:
+    public:
 
         /*** Constructors ***/
-		vector()
+        vector()
             : parent()
-		{ // construct empty vector
+        { // construct empty vector
         }
 
         explicit vector(const nq_alloc& alloc)
@@ -32,9 +32,9 @@ namespace nq
         { // construct empty vector, allocator
         }
 
-		explicit vector(size_type count)
-			: parent(count)
-		{ // construct vector of size count
+        explicit vector(size_type count)
+            : parent(count)
+        { // construct vector of size count
         }
 
         /* Should be available with the C++14 and replace vector(size_t)
@@ -119,7 +119,7 @@ namespace nq
             this->parent::operator=(Ilist);
             return *this;
         }
-	};
+    };
 }
 
 #endif // !NQ_VECTOR_H_

@@ -8,10 +8,10 @@
 
 # include "nq_memlib_new.h"
 /*
-	template<class T,
-		class Domain,
+    template<class T,
+        class Domain,
         class AllocStrat>
-	class unique_ptr<T, Deleter, AllocStrat, true> : public ...<deleter<T, Domain>
+    class unique_ptr<T, Deleter, AllocStrat, true> : public ...<deleter<T, Domain>
     {};
 
     unique_ptr<int> k(new int());
@@ -32,15 +32,15 @@
 
 namespace nq
 {
-	template<class T,
-		class DeleterOrDomain = nq::new_deleter<T>,
+    template<class T,
+        class DeleterOrDomain = nq::new_deleter<T>,
         class AllocStrat = DefaultAlloc,
         bool = std::is_convertible<DeleterOrDomain*, BaseDomain*>::value>
-	class unique_ptr
+    class unique_ptr
     : public std::unique_ptr<T, nq::deleter<T, DeleterOrDomain, AllocStrat>>
-	{
+    {
         typedef nq::deleter<T, DeleterOrDomain, AllocStrat> deleter_type;
-		typedef std::unique_ptr<T, deleter_type> parent;
+        typedef std::unique_ptr<T, deleter_type> parent;
 
         typedef typename parent::element_type element_type;
         typedef typename parent::pointer pointer;
@@ -48,9 +48,9 @@ namespace nq
         /*** Constructors ***/
 
     public:
-		unique_ptr() noexcept
-			: parent()
-		{ // default construct
+        unique_ptr() noexcept
+            : parent()
+        { // default construct
         }
 
         unique_ptr(std::nullptr_t ptr) noexcept
@@ -127,16 +127,16 @@ namespace nq
             return *this;
         }
         */
-	};
+    };
     
-	template<class T,
-		class Domain,
+    template<class T,
+        class Domain,
         class AllocStrat>
-	class unique_ptr<T[], Domain, AllocStrat, true>
+    class unique_ptr<T[], Domain, AllocStrat, true>
     : public std::unique_ptr<T[], nq::deleter<T[], Domain, AllocStrat>>
-	{
+    {
         typedef nq::deleter<T[], Domain, AllocStrat> deleter_type;
-		typedef std::unique_ptr<T[], deleter_type> parent;
+        typedef std::unique_ptr<T[], deleter_type> parent;
 
         typedef typename parent::element_type element_type;
         typedef typename parent::pointer pointer;
@@ -144,9 +144,9 @@ namespace nq
         /*** Constructors ***/
 
     public:
-		unique_ptr() noexcept
-			: parent()
-		{ // default construct
+        unique_ptr() noexcept
+            : parent()
+        { // default construct
         }
 
         unique_ptr(std::nullptr_t ptr) noexcept
@@ -207,16 +207,16 @@ namespace nq
             this->parent::operator=(nullptr);
             return *this;
         }
-	};
+    };
 
-	template<class T,
-		class Deleter,
+    template<class T,
+        class Deleter,
         class AllocStrat>
-	class unique_ptr<T, Deleter, AllocStrat, false>
+    class unique_ptr<T, Deleter, AllocStrat, false>
     : public std::unique_ptr<T, nq::new_deleter<T>>
-	{
+    {
         typedef nq::new_deleter<T> deleter_type;
-		typedef std::unique_ptr<T, deleter_type> parent;
+        typedef std::unique_ptr<T, deleter_type> parent;
 
         typedef typename parent::element_type element_type;
         typedef typename parent::pointer pointer;
@@ -224,9 +224,9 @@ namespace nq
         /*** Constructors ***/
 
     public:
-		unique_ptr() noexcept
-			: parent()
-		{ // default construct
+        unique_ptr() noexcept
+            : parent()
+        { // default construct
         }
 
         unique_ptr(std::nullptr_t ptr) noexcept
@@ -303,16 +303,16 @@ namespace nq
             return *this;
         }
         */
-	};
+    };
     
-	template<class T,
-		class Deleter,
+    template<class T,
+        class Deleter,
         class AllocStrat>
-	class unique_ptr<T[], Deleter, AllocStrat, false>
+    class unique_ptr<T[], Deleter, AllocStrat, false>
     : public std::unique_ptr<T[], nq::new_deleter<T[]>>
-	{
+    {
         typedef Deleter deleter_type;
-		typedef std::unique_ptr<T[], deleter_type> parent;
+        typedef std::unique_ptr<T[], deleter_type> parent;
 
         typedef typename parent::element_type element_type;
         typedef typename parent::pointer pointer;
@@ -320,9 +320,9 @@ namespace nq
         /*** Constructors ***/
 
     public:
-		unique_ptr() noexcept
-			: parent()
-		{ // default construct
+        unique_ptr() noexcept
+            : parent()
+        { // default construct
         }
 
         unique_ptr(std::nullptr_t ptr) noexcept
@@ -385,7 +385,7 @@ namespace nq
             this->parent::operator=(nullptr);
             return *this;
         }
-	};
+    };
 
     /*** Non member functions ***/
 

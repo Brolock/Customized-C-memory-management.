@@ -8,43 +8,43 @@
 struct Test
 {
 private:
-	int num_;
-	int whatever_;
-	int break_;
+    int num_;
+    int whatever_;
+    int break_;
 public:
-	Test()
-		: num_(55),
-		whatever_(33),
-		break_(123)
-	{
-		std::cout << "Test()" << std::endl;
-	}
-	Test(int i, int j, int h)
-		: num_(i),
-		whatever_(j),
-		break_(h)
-	{
-		std::cout << "Test(" << num_ << ", " << whatever_
-			<< ", " << break_ << ")" << std::endl;
-	}
-	~Test()
-	{
-		std::cout << "~Test(" << num_ << ", " << whatever_
-			<< ", " << break_ << ")" << std::endl;
-	}
-	Test(const Test& o)
-		: num_(o.num_),
-		whatever_(o.whatever_),
-		break_(o.break_)
-	{
-		std::cout << "Test(Test&" << o.num_ << ", " << o.whatever_
-			<< ", " << o.break_ << ")" << std::endl;
-	}
+    Test()
+        : num_(55),
+        whatever_(33),
+        break_(123)
+    {
+        std::cout << "Test()" << std::endl;
+    }
+    Test(int i, int j, int h)
+        : num_(i),
+        whatever_(j),
+        break_(h)
+    {
+        std::cout << "Test(" << num_ << ", " << whatever_
+            << ", " << break_ << ")" << std::endl;
+    }
+    ~Test()
+    {
+        std::cout << "~Test(" << num_ << ", " << whatever_
+            << ", " << break_ << ")" << std::endl;
+    }
+    Test(const Test& o)
+        : num_(o.num_),
+        whatever_(o.whatever_),
+        break_(o.break_)
+    {
+        std::cout << "Test(Test&" << o.num_ << ", " << o.whatever_
+            << ", " << o.break_ << ")" << std::endl;
+    }
 
-	void print()
-	{
-		std::cout << num_ << ", " << whatever_ << ", " << break_ << std::endl;
-	}
+    void print()
+    {
+        std::cout << num_ << ", " << whatever_ << ", " << break_ << std::endl;
+    }
 };
 
 void tests()
@@ -103,6 +103,6 @@ void tests()
 
         int *array_n = NQ_NEW(DomainEarth) int[3]{3, 6, 3};
         nq::log::print(std::cout, "salute");
-	}
+    }
     nq::log::print();
 }
