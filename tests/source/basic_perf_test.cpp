@@ -1,11 +1,11 @@
 #include <chrono>
 #include <vector>
 
-#include "nq_vector.h"
-#include "nq_memlib_new.h"
-#include "domains.h"
+#include <nq_memlib/nq_vector.h>
+#include <nq_memlib/nq_memlib_new.h>
+#include <nq_memlib/domains.h>
 
-#include "nq_new.h"
+#include <nq_memlib/nq_new.h>
 
 struct Test
 {

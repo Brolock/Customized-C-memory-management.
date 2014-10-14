@@ -1,4 +1,4 @@
-#include "nq_new.h"
+#include "../include/nq_memlib/nq_new.h"
 
 void operator delete(void *usr_ptr) noexcept
 {

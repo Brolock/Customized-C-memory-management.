@@ -1,4 +1,4 @@
-#include "base_domain.h"
+#include "../include/nq_memlib/base_domain.h"
 
 #ifdef WITH_NQ_MEMLOG
 void BaseDomain::Header::add(Header* next)

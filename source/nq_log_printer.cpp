@@ -1,4 +1,4 @@
-# include "domains.h"
+# include "../include/nq_memlib/domains.h"
 
 namespace nq { namespace log {
     void print_time(std::ostream& os);

@@ -1,9 +1,9 @@
-#include "nq_vector.h"
-#include "nq_shared.h"
-#include "nq_unique.h"
-#include "nq_new.h"
+#include <nq_memlib/nq_vector.h>
+#include <nq_memlib/nq_shared.h>
+#include <nq_memlib/nq_unique.h>
+#include <nq_memlib/nq_new.h>
 
-#include "domains.h"
+#include <nq_memlib/domains.h>
 
 struct Test
 {
@@ -74,7 +74,7 @@ void tests()
         //auto nq_un = nq::make_unique<Test[], DomainSpace>(3);
         //nq_un[0] = Test(3, 5, 1);
         
-        //auto j = nq::make_shared<Test>(2, 3, 5); 44
+        auto j = nq::make_shared<Test>(2, 3, 5);
 
         //nq::shared_ptr<Test> h(NQ_NEW(DomainSpace) Test(3, 5, 6));
 
