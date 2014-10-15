@@ -7,29 +7,29 @@
 
 #include <nq_memlib/nq_new.h>
 
-struct Test
+struct Test1
 {
 private:
     int num_;
     int whatever_;
     int break_;
 public:
-    Test()
+    Test1()
         : num_(55),
         whatever_(33),
         break_(123)
     {
     }
-    Test(int i, int j, int h)
+    Test1(int i, int j, int h)
         : num_(i),
         whatever_(j),
         break_(h)
     {
     }
-    ~Test()
+    ~Test1()
     {
     }
-    Test(const Test& o)
+    Test1(const Test1& o)
         : num_(o.num_),
         whatever_(o.whatever_),
         break_(o.break_)
@@ -37,31 +37,30 @@ public:
     }
 };
 
-void test_nq_new(std::vector<Test*, nq::allocator<Test*>>& vec)
-//void test_nq_new(std::vector<Test*>& vec)
+void test_nq_new(std::vector<Test1*, nq::allocator<Test1*, DomainEarth>>& vec)
 {
     for (int i = 0; i < 10000; ++i)
     {
-    Test *j = nq::memlib::New<Test, DomainSpace>(i % 10000, (i+1) % 10000, (i + 2) % 10000);
-    //Test *j = new(DomainSpace::getInstance(), __FILE__, __LINE__) Test(i % 10000, (i+1) % 10000, (i + 2) % 10000);
+    Test1 *j = nq::memlib::New<Test1, DomainSpace>(i % 10000, (i+1) % 10000, (i + 2) % 10000);
+    //Test1 *j = new(DomainSpace::getInstance(), __FILE__, __LINE__) Test1(i % 10000, (i+1) % 10000, (i + 2) % 10000);
     vec.push_back(j);
     }
 }
 
-void test_new(std::vector<Test*>& vec)
+void test_new(std::vector<Test1*>& vec)
 {
     for (int i = 0; i < 10000; ++i)
     {
-        Test *j = new Test(i % 10000, (i+1) % 10000, (i + 2) % 10000);
+        Test1 *j = new Test1(i % 10000, (i+1) % 10000, (i + 2) % 10000);
         vec.push_back(j);
     }
 }
 
 double loop()
 {
-    std::vector<Test*> new_vec;
-    nq::vector<Test*, DomainEarth> nq_vec;
-    //std::vector<Test*> nq_vec;
+    std::vector<Test1*> new_vec;
+    nq::vector<Test1*, DomainEarth> nq_vec;
+    //std::vector<Test1*> nq_vec;
 
     typedef std::chrono::microseconds ms;
     typedef std::chrono::duration<double> fs;
@@ -86,7 +85,7 @@ double loop()
     for (auto& it : new_vec)
     { delete it; }
     for (auto& it : nq_vec)
-    { nq::memlib::Delete<Test, DomainSpace>(it); }
+    { nq::memlib::Delete<Test1, DomainSpace>(it); }
     //{ delete it; }
     return perf_loss;
 }
