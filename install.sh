@@ -1,10 +1,15 @@
 #!/bin/sh
 
-#create the directory in local for the mem install
-sudo mkdir /usr/local/lib/nq_memlib
-sudo mkdir /usr/local/include/nq_memlib
+#check if the user is root/sudo
+if [ $(whoami) != "root" ];then
+    echo "Sorry this install needs you to be root"; exit 1
+fi
 
-sudo mkdir build; cd build
+#create the directory in local for the mem install
+mkdir /usr/local/lib/nq_memlib
+mkdir /usr/local/include/nq_memlib
+
+mkdir build; cd build
 for i in "-DCOMPILE_WITH_LOG=1" "-DCOMPILE_WITH_LOG=1 -DLOG_WITH_TIME=1"\
     "-DCOMPILE_WITH_LOG=0"
 do
@@ -15,11 +20,11 @@ do
 	    make
     done
 done
-sudo make install
+make install
 
-sudo mkdir ../tests/build
+mkdir ../tests/build
 cd ../tests/build/
-sudo cmake -DCOMPILE_WITH_LOG=1 -DLOG_WITH_TIME=1 -DCMAKE_BUILD_TYPE=RELEASE \
+cmake -DCOMPILE_WITH_LOG=1 -DLOG_WITH_TIME=1 -DCMAKE_BUILD_TYPE=RELEASE \
             -G"Unix Makefiles" ../;
 make;
-cd ../..; sudo rm -rf build tests/build
+cd ../..; rm -rf build tests/build
