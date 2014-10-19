@@ -48,5 +48,5 @@ set_target_properties(nq_mem PROPERTIES
         MINSIZEREL_POSTFIX "${SUFFIX_LOG}_ms"
 )
 
-install(TARGETS nq_mem DESTINATION /usr/local/lib/nq_memlib)
+install(DIRECTORY "${ROOT_DIR}/lib/" DESTINATION /usr/local/lib/nq_memlib)
 install(FILES ${source_files} DESTINATION /usr/local/include/nq_memlib)
