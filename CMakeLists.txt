@@ -9,10 +9,11 @@ set(LIBRARY_OUTPUT_PATH ${ROOT_DIR}/lib)
 set(COMPILE_WITH_LOG CACHE BOOL "compiling with log")
 set(LOG_WITH_TIME CACHE BOOL "log with time")
 
+#define the suffix in the end of the lib name
 if (${COMPILE_WITH_LOG})
     if(${LOG_WITH_TIME})
         set (SUFFIX_LOG "_lt")
-        add_definitions(-DWITH_NQ_MEMLOG -DWITH_NQ_TIME)
+        add_definitions(-DWITH_NQ_MEMLOG -DWITH_NQ_LOGTIME)
     else()
         set(SUFFIX_LOG "_l")
         add_definitions(-DWITH_NQ_MEMLOG)
@@ -45,4 +46,7 @@ set_target_properties(nq_mem PROPERTIES
         RELEASE_POSTFIX "${SUFFIX_LOG}"
         RELWITHDEBINFO_POSTFIX "${SUFFIX_LOG}_rdi"
         MINSIZEREL_POSTFIX "${SUFFIX_LOG}_ms"
-    )
+)
+
+install(TARGETS nq_mem DESTINATION /usr/local/lib/nq_memlib)
+install(FILES ${source_files} DESTINATION /usr/local/include/nq_memlib)

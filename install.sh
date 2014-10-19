@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#create the directory in local for the mem install
+sudo mkdir /usr/local/lib/nq_memlib
+sudo mkdir /usr/local/include/nq_memlib
 mkdir build; cd build
 for i in "-DCOMPILE_WITH_LOG=1" "-DCOMPILE_WITH_LOG=1 -DLOG_WITH_TIME=1"
 do
@@ -8,6 +11,7 @@ do
     do
 	    cmake $i $j -G"Unix Makefiles" ..
 	    make
+        sudo make install
     done
 done
 
