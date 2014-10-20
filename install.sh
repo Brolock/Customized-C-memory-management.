@@ -10,17 +10,17 @@ mkdir /usr/local/lib/nq_memlib
 mkdir /usr/local/include/nq_memlib
 
 mkdir build; cd build
-for i in "-DCOMPILE_WITH_LOG=1" "-DCOMPILE_WITH_LOG=1 -DLOG_WITH_TIME=1"\
-    "-DCOMPILE_WITH_LOG=0"
+
+cat ../.memlib_compile_flags.txt | while read log_flags
 do
-    for j in "-DCMAKE_BUILD_TYPE=RELEASE" "-DCMAKE_BUILD_TYPE=DEBUG" \
-	"-DCMAKE_BUILD_TYPE=RELWITHDEBINFO" "-DCMAKE_BUILD_TYPE=MINSIZEREL"
+    cat ../.memlib_build_flags.txt | while read build_flags
     do
-	    cmake $i $j -G"Unix Makefiles" ..
+	    cmake $log_flags $build_flags -G"Unix Makefiles" ..
 	    make
     done
 done
 make install
+
 
 mkdir ../tests/build
 cd ../tests/build/
