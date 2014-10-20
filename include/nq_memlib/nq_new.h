@@ -10,7 +10,7 @@
 ** NQ_NEW is logged with its file line for easier leak detections
 ** The Domain is also logged to be recovered by operator delete
 */
-# define NQ_NEW(Domain) new (Domain::getInstance(), __FILE__, __LINE__)
+# define NQ_NEW(Domain) new (Domain::getInstance(), __LINE__, __FILE__)
 
 class NewedType
 {
@@ -19,7 +19,7 @@ class NewedType
 
 template<class Domain>
 void* operator new(size_t count,
-        const Domain&, const char *file, size_t line) noexcept
+        const Domain&, size_t line, const char *file) noexcept
 {
     return nq::memlib::allocate_log<NewedType, Domain>(count,
             Domain::sub_header_size, file, line);
@@ -27,9 +27,9 @@ void* operator new(size_t count,
 
 template<class Domain>
 void* operator new[](size_t count,
-        const Domain& domain, const char *file, size_t line) noexcept
+        const Domain& domain, size_t line, const char *file) noexcept
 {
-    return (operator new(count, domain, file, line));
+    return (operator new(count, domain, line, file));
 }
 
 namespace nq { namespace memlib {

@@ -1,5 +1,7 @@
 # include "../include/nq_memlib/domains.h"
 
+# include <ctime>
+
 namespace nq { namespace log {
     void print_time(std::ostream& os);
 
@@ -19,7 +21,6 @@ namespace nq { namespace log {
 
     /* Print the time of the print in h/min/sec format */
     /* This function is doing 10 allocs */
-# include <ctime>
     void print_time(::std::ostream& os)
     {
         os << "logged at:";
