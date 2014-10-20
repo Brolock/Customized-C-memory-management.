@@ -5,6 +5,11 @@ if [ $(whoami) != "root" ];then
     echo "Sorry this install needs you to be root"; exit 1
 fi
 
+#check if user have Cmake installed
+if !(which cmake > /dev/null cmake 2> /dev/null); then
+    echo "Sorry you need to install cmake"; exit 1
+fi
+
 #create the directory in local for the mem install
 mkdir /usr/local/lib/nq_memlib
 mkdir /usr/local/include/nq_memlib
