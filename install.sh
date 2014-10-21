@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#check if the user is root/sudo
+#check if the user is root
 if [ $(whoami) != "root" ];then
     echo "Sorry this install needs you to be root"; exit 1
 fi
@@ -26,10 +26,4 @@ do
 done
 make install
 
-
-mkdir ../tests/build
-cd ../tests/build/
-cmake -DCOMPILE_WITH_LOG=1 -DLOG_WITH_TIME=1 -DCMAKE_BUILD_TYPE=RELEASE \
-            -G"Unix Makefiles" ../;
-make;
-cd ../..; rm -rf build tests/build
+cd ..; rm -rf build

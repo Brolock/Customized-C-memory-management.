@@ -1,13 +1,12 @@
 GREP TODO!
 
+Add compile flag to desactivate everthing, using template do the trick
 reset(ptr) also to do !
 reset_new(Args) that do the new in intern, avoiding new please !
 
+Try to change non member function pointers for domain (add_elem_domain and remove_elem_domain) and change them with member functions (as core++ 9 video shows)
+
 Really needs some tests
-
-fusion operator new() impl and nq::allocator.allocate() and nq::New_array impl by one single function that does what we need.
-
-In debug mode header_size and sub_header_size should be equal to 0 since the logic of allocation shouldnt change !
 
 Find a way to make creaton of personal allocstrat easy for the client via maccros maybe something else, what is an issue is really the allocstrat specification
 
@@ -15,14 +14,6 @@ Replace the call to the constructor from Myclass{} to Myclass() since it can cau
 
 add something in mode debug  for the allocstrat to say that you really allocated or not (like putting a bit to 1 at the end of the ptr adress if allocation have been made)
 
-Do something clear with the compile flags
-
-nq::allocator inherite from std::allocator and with a debug flag can just be an empty shell that forward std::allocator
-
 operator new[] gives a pointer alligned while it allocate a header of size 4, trixed malloc call ?
 
 ofstream buffer is allocated with new...
-
-Try a DLL precompiled with -O3 could be funky !
-
-having Domains beeing merged to one single type to avoid too much code size (works with typedef)

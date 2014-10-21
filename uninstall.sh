@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#check if the user is root/sudo
+#check if the user is root
 if [ $(whoami) != "root" ]; then
     echo "Sorry this uninstall needs you to be root"; exit 1
 fi

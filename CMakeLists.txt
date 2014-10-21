@@ -35,6 +35,12 @@ file(
     include/*
 )
 
+file(
+    GLOB_RECURSE
+    header_files
+    include/*
+)
+
 add_library(
     nq_mem
     STATIC
@@ -49,7 +55,7 @@ set_target_properties(nq_mem PROPERTIES
         RELWITHDEBINFO_POSTFIX "${SUFFIX_LOG}_rd"
         MINSIZEREL_POSTFIX "${SUFFIX_LOG}_rm"
 
-#All the libs are in one single directory
+#All the libs are in one single directory under windows
         RUNTIME_OUTPUT_DIRECTORY ${LibDir}
         LIBRARY_OUTPUT_DIRECTORY ${LibDir}
         ARCHIVE_OUTPUT_DIRECTORY ${LibDir}
@@ -72,5 +78,7 @@ set_target_properties(nq_mem PROPERTIES
         PDB_OUTPUT_DIRECTORY_MINSIZEREL ${LibDir}
 )
 
-install(DIRECTORY "${ROOT_DIR}/lib/" DESTINATION /usr/local/lib/nq_memlib)
-install(FILES ${source_files} DESTINATION /usr/local/include/nq_memlib)
+install(DIRECTORY "${ROOT_DIR}/lib/"
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/nq_memlib)
+install(FILES ${header_files}
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/include/nq_memlib)
