@@ -5,6 +5,8 @@ if [ $(whoami) != "root" ];then
     echo "Sorry this install needs you to be root"; exit 1
 fi
 
+cd $(dirname $0);
+
 #check if user have Cmake installed
 if !(which cmake > /dev/null cmake 2> /dev/null); then
     echo "Sorry you need to install cmake"; exit 1

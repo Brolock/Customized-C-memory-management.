@@ -1,5 +1,7 @@
 #! /bin/bash
 
+cd $(dirname $0);
+
 #Tests build
 mkdir build
 cd build/
@@ -31,7 +33,8 @@ for file in bin/*; do
 done
 
 if [ $nb_file -eq $nb_passed ]; then
-    echo -e "\e[0;32m ALL TEST SUCCESFULY PASSED! (^-^)v=v~ \e[0m"
+    echo -e "\e[0;32m ALL TESTS SUCCESFULY PASSED! (^-^)v=v~ \e[0m"
 else
-    echo -e "\e[0;31m $nb_passed / $nb_file  TEST FAILED! (-.-)v=v- \e[0m"
+    echo -e "\e[0;31m TEST FAILED!\
+        Only $nb_passed / $nb_file passed! (-.-)v=v- \e[0m"
 fi
