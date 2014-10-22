@@ -37,7 +37,7 @@ public:
     }
 };
 
-void test_nq_new(std::vector<Test1*, nq::allocator<Test1*, DomainEarth>>& vec)
+void test_nq_new(nq::vector<Test1*, DomainEarth>& vec)
 {
     for (int i = 0; i < 10000; ++i)
     {

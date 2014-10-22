@@ -74,7 +74,6 @@ void tests()
         //auto nq_un = nq::make_unique<Test[], DomainSpace>(3);
         //nq_un[0] = Test(3, 5, 1);
         
-        auto j = nq::make_shared<Test>(2, 3, 5);
 
         //nq::shared_ptr<Test> h(NQ_NEW(DomainSpace) Test(3, 5, 6));
 
@@ -90,10 +89,12 @@ void tests()
            n_weak = n_shar;
            }
            */
-        /*
+
+        nq::shared_ptr<Test> j(new Test(2, 3, 5));
+        int *b0 = NQ_NEW(DomainSpace) int(3);
+
         nq::vector<Test, DomainSpace> vec{Test(3, 521, 900), Test(3, 5, 6)};
         vec.push_back(Test(3, 5123, 87));
-        */
         //nq::unique_ptr<Test> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
         /*
         nq::unique_ptr<Test, DomainSpace> lol =
@@ -101,8 +102,19 @@ void tests()
         nq::unique_ptr<Test>folk(lol.release());
         */
 
-        int *array_n = NQ_NEW(DomainEarth) int[3]{3, 6, 3};
+        nq::unique_ptr<int[]> unique_arr = nq::make_unique<int[]>(3);
+        unique_arr[0] = 41;
+        unique_arr[1] = 42;
+        unique_arr[2] = 43;
+        for (int i = 0; i < 3; ++i)
+            std::cout << unique_arr[i] << std::cout;
+
+
+        nq::unique_ptr<int, DomainSpace> unique_maked =
+            nq::make_unique<int, DomainSpace>(123);
         nq::log::print(std::cout, "salute");
     }
-    nq::log::print();
+    nq::unique_ptr<int, DomainEarth> unique_stand(
+            NQ_NEW(DomainEarth) int(44));
+    nq::log::print(std::cout, "Ending");
 }

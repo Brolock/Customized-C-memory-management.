@@ -37,10 +37,16 @@ namespace nq { namespace memlib {
     void remove_header_operator_delete(void *ptr);
 }} // namespace nq::memlib
 
+/** This specific NEW is only reserved for internal implementations **/
+# define INTERNAL_NQ_NEW(Domain, line, file) new (Domain, line, file)
+
 // No more logging NQ_NEW
 # else // !WITH_NQ_MEMOFF
 
 #  define NQ_NEW(Domain) new
+
+/** This specific NEW is only reserved for internal implementations **/
+#  define INTERNAL_NQ_NEW(Domain, line, file) new
 
 # endif // !WITH_NQ_MEMOFF
 

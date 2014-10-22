@@ -8,6 +8,9 @@ Try to change non member function pointers for domain (add_elem_domain and remov
 
 Really needs some tests
 
+all uniques (with or without specified domain) works with new on intern, so no more possibility to specify the allocations method, maybe to change
+So whether change the new so LIB_NEW can take AllocStrat parameters, whether some unique writing are forbidden 
+
 Find a way to make creaton of personal allocstrat easy for the client via maccros maybe something else, what is an issue is really the allocstrat specification
 
 Replace the call to the constructor from Myclass{} to Myclass() since it can cause issues with the initializer_lists ...
