@@ -13,12 +13,14 @@
 
 # undef max
 
+// Allow to totally desactivate the logging lib
+# ifndef WITH_NQ_MEMOFF
 namespace nq
 {
     template<class T,
         class Domain = UnknownDomain,
         class AllocStrat = DefaultAlloc>
-    struct allocator : public std::allocator<T>
+    struct allocator
     {
         /* Member types */
         typedef T value_type;
@@ -118,5 +120,16 @@ namespace nq
         return !operator==(lhs, rhs);
     }
 }
+
+// nq::allocator is a simple std::allocator
+# else // !WITH_NQ_MEMOFF
+namespace nq
+{
+    template<class T,
+        class Domain = UnknownDomain,
+        class AllocStrat = DefaultAlloc>
+    using allocator = std::allocator<T>;
+}
+# endif // !WITH_NQ_MEMOFF
 
 #endif // !NQ_ALLOCATOR_H_

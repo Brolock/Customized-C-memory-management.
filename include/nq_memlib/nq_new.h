@@ -6,11 +6,12 @@
 
 # include "domains.h"
 
+# ifndef WITH_NQ_MEMOFF
 /*
 ** NQ_NEW is logged with its file line for easier leak detections
 ** The Domain is also logged to be recovered by operator delete
 */
-# define NQ_NEW(Domain) new (Domain::getInstance(), __LINE__, __FILE__)
+#  define NQ_NEW(Domain) new (Domain::getInstance(), __LINE__, __FILE__)
 
 class NewedType
 {
@@ -35,5 +36,12 @@ void* operator new[](size_t count,
 namespace nq { namespace memlib {
     void remove_header_operator_delete(void *ptr);
 }} // namespace nq::memlib
+
+// No more logging NQ_NEW
+# else // !WITH_NQ_MEMOFF
+
+#  define NQ_NEW(Domain) new
+
+# endif // !WITH_NQ_MEMOFF
 
 #endif // !NQ_NEW_H_

@@ -11,6 +11,8 @@
 
 # include "nq_memlib_tools.h"
 
+// Allow to totally desactivate the logging lib
+# ifndef WITH_NQ_MEMOFF
 namespace nq { namespace memlib
 {
     /*
@@ -89,7 +91,7 @@ namespace nq { namespace memlib
         }
 
         // construct the elements of the allocated array
-        construct_from_range(usr_ptr, count, ilist.begin(), ilist.end());
+        memlib::construct_from_range(usr_ptr, count, ilist.begin(), ilist.end());
         return usr_ptr;
     }
 
@@ -117,5 +119,51 @@ namespace nq { namespace memlib
         }
     }
 }} // namespace nq::memlib
+
+// nq::New Delete ... just forward to new and delete
+# else // !WITH_NQ_MEMOFF
+namespace nq { namespace memlib
+{
+    template <class T,
+         class Domain = UnknownDomain,
+         class AllocStrat = DefaultAlloc,
+         class... Args>
+    T* New(Args... Parameters)
+    {
+        return new T(std::forward<Args>(Parameters)...);
+    }
+
+    template <class T,
+        class Domain = UnknownDomain,
+        class AllocStrat = DefaultAlloc>
+    void Delete(T *ptr)
+    {
+        delete ptr;
+    }
+
+
+    template <class T,
+         class Domain = UnknownDomain,
+         class AllocStrat = DefaultAlloc>
+    T* New_array(std::size_t count, const std::initializer_list<T>& ilist = {})
+    { // allocate a raw memory of size count initialized with ilist
+        assert(ilist.size() <= count &&
+                "Trying to initialize a newed array (nq::New_array) with an"
+                " initializer_list of greater size than the array size");
+
+        T *ptr = new T[count];
+        memlib::construct_from_range(ptr, count, ilist.begin(), ilist.end());
+        return ptr;
+    }
+
+    template <class T,
+         class Domain = UnknownDomain,
+         class AllocStrat = DefaultAlloc>
+    void Delete_array(T *usr_ptr)
+    {
+        delete[] usr_ptr;
+    }
+}} // namespace nq::memlib
+# endif // !WITH_NQ_MEMOFF
 
 #endif // !NQ_MEMLIB_NEW_H_

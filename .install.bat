@@ -12,7 +12,7 @@ mkdir bat_build_lib
 cd bat_build_lib
 
 for /f "tokens=*" %%I in (../../.memlib_compile_flags.txt) do (
-        cmake %%I -G"Visual Studio 12 2013 Win64" ../..
+    cmake %%I -G"Visual Studio 12 2013 Win64" ../..
 	msbuild "nq_memlib.sln" /p:Configuration=Release /p:Patform=x64 /m
 	msbuild "nq_memlib.sln" /p:Configuration=RelWithDebInfo /p:Patform=x64 /m
 	msbuild "nq_memlib.sln" /p:Configuration=Debug /p:Patform=x64 /m

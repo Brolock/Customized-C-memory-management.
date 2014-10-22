@@ -2,10 +2,12 @@
 # define NQ_DELETER_H_
 
 # include <type_traits>
+# include <memory>
 
 # include "nq_allocator.h"
 # include "nq_memlib_new.h"
 
+# ifndef WITH_NQ_MEMOFF
 /* 
 ** The deleter class is used in RAII classes to know the way a given
 ** pointer needs to be deleted.
@@ -98,5 +100,18 @@ namespace nq
         }
     };
 }
+// nq::deleter and new_deleter are simple std::default_delete
+# else // !WITH_NQ_MEMOFF
+namespace nq
+{
+    template<class T,
+        class Domain = UnknownDomain,
+        class AllocStrat = DefaultAlloc>
+    using deleter = std::default_delete<T>;
+
+    template<class T>
+    using new_deleter = std::default_delete<T>;
+}
+# endif // !WITH_NQ_MEMOFF
 
 #endif // !NQ_DELETER_H_
