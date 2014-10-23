@@ -7,6 +7,7 @@
 
 # include <iostream>
 
+# include <mutex>
 
 # include "env_maccro.h"
 
@@ -99,6 +100,8 @@ private:
 private:
     Header *begin_;
     Header *end_;
+private:
+    mutable std::mutex mutex_; // protect internal datas
 public:
     inline size_t get_count() const { return count_; }
 public:
@@ -128,7 +131,7 @@ protected:
     {}
 private:
     BaseDomain(const BaseDomain&) {}
-    BaseDomain& operator= (const BaseDomain&) { return *this; };
+    BaseDomain& operator=(const BaseDomain&) { return *this; };
 
     /* return a string of the domain name for the printer */
     virtual const char* domain_name() const

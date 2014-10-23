@@ -1,5 +1,7 @@
 #include "../include/nq_memlib/base_domain.h"
 
+#include <thread>
+
 #ifdef WITH_NQ_MEMLOG
 void BaseDomain::Header::add(Header* next)
 {
@@ -46,6 +48,9 @@ void BaseDomain::Header::print(std::ostream& os = std::cout) const
 }
 void BaseDomain::add(void* internal_ptr, std::size_t size)
 {
+    /* basic mutex locking */
+    std::lock_guard<std::mutex> locker(mutex_);
+
     /* Construct a Header to the internal_ptr */
     Header* head = new (internal_ptr)Header(size);
     /* When adding the first element we initialize begin_ and end_ */
@@ -65,6 +70,9 @@ void BaseDomain::add(void* internal_ptr, std::size_t size)
 void BaseDomain::add(void* internal_ptr, std::size_t size,
         const char *file, size_t line, BaseDomain *dom)
 {
+    /* basic mutex locking */
+    std::lock_guard<std::mutex> locker(mutex_);
+
     /* Construct a Header to the internal_ptr */
 
     Header *head = new (internal_ptr)SubHeader(size, file, line, dom);
@@ -85,6 +93,9 @@ void BaseDomain::add(void* internal_ptr, std::size_t size,
 
 void BaseDomain::remove(void *internal_ptr)
 {
+    /* basic mutex locking */
+    std::lock_guard<std::mutex> locker(mutex_);
+
     Header* ptr = static_cast<Header*>(internal_ptr);
     /* Check if tmp is the begin or the end of the Domain list and
      * call the appropriate remove in consequences */
@@ -101,6 +112,9 @@ void BaseDomain::remove(void *internal_ptr)
 
 void BaseDomain::print(std::ostream& os = std::cout) const
 {
+    /* basic mutex locking */
+    std::lock_guard<std::mutex> locker(mutex_);
+
     if (begin_ != nullptr)
     {
         os << domain_name() << " memory log:\n=> "

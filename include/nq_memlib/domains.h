@@ -1,6 +1,8 @@
 #ifndef DOMAINS_H_
 # define DOMAINS_H_
 
+# include <mutex>
+
 # include "base_domain.h"
 
 /* Library defined domains */
@@ -25,6 +27,8 @@ namespace nq { namespace log {
     inline void print(::std::ostream& os = std::cout,
             const char *message = "No specific message")
     {
+        static std::mutex mutex;
+        std::lock_guard<std::mutex> locker(mutex);
 # ifdef WITH_NQ_MEMLOG
         os << "==================\n";
 

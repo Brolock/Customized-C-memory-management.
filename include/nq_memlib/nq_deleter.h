@@ -101,7 +101,7 @@ namespace nq
     };
 }
 // nq::deleter and new_deleter are simple std::default_delete
-# else // !WITH_NQ_MEMOFF
+# else // WITH_NQ_MEMOFF defined
 namespace nq
 {
     template<class T,

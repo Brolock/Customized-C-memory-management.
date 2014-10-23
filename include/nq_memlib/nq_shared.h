@@ -196,10 +196,8 @@ namespace nq
             class... Args>
         void new_reset(Args... args)
         {
-                /*
             *this = nq::new_shared<T, Domain, AllocStrat>(
                     std::forward<Args>(args)...);
-                    */
         }
 
         template<class Domain = UnknownDomain,
