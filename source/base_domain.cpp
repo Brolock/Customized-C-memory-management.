@@ -30,7 +30,11 @@ void BaseDomain::Header::print(std::ostream& os = std::cout) const
 {
     os << "size: " << size_ << std::endl;
 
-    if (padding_ == 1)
+    /* If padding_ is 1 then we are in the case of a sub_header
+     * If the file logged if null then it is an internal implementation use
+     * of new so it shouldn't be logged
+     */
+    if (padding_ == 1 && (static_cast<const SubHeader*>(this))->get_file())
     {
         os << "Is a new, @ File: "
             << (static_cast<const SubHeader*>(this))->get_file()

@@ -2,7 +2,7 @@
 
 #check if the user is root
 if [ $(whoami) != "root" ];then
-    echo "Sorry this install needs you to be root"; exit 1
+    echo "Sorry this test needs you to be root"; exit 1
 fi
 
 cd $(dirname $0);
@@ -29,7 +29,7 @@ for file in bin/*; do
     echo -n "Testing $file ..."
     
     if ./$file; then
-        echo -e "\e[0;32m Succesfuly passed! \e[0m"
+        echo -e "$file \e[0;32m Succesfuly passed! \e[0m"
         nb_passed=$(($nb_passed + 1))
     else
         echo -e "$file \e[0;31m FAILED! \e[0m"

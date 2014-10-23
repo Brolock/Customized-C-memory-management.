@@ -14,8 +14,25 @@
 
 namespace nq
 {
+    /* Forward declarations */
+    template<class T>
+    class shared_ptr;
+
     template<class T>
     class weak_ptr;
+
+    template<class T,
+        class Domain = UnknownDomain,
+        class AllocStrat = DefaultAlloc,
+        class... Args>
+    shared_ptr<T> make_shared(Args&&... args);
+
+    template<class T,
+        class Domain = UnknownDomain,
+        class AllocStrat = DefaultAlloc,
+        class... Args>
+    shared_ptr<T> new_shared(Args&&... args);
+    /* End of forwards */
 
     template<class T>
     class shared_ptr : public std::shared_ptr<T>
@@ -161,9 +178,39 @@ namespace nq
             this->parent::operator=(std::move(other));
             return *this;
         }
-
-        //template<class Y,
     public:
+        /** reset re-implementation to have it's count_ref logged properly **/
+        template<class Y
+            , class Deleter = nq_deleter
+            , class RefCountAlloc = count_alloc>
+        void reset(Y *ptr, Deleter deleter = nq_deleter(),
+                    RefCountAlloc alloc = count_alloc())
+        {
+            this->parent::reset(ptr, deleter, alloc);
+        }
+
+        /** library specific functions **/
+        
+        template<class Domain = UnknownDomain,
+            class AllocStrat = DefaultAlloc,
+            class... Args>
+        void new_reset(Args... args)
+        {
+                /*
+            *this = nq::new_shared<T, Domain, AllocStrat>(
+                    std::forward<Args>(args)...);
+                    */
+        }
+
+        template<class Domain = UnknownDomain,
+            class AllocStrat = DefaultAlloc,
+            class... Args>
+        void make_reset(Args... args)
+        {
+            *this = nq::make_shared<T, Domain, AllocStrat>(
+                    std::forward<Args>(args)...);
+        }
+
         // convert to std from nq
         shared_ptr(std::shared_ptr<T>&& other) noexcept
             : parent(std::move(other))

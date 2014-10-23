@@ -3,6 +3,7 @@
 #include <nq_memlib/nq_unique.h>
 #include <nq_memlib/nq_new.h>
 
+#include <nq_memlib/nq_deleter.h>
 #include <nq_memlib/domains.h>
 
 struct Test
@@ -90,9 +91,6 @@ void tests()
            }
            */
 
-        nq::shared_ptr<Test> j(new Test(2, 3, 5));
-        int *b0 = NQ_NEW(DomainSpace) int(3);
-
         nq::vector<Test, DomainSpace> vec{Test(3, 521, 900), Test(3, 5, 6)};
         vec.push_back(Test(3, 5123, 87));
         //nq::unique_ptr<Test> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
@@ -107,11 +105,24 @@ void tests()
         unique_arr[1] = 42;
         unique_arr[2] = 43;
         for (int i = 0; i < 3; ++i)
-            std::cout << unique_arr[i] << std::cout;
+            std::cout << unique_arr[i] << std::endl;
 
+        auto shared_reset = nq::make_shared<int, DomainEarth>(55733);
 
-        nq::unique_ptr<int, DomainSpace> unique_maked =
+        nq::unique_ptr<int, DomainSpace> unique_reset =
             nq::make_unique<int, DomainSpace>(123);
+        std::cout << "unique_reset test\n"
+            << *unique_reset << std::endl;
+        unique_reset.new_reset(8880888);
+        std::cout << *unique_reset << std::endl;
+
+        std::cout << "shared_reset test\n"
+            << *shared_reset << std::endl;
+        /* reset exemple! */
+        shared_reset.reset(nq::memlib::New<int, DomainSpace>(100000001),
+                nq::deleter<int, DomainSpace>());
+        std::cout << *shared_reset << std::endl;
+
         nq::log::print(std::cout, "salute");
     }
     nq::unique_ptr<int, DomainEarth> unique_stand(

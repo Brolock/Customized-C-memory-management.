@@ -122,7 +122,7 @@ namespace nq
 }
 
 // nq::allocator is a simple std::allocator
-# else // !WITH_NQ_MEMOFF
+# else // WITH_NQ_MEMOFF defined
 namespace nq
 {
     template<class T,

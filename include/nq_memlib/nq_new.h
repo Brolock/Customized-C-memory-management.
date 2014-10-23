@@ -38,15 +38,15 @@ namespace nq { namespace memlib {
 }} // namespace nq::memlib
 
 /** This specific NEW is only reserved for internal implementations **/
-# define INTERNAL_NQ_NEW(Domain, line, file) new (Domain, line, file)
+# define INTERNAL_NQ_NEW(Domain) new (Domain, 0, nullptr)
 
 // No more logging NQ_NEW
-# else // !WITH_NQ_MEMOFF
+# else // WITH_NQ_MEMOFF defined
 
 #  define NQ_NEW(Domain) new
 
 /** This specific NEW is only reserved for internal implementations **/
-#  define INTERNAL_NQ_NEW(Domain, line, file) new
+#  define INTERNAL_NQ_NEW(Domain) new
 
 # endif // !WITH_NQ_MEMOFF
 

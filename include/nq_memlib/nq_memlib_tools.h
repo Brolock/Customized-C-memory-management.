@@ -46,12 +46,12 @@ namespace nq { namespace memlib
         size_t i = 0;
         for(Iter it = begin; it != end; ++it)
         {
-            construct<T>(ptr + i, *it);
+            memlib::construct<T>(ptr + i, *it);
             ++i;
         }
         for(; i < count; ++i)
         {
-            construct<T>(ptr + i);
+            memlib::construct<T>(ptr + i);
         }
     }
 

@@ -43,6 +43,6 @@ namespace nq { namespace memlib {
 }} // namespace nq::memlib
 
 
-#else // !WITH_NQ_MEMOFF
+#else // WITH_NQ_MEMOFF defined
     /* No overload of the operators new and delete */
 #endif // !WITH_NQ_MEMOFF

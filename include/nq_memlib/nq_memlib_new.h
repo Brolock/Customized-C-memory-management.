@@ -121,7 +121,7 @@ namespace nq { namespace memlib
 }} // namespace nq::memlib
 
 // nq::New Delete ... just forward to new and delete
-# else // !WITH_NQ_MEMOFF
+# else // WITH_NQ_MEMOFF defined
 namespace nq { namespace memlib
 {
     template <class T,

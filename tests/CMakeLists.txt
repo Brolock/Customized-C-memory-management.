@@ -21,7 +21,7 @@ if (${COMPILE_WITH_LOG})
     endif()
 elseif (${COMPILE_WITH_MEM_OFF})
     set (SUFFIX_LOG "_off")
-    add_definitions(-DWITH_NQ_MEMOFF -DWITH_NQ_MEMLOG -DWITH_NQ_LOGTIME)
+    add_definitions(-DWITH_NQ_MEMOFF)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX)
