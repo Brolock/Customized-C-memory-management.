@@ -23,8 +23,10 @@ do
     cat ../.memlib_build_flags.txt | while read build_flags
     do
         echo "COMPILING WITH $log_flags $build_flags"
-	    cmake $log_flags $build_flags -G"Unix Makefiles" ..
-	    make
+
+        #if something fails to compile then exit 1
+	    cmake $log_flags $build_flags -G"Unix Makefiles" .. || exit 1
+	    make || exit 1
     done
     #cmake hack
     cd ..; rm -rf build
@@ -32,6 +34,6 @@ done
 
 #Since I'm removing build on the loop, need to recreate it for install
 mkdir build; cd build
-cmake -G"Unix Makefiles" ..
-make install
+cmake -G"Unix Makefiles" .. || exit 1
+make install || exit 1
 cd ..; rm -rf build

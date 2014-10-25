@@ -4,4 +4,23 @@ compiler:
     - gcc
     - clang
 
-script: sudo ./install.sh && sudo ./tests/test.sh
+before_install:
+    #g++4.8
+    - if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
+
+    #clang 3.4
+    - if [ "$CXX" == "clang++" ]; then sudo add-apt-repository -y ppa:h-rayflood/llvm; fi
+
+    - sudo apt-get update -qq
+
+install:
+    #g++4.8
+    - if [ "$CXX" == "gxx" ]; then sudo apt-get install -qq g++4.8; fi
+    - if [ "$CXX" == "gxx" ]; then export CXX="g++-4.8" ; fi 
+
+    - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthificated -qq clang-3.4; fi
+    - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.4" ; fi 
+
+    - sudo ./install.sh
+ 
+script: sudo ./tests/test.sh

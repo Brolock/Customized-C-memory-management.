@@ -15,8 +15,8 @@ do
     cat ../../.memlib_build_flags.txt | while read build_flags
     do
         echo "COMPILING WITH $log_flags $build_flags"
-	    cmake $log_flags $build_flags -G"Unix Makefiles" ..
-	    make
+	    cmake $log_flags $build_flags -G"Unix Makefiles" .. || exit 1
+	    make || exit 1
     done
     cd ..; rm -rf build
 done
@@ -43,4 +43,5 @@ if [ $nb_file -eq $nb_passed ]; then
 else
     echo -e "\e[0;31m TESTS FAILED!\
         Only $nb_passed / $nb_file passed! (-.-)v=v-- \e[0m"
+    exit 1
 fi
