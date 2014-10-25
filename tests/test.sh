@@ -26,7 +26,7 @@ done
 nb_file=0
 nb_passed=0
 for file in bin/*; do
-    echo -n "Testing $file ..."
+    echo -n "Testing $file ...\n"
     
     if ./$file > /dev/null; then
         echo -e "$file \e[0;32m Succesfuly passed! \e[0m"

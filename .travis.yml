@@ -14,12 +14,13 @@ before_install:
     - sudo apt-get update -qq
 
 install:
-    #g++4.8
-    - if [ "$CXX" == "gxx" ]; then sudo apt-get install -qq g++4.8; fi
-    - if [ "$CXX" == "gxx" ]; then export CXX="g++-4.8" ; fi 
+    # install g++4.8
+    - if [ "$CXX" == "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+    - if [ "$CXX" == "g++" ]; then sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 50; fi
 
-    - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthificated -qq clang-3.4; fi
-    - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.4" ; fi 
+    # install clang++3.5
+    - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.5; fi
+    - if [ "$CXX" == "clang++" ]; then sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-3.5 50; fi
 
     - sudo ./install.sh
  
