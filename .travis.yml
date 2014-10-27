@@ -1,7 +1,0 @@
-language: cpp
-
-compiler:
-    - gcc
-    - clang
-
-script: sudo ./install.sh && sudo ./tests/test.sh

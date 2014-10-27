@@ -9,8 +9,9 @@
 
 /* !!! Add your domain to the print method if you want it printed !!!*/
 /* User defined domains */
-NQ_DOMAIN(DomainEarth);
-NQ_DOMAIN(DomainSpace);
+# define NQ_USR_DOMAIN(domain_name) NQ_DOMAIN(domain_name)
+# include "domains_decl.h"
+# undef NQ_USR_DOMAIN
 
 namespace nq { namespace log {
     /* forward declaration of the function defined in nq_log_printer.cpp*/
@@ -37,8 +38,9 @@ namespace nq { namespace log {
         SharedPtrRefCountDomain::getInstance().print(os);
 
         /* User defined domains */
-        DomainEarth::getInstance().print(os);
-        DomainSpace::getInstance().print(os);
+#  define NQ_USR_DOMAIN(domain_name) domain_name::getInstance().print(os);
+#  include "domains_decl.h"
+#  undef NQ_USR_DOMAIN
 
         os << "==================\n";
 # endif // !WITH_NQ_MEMLOG
