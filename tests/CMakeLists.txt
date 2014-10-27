@@ -29,7 +29,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 include_directories(${CMAKE_INSTALL_PREFIX}/include/)
-link_directories(${CMAKE_INSTALL_PREFIX}/lib/nq_memlib)
+link_directories(${CMAKE_INSTALL_PREFIX}/lib/nq_memlib
+    ${ROOT_DIR}/tests/include)
 
 # executable declaration
 file(

@@ -4,7 +4,7 @@
 # include <map>
 
 # include "nq_allocator.h"
-# include "domains.h"
+# include "lib_domains.h"
 # include "alloc_strat.h"
 
 namespace nq

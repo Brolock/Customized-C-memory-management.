@@ -5,7 +5,7 @@
 # include <functional>
 
 # include "alloc_strat.h"
-# include "domains.h"
+# include "lib_domains.h"
 # include "nq_memlib_allocate.h"
 
 namespace nq { namespace memlib

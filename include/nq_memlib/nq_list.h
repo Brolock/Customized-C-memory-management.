@@ -5,7 +5,7 @@
 
 # include "nq_allocator.h"
 # include "alloc_strat.h"
-# include "domains.h"
+# include "lib_domains.h"
 
 namespace nq
 {

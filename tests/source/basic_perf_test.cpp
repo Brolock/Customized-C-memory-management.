@@ -3,9 +3,9 @@
 
 #include <nq_memlib/nq_vector.h>
 #include <nq_memlib/nq_memlib_new.h>
-#include <nq_memlib/domains.h>
-
 #include <nq_memlib/nq_new.h>
+
+#include "../include/domains.h"
 
 struct Test1
 {
