@@ -8,7 +8,7 @@
 # include "nq_memlib_tools.h"
 # include "nq_memlib_allocate.h"
 
-# include "domains.h"
+# include "lib_domains.h"
 # include "alloc_strat.h"
 
 # undef max

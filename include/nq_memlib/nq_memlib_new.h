@@ -6,7 +6,7 @@
 # include <cstdint>
 
 # include "nq_allocator.h"
-# include "domains.h"
+# include "lib_domains.h"
 # include "alloc_strat.h"
 
 # include "nq_memlib_tools.h"

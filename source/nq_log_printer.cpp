@@ -1,5 +1,4 @@
-# include "../include/nq_memlib/domains.h"
-
+# include <iostream>
 # include <ctime>
 
 namespace nq { namespace log {

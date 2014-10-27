@@ -4,7 +4,7 @@
 # include "nq_memlib_allocate.h"
 # include "nq_memlib_tools.h"
 
-# include "domains.h"
+# include "lib_domains.h"
 
 # ifndef WITH_NQ_MEMOFF
 /*

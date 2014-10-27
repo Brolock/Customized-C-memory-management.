@@ -1,8 +1,8 @@
 #ifndef TYPE_TO_STRING_H_
 # define TYPE_TO_STRING_H_
 
-#include "domains.h"
-#include "alloc_strat.h"
+# include "lib_domains.h"
+# include "alloc_strat.h"
 
 namespace nq
 {
