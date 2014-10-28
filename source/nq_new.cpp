@@ -1,28 +1,5 @@
 #include "../include/nq_memlib/nq_new.h"
 
-#ifndef WITH_NQ_MEMOFF
-void operator delete(void *usr_ptr) noexcept
-{
-    nq::memlib::deallocate_log(usr_ptr, BaseDomain::sub_header_size,
-                    nq::memlib::remove_header_operator_delete);
-}
-
-void operator delete[](void *usr_ptr) noexcept
-{
-    operator delete(usr_ptr);
-}
-
-void* operator new(size_t count)
-{
-    return nq::memlib::allocate_log<NewedType>(count,
-            UnknownDomain::getInstance().sub_header_size, "Do not use new", 0);
-}
-
-void* operator new[](size_t count)
-{
-    return operator new(count);
-}
-
 namespace nq { namespace memlib {
 # ifdef WITH_NQ_MEMLOG
     /*
@@ -37,12 +14,9 @@ namespace nq { namespace memlib {
         BaseDomain* domain_ptr = subHeader->get_domain();
         domain_ptr->virtual_remove(ptr);
     }
+
 # else // WITH_NQ_MEMLOG
     void remove_header_operator_delete(void *ptr) {}
 # endif // !WITH_NQ_MEMLOG
+
 }} // namespace nq::memlib
-
-
-#else // WITH_NQ_MEMOFF defined
-    /* No overload of the operators new and delete */
-#endif // !WITH_NQ_MEMOFF

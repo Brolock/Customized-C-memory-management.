@@ -100,28 +100,33 @@ void tests()
         nq::unique_ptr<Test>folk(lol.release());
         */
 
+        /* TO TEST WITH FULL UNIQUE_PTR
         nq::unique_ptr<int[]> unique_arr = nq::make_unique<int[]>(3);
         unique_arr[0] = 41;
         unique_arr[1] = 42;
         unique_arr[2] = 43;
         for (int i = 0; i < 3; ++i)
             std::cout << unique_arr[i] << std::endl;
+        */
 
-        auto shared_reset = nq::make_shared<int, DomainEarth>(55733);
+        //auto shared_reset = nq::make_shared<int, DomainEarth>(55733);
 
         nq::unique_ptr<int, DomainSpace> unique_reset =
             nq::make_unique<int, DomainSpace>(123);
+        
+        nq::unique_ptr<int, DomainEarth> stopthat(NQ_NEW(DomainEarth) int(3));
+
         std::cout << "unique_reset test\n"
             << *unique_reset << std::endl;
         unique_reset.new_reset(8880888);
         std::cout << *unique_reset << std::endl;
 
-        std::cout << "shared_reset test\n"
-            << *shared_reset << std::endl;
+        //std::cout << "shared_reset test\n"
+        //    << *shared_reset << std::endl;
         /* reset exemple! */
-        shared_reset.reset(nq::memlib::New<int, DomainSpace>(100000001),
-                nq::deleter<int, DomainSpace>());
-        std::cout << *shared_reset << std::endl;
+        //shared_reset.reset(nq::memlib::New<int, DomainSpace>(100000001),
+        //        nq::deleter<int, DomainSpace>());
+        //std::cout << *shared_reset << std::endl;
 
         nq::log::print(std::cout, "salute");
     }
