@@ -226,8 +226,8 @@ namespace nq
     /*** Non member functions ***/
 
     template<class T,
-        class Domain = UnknownDomain,
-        class AllocStrat = DefaultAlloc,
+        class Domain,
+        class AllocStrat,
         class... Args>
     shared_ptr<T> new_shared(Args&&... args)
     { // make a shared_ptr with two allocation
@@ -241,8 +241,8 @@ namespace nq
     }
 
     template<class T,
-        class Domain = UnknownDomain,
-        class AllocStrat = DefaultAlloc,
+        class Domain,
+        class AllocStrat,
         class... Args>
     shared_ptr<T> make_shared(Args&&... args)
     { // make a shared_ptr with a single allocation
