@@ -32,11 +32,11 @@ namespace nq { namespace memlib
          class Domain = UnknownDomain,
          class AllocStrat = DefaultAlloc,
          class... Args>
-    T* New(Args... Parameters)
+    T* New(Args... args)
     {
         T *ptr = memlib::allocate_log<T, Domain, AllocStrat>(1,
                 Domain::header_size);
-        memlib::construct(ptr, std::forward<Args>(Parameters)...);
+        memlib::construct(ptr, std::forward<Args>(args)...);
         return ptr;
     }
 
@@ -54,14 +54,14 @@ namespace nq { namespace memlib
     struct ArrayHeader
     {
         ArrayHeader()
-            : size_(0)
+            : count_(0)
         {}
 
         ArrayHeader(std::uint32_t size)
-            : size_(size)
+            : count_(size)
         {}
 
-        std::uint32_t size_;
+        std::uint32_t count_;
     };
 
     /*
@@ -110,7 +110,7 @@ namespace nq { namespace memlib
             {
                 ArrayHeader *array_ptr = reinterpret_cast<ArrayHeader*>(
                         get_internal_ptr(usr_ptr, sizeof (ArrayHeader)));
-                destroy_from_range(usr_ptr, array_ptr->size_);
+                destroy_from_range(usr_ptr, array_ptr->count_);
             }
 
             memlib::deallocate_log<AllocStrat>(usr_ptr,
@@ -128,9 +128,9 @@ namespace nq { namespace memlib
          class Domain = UnknownDomain,
          class AllocStrat = DefaultAlloc,
          class... Args>
-    T* New(Args... Parameters)
+    T* New(Args... args)
     {
-        return new T(std::forward<Args>(Parameters)...);
+        return new T(std::forward<Args>(args)...);
     }
 
     template <class T,

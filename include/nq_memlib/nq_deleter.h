@@ -6,6 +6,7 @@
 
 # include "nq_allocator.h"
 # include "nq_memlib_new.h"
+# include "nq_new.h"
 
 # ifndef WITH_NQ_MEMOFF
 /* 
@@ -61,8 +62,46 @@ namespace nq
     };
 
     /*
-    ** new_deleter used by default by nq::shared_ptr to delete a newed ptr.
-    ** It allows to write code like shared_ptr<T> s_p(new T());
+    ** nqNew_deleter used by to delete NQ_NEWed pointeurs 
+    */
+    template <typename T>
+    struct nqNew_deleter
+    {
+        nqNew_deleter()
+        { // default construct
+        }
+
+        template <class U>
+        nqNew_deleter(const nqNew_deleter<U>&,
+                typename std::enable_if<
+                  std::is_convertible<U*, T*>::value>::type* = nullptr)
+        { // construct from another deleter
+        }
+
+        void operator()(T *ptr) const
+        { //delete the ptr with allocstrat
+            nqDelete(ptr);
+        }
+    };
+
+    template <typename T>
+    struct nqNew_deleter <T[]>
+    {
+        nqNew_deleter()
+        { // default construct
+        }
+
+        template <typename U>
+        void operator()(U *ptr) const = delete;
+
+        void operator()(T *ptr) const
+        {
+            nqDeleteArray(ptr);
+        }
+    };
+
+    /*
+    ** new_deleter used to call operator delete
     */
     template <typename T>
     struct new_deleter
@@ -100,7 +139,12 @@ namespace nq
         }
     };
 }
-// nq::deleter and new_deleter are simple std::default_delete
+
+/************************/
+/* Memlib is turned off */
+/************************/
+
+// deleters are simple std::default_delete
 # else // WITH_NQ_MEMOFF defined
 namespace nq
 {
@@ -108,6 +152,9 @@ namespace nq
         class Domain = UnknownDomain,
         class AllocStrat = DefaultAlloc>
     using deleter = std::default_delete<T>;
+
+    template<class T>
+    using nqNew_deleter = std::default_delete<T>;
 
     template<class T>
     using new_deleter = std::default_delete<T>;

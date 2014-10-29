@@ -6,29 +6,3 @@ Find a way to make creaton of personal allocstrat easy for the client via maccro
 
 add something in mode debug  for the allocstrat to say that you really allocated or not (like putting a bit to 1 at the end of the ptr adress if allocation have been made)
 }
-
-
-I dont like unique_ptr implem
-{
-add warnings to cmake
-
-when giving allocated pointer, could check the logged domain and check if it matches with the one typed with unique_ptr
-
-Needs some tests
-
-Try to change non member function pointers for domain (add_elem_domain and remove_elem_domain) and change them with member functions (as core++ 9 video shows)
-
-all uniques (with or without specified domain) works with new on intern, so no more possibility to specify the allocations method, maybe to change
-So whether change the new so LIB_NEW can take AllocStrat parameters, whether some unique writing are forbidden 
-
-change function remove_header_operator_delete
-
-check difference between unique_lock and lock_guard
-}
-
-operator new[] gives a pointer alligned while it allocate a header of size 4, trixed malloc call ?
-
-
-ofstream buffer is allocated with new...
-
-Replace the call to the constructor from Myclass{} to Myclass() for code clarity...
