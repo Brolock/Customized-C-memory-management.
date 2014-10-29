@@ -62,7 +62,7 @@ namespace nq
     };
 
     /*
-    ** nq_new_deleter used by default by nq::shared_ptr to delete a newed ptr.
+    ** nqNew_deleter used by to delete NQ_NEWed pointeurs 
     */
     template <typename T>
     struct nqNew_deleter
@@ -101,7 +101,7 @@ namespace nq
     };
 
     /*
-     * new_deleter used to call operator delete
+    ** new_deleter used to call operator delete
     */
     template <typename T>
     struct new_deleter
@@ -139,7 +139,12 @@ namespace nq
         }
     };
 }
-// nq::deleter and new_deleter are simple std::default_delete
+
+/************************/
+/* Memlib is turned off */
+/************************/
+
+// deleters are simple std::default_delete
 # else // WITH_NQ_MEMOFF defined
 namespace nq
 {
@@ -147,6 +152,9 @@ namespace nq
         class Domain = UnknownDomain,
         class AllocStrat = DefaultAlloc>
     using deleter = std::default_delete<T>;
+
+    template<class T>
+    using nqNew_deleter = std::default_delete<T>;
 
     template<class T>
     using new_deleter = std::default_delete<T>;

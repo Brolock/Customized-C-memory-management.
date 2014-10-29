@@ -91,46 +91,41 @@ void tests()
            }
            */
 
-        nq::vector<Test, DomainSpace> vec{Test(3, 521, 900), Test(3, 5, 6)};
-        vec.push_back(Test(3, 5123, 87));
-        //nq::unique_ptr<Test> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
         /*
-        nq::unique_ptr<Test, DomainSpace> lol =
-                        nq::make_unique<Test, DomainSpace>(3, 4, 5);
+        auto lol = nq::make_unique<Test, DomainSpace>(3, 4, 5);
         nq::unique_ptr<Test>folk(lol.release());
         */
 
-        /* TO TEST WITH FULL UNIQUE_PTR
-        nq::unique_ptr<int[]> unique_arr = nq::make_unique<int[]>(3);
-        unique_arr[0] = 41;
-        unique_arr[1] = 42;
-        unique_arr[2] = 43;
-        for (int i = 0; i < 3; ++i)
-            std::cout << unique_arr[i] << std::endl;
-        */
+        auto shared_reset = nq::make_shared<int, DomainEarth>(55733);
+        std::cout << "shared_reset test\n"
+            << *shared_reset << std::endl;
+        shared_reset.new_reset<DomainSpace>(100000001);
+        std::cout << *shared_reset << std::endl;
 
-        //auto shared_reset = nq::make_shared<int, DomainEarth>(55733);
+        nq::unique_ptr<int, DomainEarth> stopthat(NQ_NEW(DomainEarth) int(3));
 
         nq::unique_ptr<int, DomainSpace> unique_reset =
             nq::make_unique<int, DomainSpace>(123);
-        
-        nq::unique_ptr<int, DomainEarth> stopthat(NQ_NEW(DomainEarth) int(3));
-
         std::cout << "unique_reset test\n"
             << *unique_reset << std::endl;
         unique_reset.new_reset(8880888);
         std::cout << *unique_reset << std::endl;
 
-        //std::cout << "shared_reset test\n"
-        //    << *shared_reset << std::endl;
-        /* reset exemple! */
-        //shared_reset.reset(nq::memlib::New<int, DomainSpace>(100000001),
-        //        nq::deleter<int, DomainSpace>());
-        //std::cout << *shared_reset << std::endl;
-
         nq::log::print(std::cout, "salute");
     }
+    auto unique_arr = nq::make_unique<int[], DomainSpace>(3);
+    unique_arr[0] = 41;
+    unique_arr[1] = 42;
+    unique_arr[2] = 43;
+    for (int i = 0; i < 3; ++i)
+        std::cout << unique_arr[i] << std::endl;
+
     nq::unique_ptr<int, DomainEarth> unique_stand(
             NQ_NEW(DomainEarth) int(44));
+
+    nq::vector<Test, DomainSpace> vec{Test(3, 521, 900), Test(3, 5, 6)};
+    vec.push_back(Test(3, 5123, 87));
+    nq::unique_ptr<Test, DomainEarth> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
+
     nq::log::print(std::cout, "Ending");
 }

@@ -52,10 +52,10 @@ namespace nq { namespace memlib {
 
 # define NQ_DELETE(ptr) nqDelete(ptr)
 
-# define NQ_NEW_ARRAY(Domain, size, T, ilist)\
+# define NQ_NEW_ARRAY(Domain, T, size)\
     nqNewArray<T, Domain>(__FILE__, __LINE__, size)
 
-#define NQ_DELETE_ARAY(ptr) nqDeleteArray(ptr)
+# define NQ_DELETE_ARAY(ptr) nqDeleteArray(ptr)
 
 # ifndef WITH_NQ_MEMOFF
 

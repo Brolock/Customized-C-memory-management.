@@ -1,9 +1,9 @@
 #ifndef NQ_UNIQUE_H_
 # define NQ_UNIQUE_H_
 
-# include "nq_deleter.h"
 # include "alloc_strat.h"
 
+# include "nq_deleter.h"
 # include "nq_new.h"
 
 namespace nq
@@ -123,7 +123,7 @@ namespace nq
     };
 
     /*
-    ** unique_ptr in the case if a specified Domain
+    ** unique_ptr in the case of a specified Domain
     */
     template<class T,
         class Domain,
@@ -278,7 +278,7 @@ namespace nq
     {
         typedef typename std::remove_extent<T>::type U;
         return unique_ptr<T, Domain, AllocStrat>(
-                INTERNAL_NQ_NEW(Domain::getInstance()) U[size]);
+                nqNewArray<U, Domain>(nullptr, 0, size));
     }
 
     template<class T,

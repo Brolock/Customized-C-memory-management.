@@ -4,12 +4,13 @@
 # include <memory>
 # include <type_traits>
 
-# include "nq_allocator.h"
-# include "nq_deleter.h"
 # include "lib_domains.h"
 # include "alloc_strat.h"
 # include "nq_unique.h"
 
+# include "nq_allocator.h"
+# include "nq_deleter.h"
+# include "nq_new.h"
 # include "nq_memlib_new.h"
 
 namespace nq
@@ -32,7 +33,6 @@ namespace nq
         class AllocStrat = DefaultAlloc,
         class... Args>
     shared_ptr<T> new_shared(Args&&... args);
-    /* End of forwards */
 
     template<class T>
     class shared_ptr : public std::shared_ptr<T>
@@ -43,7 +43,7 @@ namespace nq
                                             DefaultAlloc> count_alloc;
 
         //typedef std::allocator<T> count_alloc;
-        typedef nq::new_deleter<T> nq_deleter;
+        typedef nq::nqNew_deleter<T> nq_deleter;
         typedef std::shared_ptr<T> parent;
         /*** Constructors for a nullptr ***/
 
@@ -142,6 +142,7 @@ namespace nq
             : parent(std::move(other))
         { // construct from unique_ptr
         }
+
         /*** Assignement operator ***/
 
         shared_ptr& operator=(const shared_ptr& r) noexcept
@@ -181,9 +182,9 @@ namespace nq
     public:
         /** reset re-implementation to have it's count_ref logged properly **/
         template<class Y
-            , class Deleter = nq_deleter
+            , class Deleter = nq::nqNew_deleter<Y>
             , class RefCountAlloc = count_alloc>
-        void reset(Y *ptr, Deleter deleter = nq_deleter(),
+        void reset(Y *ptr, Deleter deleter = nq::nqNew_deleter<Y>(),
                     RefCountAlloc alloc = count_alloc())
         {
             this->parent::reset(ptr, deleter, alloc);
