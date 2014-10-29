@@ -75,11 +75,11 @@ void nqDelete(T *ptr)
 
 struct ArrayHeader
 {
-    ArrayHeader(std::uint32_t size)
+    ArrayHeader(uint32_t size)
         : count_(size)
     {}
 
-    std::uint32_t count_;
+    uint32_t count_;
 };
 
 template<class T,

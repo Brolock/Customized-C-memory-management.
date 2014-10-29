@@ -4,7 +4,7 @@
 #include <nq_memlib/nq_new.h>
 
 #include <nq_memlib/nq_deleter.h>
-#include "../include/domains.h"
+#include "../../domains/nq_memlib/domains.h"
 
 struct Test
 {
