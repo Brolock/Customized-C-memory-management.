@@ -103,7 +103,7 @@ private:
 private:
     mutable std::mutex mutex_; // protect internal datas
 public:
-    inline size_t get_count() const { return count_; }
+    inline const size_t get_count() const { return count_; }
 public:
     enum HSENUM { header_size = sizeof(Header),
         sub_header_size = sizeof(SubHeader)};
@@ -169,6 +169,8 @@ public:
     inline void remove(void *internal_ptr) {}
 
     inline void print(std::ostream&) const {}
+
+    inline const size_t get_count() const { return 0; }
 protected:
     BaseDomain() {}
 };

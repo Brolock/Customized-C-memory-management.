@@ -117,14 +117,11 @@ void BaseDomain::print(std::ostream& os = std::cout) const
 
     if (begin_ != nullptr)
     {
+        os << "--------------------" << std::endl;
         os << domain_name() << " memory log:\n=> "
             << count_ << " allocated objets\n";
         begin_->print(os);
         os << "--------------------" << std::endl;
-    }
-    else
-    {
-        os << "No memory allocated in " << domain_name() << std::endl;
     }
 }
 #endif // WITH_NQ_MEMLOG

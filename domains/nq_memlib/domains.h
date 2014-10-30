@@ -46,6 +46,25 @@ namespace nq { namespace log {
         std::ofstream file(path, std::ios_base::app);
         print(file, message);
     }
+
+    inline void dump(const char *path)
+    {
+# ifdef WITH_NQ_MEMLOG
+        size_t res = 0;
+
+        /* Library defined domains */
+        res += UnknownDomain::getInstance().get_count();
+        res += SharedPtrRefCountDomain::getInstance().get_count();
+
+        /* User defined domains */
+#  define NQ_USR_DOMAIN(domain_name) res += domain_name::getInstance().get_count();
+#  include "domains_decl.h"
+#  undef NQ_USR_DOMAIN
+
+        if (res)
+            print_file(path, "dump_leaks!");
+# endif // !WITH_NQ_MEMLOG
+    }
 }} // namespace nq::log
 
 #endif // !DOMAINS_H_
