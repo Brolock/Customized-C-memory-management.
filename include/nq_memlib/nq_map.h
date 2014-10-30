@@ -12,8 +12,8 @@ namespace nq
     template<class Key,
         class T,
         class Domain = UnknownDomain,
-        class Compare = std::less<Key>,
-        class AllocStrat = DefaultAlloc>
+        class AllocStrat = DefaultAlloc,
+        class Compare = std::less<Key>>
     class map
         : public std::map<const Key, T, Compare,
             nq::allocator<std::pair<const Key, T>, Domain, AllocStrat>>
