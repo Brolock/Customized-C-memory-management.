@@ -218,10 +218,11 @@ The lib and include directories are installed in the current directory
 
 	`-DCMAKE_BUILD_TYPE=RELEASE -DCOMPILE_WITH_MEM_OFF  => nq_memlib_off`
 
+
 ### Add to project
 #### For Unix
 * include the `/usr/local/include` and `PATH_TO_PROJECT/memlib/domains` directories to the project
-* link the static library
+* link the static library`
 	* `nq_memlib(_options_mode).a`
 
 ####For Windows
