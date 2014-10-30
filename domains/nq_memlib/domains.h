@@ -17,7 +17,7 @@ namespace nq { namespace log {
     /* forward declaration of the function defined in nq_log_printer.cpp*/
     void print_helper(std::ostream& os, const char *message);
 
-    inline void print(::std::ostream& os = std::cout,
+    inline void print(::std::ostream& os,
             const char *message = "No specific message")
     {
 # ifdef WITH_NQ_MEMLOG
@@ -47,7 +47,7 @@ namespace nq { namespace log {
         print(file, message);
     }
 
-    inline void dump(const char *path)
+    inline void dump(const char *path, const char *message = "dump_leak!")
     {
 # ifdef WITH_NQ_MEMLOG
         size_t res = 0;
@@ -57,7 +57,8 @@ namespace nq { namespace log {
         res += SharedPtrRefCountDomain::getInstance().get_count();
 
         /* User defined domains */
-#  define NQ_USR_DOMAIN(domain_name) res += domain_name::getInstance().get_count();
+#  define NQ_USR_DOMAIN(domain_name) \
+            res += domain_name::getInstance().get_count();
 #  include "domains_decl.h"
 #  undef NQ_USR_DOMAIN
 
