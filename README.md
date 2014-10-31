@@ -1,4 +1,3 @@
-
 # Novaquark Memlib usage
 
 
@@ -166,6 +165,8 @@ or `auto shared = nq::make_shared<T, Domain, AllocStrat>(T_args)`
 This is the logged customable memory library used at Novaquark
 
 ** memlib is a submodule, do not delete it's content **
+
+** For the Windows users create a directory Memlib in Saved (Saved/Memlib), the dump write on it **
 
 ## Requirements 
 
