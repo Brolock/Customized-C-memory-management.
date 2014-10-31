@@ -1,2 +1,4 @@
 VcNqMem/
 *.swp
+lib/
+build/
