@@ -171,7 +171,8 @@ This is the logged customable memory library used at Novaquark
 
 ** For the Windows users create a directory Memlib in Saved (Saved/Memlib), the dump write on it **
 
-**In file `memlib/domains/log_path.h` set the static string path to where you'll will print your logged files (For windows `PATH_TO_SQUARION/Saved/Memlib`)
+**In file `memlib/domains/log_path.h` set the static string path to where you'll will print your logged files (For windows `PATH_TO_SQUARION/Saved/Memlib`)**
+**REMOVE THE .sample AT THE END OF LOG_PATH.H**
 
 
 ## Requirements 
