@@ -69,12 +69,15 @@
 
 The entire memlib is in the header `nq`
 
-## Print
+## How do I Print ?
 
 ```
-nq::log::print(ostream file, const char *message = default) (log in file file)
-nq::log::print_file(const char *filename, const char *message = default) (open a file with name filename and log on it)
-nq::log::dump(const char *filename, const char *message = default) (log if something is allocated, to use at the end of the program to recover leaks).
+nq::log::print(ostream file, const char *message = default) (log in the file :  file)
+nq::log::print_file(const char *filename, const char *message = default) (open a file named filename and log on it)
+
+eg: nq::log::print_file("PATH_TO_SQUARION/squarion-client/Saved/Memlib/Myfile.txt", "my message message");
+
+nq::log::dump(const char *filename, const char *message = default) (log ONLY if something is allocated, to use at the end of the program to recover leaks).
 ```
 
 ## Containers
