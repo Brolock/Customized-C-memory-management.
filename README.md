@@ -75,7 +75,7 @@ The entire memlib is in the header `nq`
 nq::log::print(ostream file, const char *message = default) (log in the file :  file)
 nq::log::print_file(const char *filename, const char *message = default) (open a file named filename and log on it)
 
-eg: nq::log::print_file("PATH_TO_SQUARION/squarion-client/Saved/Memlib/Myfile.txt", "my message message");
+eg: nq::log::print_file("Myfile.txt", "my message message");
 
 nq::log::dump(const char *filename, const char *message = default) (log ONLY if something is allocated, to use at the end of the program to recover leaks).
 ```
@@ -170,6 +170,9 @@ This is the logged customable memory library used at Novaquark
 ** memlib is a submodule, do not delete it's content **
 
 ** For the Windows users create a directory Memlib in Saved (Saved/Memlib), the dump write on it **
+
+**In file `memlib/domains/log_path.h` set the static string path to where you'll will print your logged files (For windows `PATH_TO_SQUARION/Saved/Memlib`)
+
 
 ## Requirements 
 
