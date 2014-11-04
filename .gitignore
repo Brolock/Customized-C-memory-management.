@@ -2,3 +2,4 @@ VcNqMem/
 *.swp
 lib/
 build/
+domains/nq_memlib/log_path.h

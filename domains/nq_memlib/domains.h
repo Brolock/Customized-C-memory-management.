@@ -7,6 +7,7 @@
 # include <nq_memlib/base_domain.h>
 # include <nq_memlib/lib_domains.h>
 
+# include "log_path.h"
 
 /* User defined domains */
 # define NQ_USR_DOMAIN(domain_name) NQ_DOMAIN(domain_name)
@@ -40,14 +41,14 @@ namespace nq { namespace log {
 # endif // !WITH_NQ_MEMLOG
     }
 
-    inline void print_file(const char *path,
+    inline void print_file(std::string filename,
            const char *message = "No specific message")
     {
-        std::ofstream file(path, std::ios_base::app);
+        std::ofstream file(nq::log::path + filename, std::ios_base::app);
         print(file, message);
     }
 
-    inline void dump(const char *path, const char *message = "dump_leak!")
+    inline void dump(std::string filename, const char *message = "dump_leak!")
     {
 # ifdef WITH_NQ_MEMLOG
         size_t res = 0;
@@ -63,7 +64,7 @@ namespace nq { namespace log {
 #  undef NQ_USR_DOMAIN
 
         if (res)
-            print_file(path, "dump_leaks!");
+            print_file(filename, "dump_leaks!");
 # endif // !WITH_NQ_MEMLOG
     }
 }} // namespace nq::log
