@@ -17,7 +17,7 @@ namespace nq { namespace log {
     ** code in the print() function in domains.h.
     ** It calls all the print options (like displaying time, message...)
     */
-    void print_helper(std::ostream& os, const char *message)
+    void print_helper(std::ostream& os,  const char* message)
     {
         os << message << std::endl;
 

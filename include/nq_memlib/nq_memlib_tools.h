@@ -115,7 +115,7 @@ namespace nq { namespace memlib
         class Domain = UnknownDomain,
         class AllocStrat = DefaultAlloc>
     T* allocate_log(size_t count, size_t headers,
-            const char *file, size_t line)
+            const char* file, size_t line)
     {
         if (count == 0)
             return nullptr;

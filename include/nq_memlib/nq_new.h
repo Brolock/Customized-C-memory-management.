@@ -20,7 +20,7 @@ class NewedType
 
 template<class Domain>
 void* operator new(size_t count,
-        const Domain&, size_t line, const char *file) noexcept
+        const Domain&, size_t line, const char* file) noexcept
 {
     return nq::memlib::allocate_log<NewedType, Domain>(count,
             Domain::sub_header_size, file, line);
@@ -34,7 +34,7 @@ namespace nq { namespace memlib {
 # define INTERNAL_NQ_NEW(Domain) new (Domain, 0, nullptr)
 
 
-/*********************r
+/*********************/
 /* Memlib turned off */
 /*********************/
 # else // WITH_NQ_MEMOFF defined

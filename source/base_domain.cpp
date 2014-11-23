@@ -66,9 +66,10 @@ void BaseDomain::add(void* internal_ptr, std::size_t size)
         end_ = head;
     }
     count_++;
+    size_ += size;
 }
 void BaseDomain::add(void* internal_ptr, std::size_t size,
-        const char *file, size_t line, BaseDomain *dom)
+        const char* file, size_t line, BaseDomain *dom)
 {
     /* basic mutex locking */
     std::lock_guard<std::mutex> locker(mutex_);
@@ -88,15 +89,21 @@ void BaseDomain::add(void* internal_ptr, std::size_t size,
         end_->add(head);
         end_ = head;
     }
+    // increment domain specific infos
     count_++;
+    size_ += size;
 }
 
 void BaseDomain::remove(void *internal_ptr)
 {
     /* basic mutex locking */
     std::lock_guard<std::mutex> locker(mutex_);
-
     Header* ptr = static_cast<Header*>(internal_ptr);
+
+    // decrement domain specific infos
+    count_--;
+    size_ -= ptr->size();
+
     /* Check if tmp is the begin or the end of the Domain list and
      * call the appropriate remove in consequences */
     if (ptr == begin_)
@@ -107,21 +114,35 @@ void BaseDomain::remove(void *internal_ptr)
         ptr->remove();
     /* Destructor called */
     ptr->~Header();
-    count_--;
 }
 
-void BaseDomain::print(std::ostream& os = std::cout) const
+void BaseDomain::print(std::ostream& os, size_t tree_height) const
 {
     /* basic mutex locking */
     std::lock_guard<std::mutex> locker(mutex_);
 
+        os << "--------------------" << std::endl;
+        os << domain_name() << std::endl;
+        std::tuple<int, int> tree_tuple = Super::get_branch_infos();
+
+        std::string tabs = "";
+        std::generate_n(std::back_inserter(tabs), tree_height,
+                [](){return '\t';});
+
+        os << tabs << "nb_alloc with sons: " << std::get<0>(tree_tuple)
+                << "  (nb_alloc : " << count_ << ")\n"
+                << tabs << "size_alloc with sons: " << std::get<1>(tree_tuple)
+                << "  (size_alloc : " << size_ << ")\n";
+
+
+
     if (begin_ != nullptr)
-    {
-        os << "--------------------" << std::endl;
-        os << domain_name() << " memory log:\n=> "
-            << count_ << " allocated objets\n";
         begin_->print(os);
-        os << "--------------------" << std::endl;
-    }
+    os << "--------------------" << std::endl;
+
+    if (Super::sons_ != nullptr)
+        Super::sons_->print(os, tree_height + 1);
+    if (Super::brothers_ != nullptr)
+        Super::brothers_->print(os, tree_height);
 }
 #endif // WITH_NQ_MEMLOG

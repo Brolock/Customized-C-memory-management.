@@ -25,7 +25,7 @@ elseif (${COMPILE_WITH_MEM_OFF})
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(-std=c++11)
+    add_definitions(-std=c++11 )
 endif()
 
 include_directories(${CMAKE_INSTALL_PREFIX}/include/)

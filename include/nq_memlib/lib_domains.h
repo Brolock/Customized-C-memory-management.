@@ -4,7 +4,7 @@
 # include "base_domain.h"
 
 /* Library defined domains */
-NQ_DOMAIN(UnknownDomain);
-NQ_DOMAIN(SharedPtrRefCountDomain);
+NQ_DOMAIN(UnknownDomain, AllDomains);
+NQ_DOMAIN(SharedPtrRefCountDomain, AllDomains);
 
 #endif // !LIB_DOMAINS_H_

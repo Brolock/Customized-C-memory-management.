@@ -5,7 +5,7 @@
 #include <nq_memlib/nq_memlib_new.h>
 #include <nq_memlib/nq_new.h>
 
-#include "../../domains/nq_memlib/domains.h"
+#include "test_domains.h"
 
 struct Test1
 {
@@ -62,9 +62,7 @@ double loop()
     nq::vector<Test1*, DomainEarth> nq_vec;
     //std::vector<Test1*> nq_vec;
 
-    typedef std::chrono::microseconds ms;
     typedef std::chrono::duration<double> fs;
-
 
     auto start = std::chrono::system_clock::now();
     test_nq_new(nq_vec);
@@ -77,8 +75,6 @@ double loop()
     test_new(new_vec);
     auto new_end = std::chrono::high_resolution_clock::now();
     fs std_sec = new_end - new_start;
-
-    fs new_sec = std_sec - nq_sec;
 
     double perf_loss= ((nq_sec.count() - std_sec.count()) / std_sec.count()) * 100;
 

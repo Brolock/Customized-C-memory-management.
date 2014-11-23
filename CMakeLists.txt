@@ -24,7 +24,7 @@ elseif (${COMPILE_WITH_MEM_OFF})
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(-std=c++11)
+    add_definitions(-std=c++11 -Wall -Wextra -Werror)
 endif()
 
 include_directories(

@@ -16,7 +16,7 @@ namespace nq { namespace memlib {
     }
 
 # else // WITH_NQ_MEMLOG
-    void remove_header_operator_delete(void *ptr) {}
+    void remove_header_operator_delete(void*) {}
 # endif // !WITH_NQ_MEMLOG
 
 }} // namespace nq::memlib

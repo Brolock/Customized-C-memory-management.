@@ -4,7 +4,7 @@
 #include <nq_memlib/nq_new.h>
 
 #include <nq_memlib/nq_deleter.h>
-#include "../../domains/nq_memlib/domains.h"
+#include "test_domains.h"
 
 struct Test
 {
@@ -18,28 +18,21 @@ public:
         whatever_(33),
         break_(123)
     {
-        std::cout << "Test()" << std::endl;
     }
     Test(int i, int j, int h)
         : num_(i),
         whatever_(j),
         break_(h)
     {
-        std::cout << "Test(" << num_ << ", " << whatever_
-            << ", " << break_ << ")" << std::endl;
     }
     ~Test()
     {
-        std::cout << "~Test(" << num_ << ", " << whatever_
-            << ", " << break_ << ")" << std::endl;
     }
     Test(const Test& o)
         : num_(o.num_),
         whatever_(o.whatever_),
         break_(o.break_)
     {
-        std::cout << "Test(Test&" << o.num_ << ", " << o.whatever_
-            << ", " << o.break_ << ")" << std::endl;
     }
 
     void print()
@@ -103,6 +96,7 @@ void tests()
         std::cout << *shared_reset << std::endl;
 
         nq::unique_ptr<int, DomainEarth> stopthat(NQ_NEW(DomainEarth) int(3));
+        nq::log::print(std::cout, "test");
 
         nq::unique_ptr<int, DomainSpace> unique_reset =
             nq::make_unique<int, DomainSpace>(123);
@@ -111,7 +105,7 @@ void tests()
         unique_reset.new_reset(8880888);
         std::cout << *unique_reset << std::endl;
 
-        nq::log::print(std::cout, "salute");
+        nq::log::print(std::cout,"salute");
     }
     auto unique_arr = nq::make_unique<int[], DomainSpace>(3);
     unique_arr[0] = 41;
@@ -120,12 +114,12 @@ void tests()
     for (int i = 0; i < 3; ++i)
         std::cout << unique_arr[i] << std::endl;
 
-    nq::unique_ptr<int, DomainEarth> unique_stand(
-            NQ_NEW(DomainEarth) int(44));
+    nq::unique_ptr<int, SubDomainEarth> unique_stand(
+            NQ_NEW(SubDomainEarth) int(44));
 
     nq::vector<Test, DomainSpace> vec{Test(3, 521, 900), Test(3, 5, 6)};
     vec.push_back(Test(3, 5123, 87));
     nq::unique_ptr<Test, DomainEarth> j(NQ_NEW(DomainEarth) Test(1, 3, 5));
 
-    nq::log::print(std::cout, "Ending");
+    nq::log::print(std::cout,"Ending");
 }

@@ -1,8 +1,0 @@
-#ifndef LOG_PATH_H_
-# define LOG_PATH_H_
-
-namespace nq { namespace log {
-	static std::string path = "C:/Users/marcelin/Project/dual_universe/squarion-client/Saved/Memlib";
-}} // !nq::log
-
-#endif // !LOG_PATH_H_
