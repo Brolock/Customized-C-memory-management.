@@ -28,23 +28,30 @@ BaseDomain::Header* BaseDomain::Header::remove_end()
     return prev_;
 }
 
-void BaseDomain::Header::print(std::ostream& os = std::cout) const
+void BaseDomain::Header::print(std::ostream& os = std::cout,
+        size_t tree_height = 0) const
 {
-    os << "size: " << size_ << std::endl;
+    /* add tree_height tabs to the string */
+    std::string tabs = "";
+    std::generate_n(std::back_inserter(tabs), tree_height,
+            [](){return '\t';});
 
-    /* If padding_ is 1 then we are in the case of a sub_header
-     * If the file logged if null then it is an internal implementation use
-     * of new so it shouldn't be logged
-     */
+    os << tabs << "size: " << size_ << std::endl;
+
+    /*
+    ** If padding_ is 1 then we are in the case of a sub_header
+    ** If the file logged if null then it is an internal implementation use
+    ** of new so it shouldn't be logged
+    */
     if (padding_ == 1 && (static_cast<const SubHeader*>(this))->get_file())
     {
-        os << "Is a new, @ File: "
+        os << tabs << "Is a new, @ File: "
             << (static_cast<const SubHeader*>(this))->get_file()
             << ", Line: " << (static_cast<const SubHeader*>(this))->get_line()
             << std::endl;
     }
     if (next_ != nullptr)
-        next_->print(os);
+        next_->print(os, tree_height);
 }
 void BaseDomain::add(void* internal_ptr, std::size_t size)
 {
@@ -119,25 +126,25 @@ void BaseDomain::remove(void *internal_ptr)
 void BaseDomain::print(std::ostream& os, size_t tree_height) const
 {
     /* basic mutex locking */
+    std::string tabs = "";
+    std::generate_n(std::back_inserter(tabs), tree_height,
+            [](){return '\t';});
+
     std::lock_guard<std::mutex> locker(mutex_);
 
         os << "--------------------" << std::endl;
-        os << domain_name() << std::endl;
-        std::tuple<int, int> tree_tuple = Super::get_branch_infos();
+        os << tabs << domain_name() << std::endl;
 
-        std::string tabs = "";
-        std::generate_n(std::back_inserter(tabs), tree_height,
-                [](){return '\t';});
+        /* Recover the SubDomains nb_alloc and size_alloc infos */
+        std::tuple<int, int> tree_tuple = Super::get_branch_infos();
 
         os << tabs << "nb_alloc with sons: " << std::get<0>(tree_tuple)
                 << "  (nb_alloc : " << count_ << ")\n"
                 << tabs << "size_alloc with sons: " << std::get<1>(tree_tuple)
                 << "  (size_alloc : " << size_ << ")\n";
 
-
-
     if (begin_ != nullptr)
-        begin_->print(os);
+        begin_->print(os, tree_height + 1);
     os << "--------------------" << std::endl;
 
     if (Super::sons_ != nullptr)

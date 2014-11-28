@@ -69,9 +69,9 @@ private:
 
         inline size_t size() const { return size_; }
 
-        /* printer for the debug, will probably change */
+        /* print the Header datas in the stream */
         void
-        print(std::ostream&) const;
+        print(std::ostream&, size_t) const;
     };
 
 private:
