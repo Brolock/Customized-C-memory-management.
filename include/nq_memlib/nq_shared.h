@@ -181,13 +181,16 @@ namespace nq
         }
     public:
         /** reset re-implementation to have it's count_ref logged properly **/
-        template<class Y
+        template<class Y = T
             , class Deleter = nq::nqNew_deleter<Y>
             , class RefCountAlloc = count_alloc>
-        void reset(Y *ptr, Deleter deleter = nq::nqNew_deleter<Y>(),
+        void reset(Y *ptr = nullptr, Deleter deleter = nq::nqNew_deleter<Y>(),
                     RefCountAlloc alloc = count_alloc())
         {
-            this->parent::reset(ptr, deleter, alloc);
+            if (ptr)
+                this->parent::reset(ptr, deleter, alloc);
+            else
+                this->parent::reset();
         }
 
         /** library specific functions **/

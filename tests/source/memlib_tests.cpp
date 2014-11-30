@@ -105,6 +105,7 @@ void tests()
         unique_reset.new_reset(8880888);
         std::cout << *unique_reset << std::endl;
 
+        shared_reset.reset();
         nq::log::print(std::cout,"salute");
     }
     auto unique_arr = nq::make_unique<int[], DomainSpace>(3);
